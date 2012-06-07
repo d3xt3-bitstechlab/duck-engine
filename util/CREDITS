@@ -1,0 +1,10 @@
+## DUCK-ENGINE ALPHA 0.0.1
+
+Duck-Engine is a free and open-source visual novel creator.
+It was made entirely for the purpose of creating fun, fast and optimized novels.
+Its goal is not to compete with other visual novel creators.
+Duck-Engine is developped in C using the SDL library.
+Everything was made by Théo Marchal <theomarchal.com>, except:
+- the SDL library <libsdl.org> ;
+- get_next_line function, made by Romain Bruder ;
+- the Duck-Engine logo <turbomilk.com>.
