@@ -5,7 +5,7 @@
 ** Login   <marcha_r@epitech.net>
 ** 
 ** Started on  Wed Jun  6 01:53:48 2012 
-** Last update Thu Jun  7 17:19:26 2012 
+** Last update Thu Jun  7 17:35:58 2012 
 */
 
 #include "SDL/SDL.h"
@@ -45,6 +45,24 @@ int	open_fd(char *str)
     if ((fd = open(str, O_RDONLY)) < 0)
       return (-1);
   return (fd);
+}
+
+void	events()
+{
+  int next = 1;
+  SDL_Event event;
+ 
+  while (next)
+    {
+      SDL_WaitEvent(&event);
+      switch(event.type)
+        {
+	case SDLK_ESCAPE:
+	  next = 0;
+	case SDL_QUIT:
+	  next = 0;
+        }
+    }
 }
 
 void	pars_list(t_list *l)
@@ -178,22 +196,6 @@ void	init_window(t_window *w)
   free(title);
   free(icon);
   free(back);
-}
-
-void	events()
-{
-  int next = 1;
-  SDL_Event event;
- 
-  while (next)
-    {
-      SDL_WaitEvent(&event);
-      switch(event.type)
-        {
-	case SDL_QUIT:
-	  next = 0;
-        }
-    }
 }
 
 int	main(int ac __attribute__((unused)), char **av __attribute__((unused)))
