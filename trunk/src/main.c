@@ -5,7 +5,7 @@
 ** Login   <marcha_r@epitech.net>
 ** 
 ** Started on  Wed Jun  6 01:53:48 2012 
-** Last update Thu Jun  7 17:55:17 2012 
+** Last update Thu Jun  7 18:12:42 2012 
 */
 
 #include "SDL/SDL.h"
@@ -195,7 +195,6 @@ void	init_window(t_window *w)
 	}
     }
   SDL_WM_SetCaption(title, icon);
-  printf("%s, %s, %s\n", title, icon, back);
   free(title);
   free(icon);
   free(back);
