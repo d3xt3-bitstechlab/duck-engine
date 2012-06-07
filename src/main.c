@@ -5,7 +5,7 @@
 ** Login   <marcha_r@epitech.net>
 ** 
 ** Started on  Wed Jun  6 01:53:48 2012 
-** Last update Thu Jun  7 17:07:21 2012 
+** Last update Thu Jun  7 17:19:26 2012 
 */
 
 #include "SDL/SDL.h"
@@ -17,6 +17,13 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <unistd.h>
+
+typedef struct s_window
+{
+  SDL_Surface *screen;
+  SDL_Surface *background;
+  SDL_Rect posBack;
+} t_window;
 
 void	show_error(int error)
 {
@@ -100,11 +107,11 @@ SDL_Surface	*init_window_size(SDL_Surface *screen, char *s)
       for (j = 0, i +=2 ; s[i] != '"';)
 	sizeY[j++] = s[i++];
       if ((screen = SDL_SetVideoMode(atoi(sizeX), atoi(sizeY),
-				     8, SDL_SWSURFACE | SDL_DOUBLEBUF)) == NULL)
+				     32, SDL_SWSURFACE | SDL_DOUBLEBUF)) == NULL)
 	show_error(0);
     }
   else
-    if ((screen = SDL_SetVideoMode(1000, 750, 8,
+    if ((screen = SDL_SetVideoMode(1000, 750, 32,
 				   SDL_SWSURFACE | SDL_DOUBLEBUF)) == NULL)
       show_error(0);
   free(sizeX);
@@ -112,7 +119,7 @@ SDL_Surface	*init_window_size(SDL_Surface *screen, char *s)
   return (screen);
 }
 
-void	init_window()
+void	init_window(t_window *w)
 {
   int	i;
   int	j;
@@ -121,12 +128,9 @@ void	init_window()
   char	*title;
   char	*icon;
   char	*back;
-  SDL_Surface *screen = NULL;
-  SDL_Surface *background = NULL;
-  SDL_Rect posBack;
 
-  posBack.x = 0;
-  posBack.y = 0;
+  w->posBack.x = 0;
+  w->posBack.y = 0;
   title = xmalloc(512);
   memset(title, 0, 512);
   icon = xmalloc(512);
@@ -140,7 +144,7 @@ void	init_window()
       if (!strncmp(s, ">caracters", 10))
 	break;
       if (!strncmp(s, "WINDOW_SIZE = \"", 15))
-	screen = init_window_size(screen, s);
+	w->screen = init_window_size(w->screen, s);
       if (!strncmp(s, "WINDOW_TITLE = \"", 16))
 	{
 	  if (s[16] != '"')
@@ -164,9 +168,9 @@ void	init_window()
 	      back[j++] = s[i++];
 	  else
 	    show_error(1);
-	  background = IMG_Load(back);
-	  SDL_BlitSurface(background, NULL, screen, &posBack);
-	  SDL_Flip(screen);
+	  w->background = IMG_Load(back);
+	  SDL_BlitSurface(w->background, NULL, w->screen, &w->posBack);
+	  SDL_Flip(w->screen);
 	}
     }
   SDL_WM_SetCaption(title, icon);
@@ -197,12 +201,16 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)))
   t_list l;
   t_window w;
 
+  w.screen = NULL;
+  w.background = NULL;
   if (SDL_Init(/*SDL_INIT_AUDIO |*/ SDL_INIT_VIDEO | SDL_INIT_EVENTTHREAD) == -1)
     show_error(0);
-  init_window();
+  init_window(&w);
   init_list(&l);
   pars_list(&l);
   events();
+  SDL_FreeSurface(w.screen);
+  SDL_FreeSurface(w.background);
   SDL_Quit();
   return (0);
 }
