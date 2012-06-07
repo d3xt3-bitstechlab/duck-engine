@@ -5,7 +5,7 @@
 ** Login   <marcha_r@epitech.net>
 ** 
 ** Started on  Wed Jun  6 01:53:48 2012 
-** Last update Thu Jun  7 17:35:58 2012 
+** Last update Thu Jun  7 17:53:16 2012 
 */
 
 #include "SDL/SDL.h"
@@ -17,6 +17,8 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <unistd.h>
+
+#define KEYSTATES Uint8 *keystates = SDL_GetKeyState(NULL)
 
 typedef struct s_window
 {
@@ -49,18 +51,19 @@ int	open_fd(char *str)
 
 void	events()
 {
-  int next = 1;
+  int	quit;
   SDL_Event event;
- 
-  while (next)
+  KEYSTATES;
+
+  quit = 1;
+  while (quit == 0)
     {
-      SDL_WaitEvent(&event);
-      switch(event.type)
+      while (SDL_PollEvent(&event))
         {
-	case SDLK_ESCAPE:
-	  next = 0;
-	case SDL_QUIT:
-	  next = 0;
+          if (event.type == SDL_QUIT)
+            quit = 1;
+          if (keystates[SDLK_ESCAPE])
+	    quit = 1;
         }
     }
 }
