@@ -5,11 +5,12 @@
 ** Login   <marcha_r@epitech.net>
 ** 
 ** Started on  Wed Jun  6 01:53:48 2012 
-** Last update Thu Jun  7 18:12:42 2012 
+** Last update Thu Jun  7 19:22:12 2012 
 */
 
 #include "SDL/SDL.h"
 #include "SDL/SDL_image.h"
+#include <fmodex/fmod.h>
 #include "get_next_line.h"
 #include "xmalloc.h"
 #include "list.h"
@@ -26,6 +27,32 @@ typedef struct s_window
   SDL_Surface *background;
   SDL_Rect posBack;
 } t_window;
+
+
+typedef struct s_music
+{
+  FMOD_SYSTEM   *system;
+  FMOD_SOUND    *music;
+  FMOD_RESULT   result;
+} t_music;
+
+void    music(char *path, t_music *m)
+{
+  FMOD_System_Create(&m->system);
+  FMOD_System_Init(m->system, 1, FMOD_INIT_NORMAL, NULL);
+  m->result = FMOD_System_CreateSound(m->system, path, FMOD_SOFTWARE
+                                      | FMOD_2D | FMOD_CREATESTREAM, 0, &m->music);
+  if (m->result != FMOD_OK)
+    printf("mp3 fail\n");
+  FMOD_Sound_SetLoopCount(m->music, -1);
+  FMOD_System_PlaySound(m->system, FMOD_CHANNEL_FREE, m->music, 0, NULL);
+}
+
+void    music_close(t_music m)
+{
+  FMOD_System_Close(m.system);
+  FMOD_System_Release(m.system);
+}
 
 void	show_error(int error)
 {
@@ -140,7 +167,7 @@ SDL_Surface	*init_window_size(SDL_Surface *screen, char *s)
   return (screen);
 }
 
-void	init_window(t_window *w)
+void	init_window(t_window *w, t_music *m)
 {
   int	i;
   int	j;
@@ -149,6 +176,7 @@ void	init_window(t_window *w)
   char	*title;
   char	*icon;
   char	*back;
+  char	*mus;
 
   w->posBack.x = 0;
   w->posBack.y = 0;
@@ -158,6 +186,8 @@ void	init_window(t_window *w)
   memset(icon, 0, 512);
   back = xmalloc(512);
   memset(back, 0, 512);
+  mus = xmalloc(512);
+  memset(mus, 0, 512);
   if ((fd = open_fd("script.duck")) == -1)
     show_error(2);
   while ((s = get_next_line(fd)))
@@ -193,6 +223,15 @@ void	init_window(t_window *w)
 	  SDL_BlitSurface(w->background, NULL, w->screen, &w->posBack);
 	  SDL_Flip(w->screen);
 	}
+      if (!strncmp(s, "MUSIC_TITLE = \"", 15))
+	{
+	  if (s[15] != '"')
+	    {
+	      for (j = 0, i = 15 ; s[i] != '"';)
+		mus[j++] = s[i++];
+	      music(mus, m);
+	    }
+	}
     }
   SDL_WM_SetCaption(title, icon);
   free(title);
@@ -204,17 +243,19 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)))
 {
   t_list l;
   t_window w;
+  t_music m;
 
   w.screen = NULL;
   w.background = NULL;
   if (SDL_Init(/*SDL_INIT_AUDIO |*/ SDL_INIT_VIDEO | SDL_INIT_EVENTTHREAD) == -1)
     show_error(0);
-  init_window(&w);
+  init_window(&w, &m);
   init_list(&l);
   pars_list(&l);
   events();
   SDL_FreeSurface(w.screen);
   SDL_FreeSurface(w.background);
+  music_close(m);
   SDL_Quit();
   return (0);
 }
