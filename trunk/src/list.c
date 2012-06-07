@@ -5,7 +5,7 @@
 ** Login   <marcha_r@epitech.net>
 ** 
 ** Started on  Fri Dec 30 04:59:13 2011 theo marchal
-** Last update Wed Jun  6 17:46:18 2012 
+** Last update Thu Jun  7 13:50:44 2012 
 */
 
 #include "list.h"
@@ -53,17 +53,18 @@ void	show_list(t_list *l)
   e = l->head;
   while (e)
     {
-      printf("%s\n", e->data);
+      printf("%s ||| %s\n", e->name, e->img);
       e = e->next;
     }
 }
 
-int	ins_end_list(t_list *l, char *data)
+int	ins_end_list(t_list *l, char *name, char *img)
 {
   t_elem	*e;
 
   e = xmalloc(sizeof(*e));
-  e->data = strdup(data);
+  e->name = strdup(name);
+  e->img = strdup(img);
   e->next = 0;
   e->prev = l->tail;
   if (!l->tail)
