@@ -1,0 +1,5 @@
+Hello! Welcome to Duck-Engine pre-alpha. This is a simple Visual Novel engine.
+You have a file named script.duck. Edit it following the syntax, put your
+ressources in /graph for images, put your music in /music. Once everything is done,
+just type make on a terminal. Wait for the compilation, and then you've got your VN.
+Have fun!
