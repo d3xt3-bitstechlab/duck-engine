@@ -15,3 +15,4 @@ comp: $(OBJ)
 
 fclean:
 	rm -rf $(OBJ)
+	rm -rf $(NAME)
