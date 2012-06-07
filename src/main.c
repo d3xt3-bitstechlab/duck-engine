@@ -5,10 +5,11 @@
 ** Login   <marcha_r@epitech.net>
 ** 
 ** Started on  Wed Jun  6 01:53:48 2012 
-** Last update Wed Jun  6 23:12:27 2012 
+** Last update Thu Jun  7 17:07:21 2012 
 */
 
 #include "SDL/SDL.h"
+#include "SDL/SDL_image.h"
 #include "get_next_line.h"
 #include "xmalloc.h"
 #include "list.h"
@@ -19,13 +20,13 @@
 
 void	show_error(int error)
 {
-  printf("!!!ERROR ");
+  printf("%s!!!FATAL ERROR!!!%s\nduck-engine: ", "\033[01;31m", "\033[00m");
   if (error == 0)
-    printf("duck-engine: SDL error: %s\n", SDL_GetError());
+    printf("SDL error: %s\n", SDL_GetError());
   if (error == 1)
-    printf("duck-engine: SDL error: %s\n", SDL_GetError());
+    printf("no background title image set.\n");  
   if (error == 2)
-    printf("duck-engine: no script.duck file found.\n");
+    printf("no script.duck file found.\n");
   exit(0);
 }
 
@@ -37,6 +38,48 @@ int	open_fd(char *str)
     if ((fd = open(str, O_RDONLY)) < 0)
       return (-1);
   return (fd);
+}
+
+void	pars_list(t_list *l)
+{
+  int	i;
+  int	j;
+  int	fd;
+  char	*s;
+  char	*name;
+  char	*img;
+
+  if ((fd = open_fd("script.duck")) == -1)
+    show_error(2);
+  while ((s = get_next_line(fd)))
+    {
+      if (!strncmp(s, ">scene", 6))
+	break;
+      if (!strncmp(s, ">>", 2))
+	{
+	  name = xmalloc(512);
+	  memset(name, 0, 512);
+	  img = xmalloc(512);
+	  memset(img, 0, 512);
+	  for (j = 0, i = 2 ; s[i] ;)
+	    {
+	      if (s[i] == ' ' && s[i + 1] == '=')
+		break;
+	      name[j++] = s[i++];
+	    }
+	  i += 4;
+	  for (j = 0 ; s[i] ;)
+	    {
+	      if (s[i] == '"')
+		break;
+	      img[j++] = s[i++];
+	    }
+	  ins_end_list(l, name, img);
+	  free(name);
+	  free(img);
+	}
+    }
+  show_list(l);
 }
 
 SDL_Surface	*init_window_size(SDL_Surface *screen, char *s)
@@ -58,12 +101,12 @@ SDL_Surface	*init_window_size(SDL_Surface *screen, char *s)
 	sizeY[j++] = s[i++];
       if ((screen = SDL_SetVideoMode(atoi(sizeX), atoi(sizeY),
 				     8, SDL_SWSURFACE | SDL_DOUBLEBUF)) == NULL)
-	show_error(1);
+	show_error(0);
     }
   else
     if ((screen = SDL_SetVideoMode(1000, 750, 8,
 				   SDL_SWSURFACE | SDL_DOUBLEBUF)) == NULL)
-      show_error(1);
+      show_error(0);
   free(sizeX);
   free(sizeY);
   return (screen);
@@ -77,16 +120,25 @@ void	init_window()
   char	*s;
   char	*title;
   char	*icon;
+  char	*back;
   SDL_Surface *screen = NULL;
+  SDL_Surface *background = NULL;
+  SDL_Rect posBack;
 
+  posBack.x = 0;
+  posBack.y = 0;
   title = xmalloc(512);
   memset(title, 0, 512);
   icon = xmalloc(512);
   memset(icon, 0, 512);
+  back = xmalloc(512);
+  memset(back, 0, 512);
   if ((fd = open_fd("script.duck")) == -1)
     show_error(2);
   while ((s = get_next_line(fd)))
     {
+      if (!strncmp(s, ">caracters", 10))
+	break;
       if (!strncmp(s, "WINDOW_SIZE = \"", 15))
 	screen = init_window_size(screen, s);
       if (!strncmp(s, "WINDOW_TITLE = \"", 16))
@@ -105,16 +157,23 @@ void	init_window()
 	  else
 	    icon = strdup(".duck-graph/icon.png");
 	}
+      if (!strncmp(s, "BACKGROUND_TITLE = \"", 20))
+	{
+	  if (s[20] != '"')
+	    for (j = 0, i = 20 ; s[i] != '"';)
+	      back[j++] = s[i++];
+	  else
+	    show_error(1);
+	  background = IMG_Load(back);
+	  SDL_BlitSurface(background, NULL, screen, &posBack);
+	  SDL_Flip(screen);
+	}
     }
   SDL_WM_SetCaption(title, icon);
-  printf("%s, %s\n", title, icon);
+  printf("%s, %s, %s\n", title, icon, back);
   free(title);
   free(icon);
-}
-
-void	pars_list(t_list *l)
-{
-  show_list(l);
+  free(back);
 }
 
 void	events()
@@ -136,6 +195,7 @@ void	events()
 int	main(int ac __attribute__((unused)), char **av __attribute__((unused)))
 {
   t_list l;
+  t_window w;
 
   if (SDL_Init(/*SDL_INIT_AUDIO |*/ SDL_INIT_VIDEO | SDL_INIT_EVENTTHREAD) == -1)
     show_error(0);

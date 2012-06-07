@@ -5,7 +5,7 @@
 ** Login   <marcha_r@epitech.net>
 ** 
 ** Started on  Tue May  1 16:37:22 2012 
-** Last update Wed Jun  6 17:45:54 2012 
+** Last update Thu Jun  7 13:52:32 2012 
 */
 
 #include <string.h>
@@ -15,7 +15,8 @@
 
 typedef struct s_elem
 {
-  char          *data;
+  char          *name;
+  char		*img;
   struct s_elem *next;
   struct s_elem *prev;
 } t_elem;
@@ -30,4 +31,4 @@ typedef struct s_list
 void    init_list(t_list *l);
 void    del_elem(t_elem *e, t_list *l);
 void    show_list(t_list *l);
-int     ins_end_list(t_list *l, char *data);
+int     ins_end_list(t_list *l, char *name, char *img);

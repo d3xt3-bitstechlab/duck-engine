@@ -6,18 +6,19 @@
 
 >init
 
-WINDOW_SIZE = "1000, 750" ## leave it blank for default : 1000*750
+WINDOW_SIZE = "1500, 750" ## leave it blank for default : 1000*750
 WINDOW_TITLE = "" ## title of the window of your VN
 WINDOW_ICON = "" ## the icon of the window
-BACKGROUND_TITLE = "title.png" ## the background of the window
+BACKGROUND_TITLE = "graph/title.png" ## the background of the window
 MUSIC_TITLE = "" ## leave it blank for no music
 
 >caracters
 
-HAPPY_MAN = "perso/happy_man.png"
-SAD_MAN = "perso/sad_man.png"
+>>HAPPY_MAN = "graph/perso/happy_man.png"
+>>SAD_MAN = "graph/perso/sad_man.png"
+>>ANGRY_MAN = "graph/perso/angry_man.png"
 
->scene = 1
+>scene
 
 background = ""
 music = ""
