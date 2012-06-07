@@ -5,7 +5,7 @@
 ** Login   <marcha_r@epitech.net>
 ** 
 ** Started on  Wed Jun  6 01:53:48 2012 
-** Last update Fri Jun  8 01:19:23 2012 
+** Last update Fri Jun  8 01:38:26 2012 
 */
 
 #include "SDL/SDL.h"
@@ -233,7 +233,6 @@ void	init_window(t_window *w, t_music *m)
 	    {
 	      for (j = 0, i = 15 ; s[i] != '"';)
 		mus[j++] = s[i++];
-	      printf("%s\n", mus);
 	      music(mus, m, line);
 	    }
 	}
