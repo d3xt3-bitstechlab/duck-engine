@@ -5,12 +5,12 @@
 ** Login   <marcha_r@epitech.net>
 ** 
 ** Started on  Wed Jun  6 01:53:48 2012 
-** Last update Thu Jun  7 19:53:10 2012 
+** Last update Fri Jun  8 01:19:23 2012 
 */
 
 #include "SDL/SDL.h"
 #include "SDL/SDL_image.h"
-#include <fmodex/fmod.h>
+#include "fmodex/fmod.h"
 #include "get_next_line.h"
 #include "xmalloc.h"
 #include "list.h"
@@ -28,7 +28,6 @@ typedef struct s_window
   SDL_Rect posBack;
 } t_window;
 
-
 typedef struct s_music
 {
   FMOD_SYSTEM   *system;
@@ -36,14 +35,28 @@ typedef struct s_music
   FMOD_RESULT   result;
 } t_music;
 
-void    music(char *path, t_music *m)
+void	show_error(int error, int line)
+{
+  printf("%s!!!FATAL ERROR!!!%s\nduck-engine:%d: ", "\033[01;31m", "\033[00m", line);
+  if (error == 0)
+    printf("SDL error: %s\n", SDL_GetError());
+  if (error == 1)
+    printf("no background title image set.\n");  
+  if (error == 2)
+    printf("no script.duck file found.\n");
+  if (error == 3)
+    printf("unable to load music file.\n");
+  exit(0);
+}
+
+void    music(char *path, t_music *m, int line)
 {
   FMOD_System_Create(&m->system);
   FMOD_System_Init(m->system, 1, FMOD_INIT_NORMAL, NULL);
   m->result = FMOD_System_CreateSound(m->system, path, FMOD_SOFTWARE
                                       | FMOD_2D | FMOD_CREATESTREAM, 0, &m->music);
   if (m->result != FMOD_OK)
-    printf("mp3 fail\n");
+    show_error(3, line);
   FMOD_Sound_SetLoopCount(m->music, -1);
   FMOD_System_PlaySound(m->system, FMOD_CHANNEL_FREE, m->music, 0, NULL);
 }
@@ -52,18 +65,6 @@ void    music_close(t_music m)
 {
   FMOD_System_Close(m.system);
   FMOD_System_Release(m.system);
-}
-
-void	show_error(int error)
-{
-  printf("%s!!!FATAL ERROR!!!%s\nduck-engine: ", "\033[01;31m", "\033[00m");
-  if (error == 0)
-    printf("SDL error: %s\n", SDL_GetError());
-  if (error == 1)
-    printf("no background title image set.\n");  
-  if (error == 2)
-    printf("no script.duck file found.\n");
-  exit(0);
 }
 
 int	open_fd(char *str)
@@ -105,7 +106,7 @@ void	pars_list(t_list *l)
   char	*img;
 
   if ((fd = open_fd("script.duck")) == -1)
-    show_error(2);
+    show_error(2, 0);
   while ((s = get_next_line(fd)))
     {
       if (!strncmp(s, ">scene", 6))
@@ -137,7 +138,7 @@ void	pars_list(t_list *l)
   show_list(l);
 }
 
-SDL_Surface	*init_window_size(SDL_Surface *screen, char *s)
+SDL_Surface	*init_window_size(SDL_Surface *screen, char *s, int line)
 {
   int	i;
   int	j;
@@ -156,12 +157,12 @@ SDL_Surface	*init_window_size(SDL_Surface *screen, char *s)
 	sizeY[j++] = s[i++];
       if ((screen = SDL_SetVideoMode(atoi(sizeX), atoi(sizeY),
 				     32, SDL_SWSURFACE | SDL_DOUBLEBUF)) == NULL)
-	show_error(0);
+	show_error(0, line);
     }
   else
     if ((screen = SDL_SetVideoMode(1000, 750, 32,
 				   SDL_SWSURFACE | SDL_DOUBLEBUF)) == NULL)
-      show_error(0);
+      show_error(0, line);
   free(sizeX);
   free(sizeY);
   return (screen);
@@ -171,6 +172,7 @@ void	init_window(t_window *w, t_music *m)
 {
   int	i;
   int	j;
+  int	line;
   int	fd;
   char	*s;
   char	*title;
@@ -178,6 +180,7 @@ void	init_window(t_window *w, t_music *m)
   char	*back;
   char	*mus;
 
+  line = 0;
   w->posBack.x = 0;
   w->posBack.y = 0;
   title = xmalloc(512);
@@ -189,13 +192,14 @@ void	init_window(t_window *w, t_music *m)
   mus = xmalloc(512);
   memset(mus, 0, 512);
   if ((fd = open_fd("script.duck")) == -1)
-    show_error(2);
+    show_error(2, 0);
   while ((s = get_next_line(fd)))
     {
+      ++line;
       if (!strncmp(s, ">caracters", 10))
 	break;
       if (!strncmp(s, "WINDOW_SIZE = \"", 15))
-	w->screen = init_window_size(w->screen, s);
+	w->screen = init_window_size(w->screen, s, line);
       if (!strncmp(s, "WINDOW_TITLE = \"", 16))
 	{
 	  if (s[16] != '"')
@@ -218,7 +222,7 @@ void	init_window(t_window *w, t_music *m)
 	    for (j = 0, i = 20 ; s[i] != '"';)
 	      back[j++] = s[i++];
 	  else
-	    show_error(1);
+	    show_error(1, line);
 	  w->background = IMG_Load(back);
 	  SDL_BlitSurface(w->background, NULL, w->screen, &w->posBack);
 	  SDL_Flip(w->screen);
@@ -229,7 +233,8 @@ void	init_window(t_window *w, t_music *m)
 	    {
 	      for (j = 0, i = 15 ; s[i] != '"';)
 		mus[j++] = s[i++];
-	      music(mus, m);
+	      printf("%s\n", mus);
+	      music(mus, m, line);
 	    }
 	}
     }
@@ -248,7 +253,7 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)))
   w.screen = NULL;
   w.background = NULL;
   if (SDL_Init(SDL_INIT_AUDIO | SDL_INIT_VIDEO | SDL_INIT_EVENTTHREAD) == -1)
-    show_error(0);
+    show_error(0, 0);
   init_window(&w, &m);
   init_list(&l);
   pars_list(&l);
