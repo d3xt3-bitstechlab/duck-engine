@@ -9,9 +9,8 @@
 WINDOW_SIZE = "1000, 750" ## leave it blank for default : 1000*750
 WINDOW_TITLE = "" ## title of the window of your VN
 WINDOW_ICON = "" ## the icon of the window
-#BACKGROUND_TITLE = "graph/title.png" ## the background of the window
-BACKGROUND_TITLE = "" ## the background of the window
-MUSIC_TITLE = "" ## leave it blank for no music
+BACKGROUND_TITLE = "graph/title.png" ## the background of the window
+MUSIC_TITLE = "music/gymno.ogg" ## leave it blank for no music
 
 >caracters
 

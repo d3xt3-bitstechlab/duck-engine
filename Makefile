@@ -2,7 +2,7 @@ NAME	=	duck-engine
 OBJ	=	$(SRC:.c=.o)
 CC	=	gcc
 CFLAGS	=	-W -Wall -Werror -Wextra -Wunused -pedantic -pedantic -O3 -pipe -g
-LIB	=	-lSDLmain -lSDL -lSDL_image -/opt/fmodex/api/lib/lfmodex.so.4.38.00
+LIB	=	-lSDLmain -lSDL -lSDL_image -lfmodex64
 SRC	=	src/main.c		\
 		src/get_next_line.c	\
 		src/xmalloc.c		\
