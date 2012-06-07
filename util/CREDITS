@@ -6,5 +6,6 @@ Its goal is not to compete with other visual novel creators.
 Duck-Engine is developped in C using the SDL library.
 Everything was made by Théo Marchal <theomarchal.com>, except:
 - the SDL library <libsdl.org> ;
+- the SDL_image library <http://www.libsdl.org/projects/SDL_image/> ;
 - get_next_line function, made by Romain Bruder ;
 - the Duck-Engine logo <turbomilk.com>.
