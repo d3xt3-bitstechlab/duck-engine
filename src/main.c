@@ -5,7 +5,7 @@
 ** Login   <marcha_r@epitech.net>
 ** 
 ** Started on  Wed Jun  6 01:53:48 2012 
-** Last update Thu Jun  7 17:53:16 2012 
+** Last update Thu Jun  7 17:55:17 2012 
 */
 
 #include "SDL/SDL.h"
@@ -55,7 +55,7 @@ void	events()
   SDL_Event event;
   KEYSTATES;
 
-  quit = 1;
+  quit = 0;
   while (quit == 0)
     {
       while (SDL_PollEvent(&event))
