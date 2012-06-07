@@ -30,3 +30,22 @@ turpis aliquet at. Nam lacus dui, vehicula sagittis tempor vitae, venenatis lobo
 Pellentesque eu justo ipsum. In sollicitudin iaculis leo, vitae fringilla mi venenatis non. 
 In quis augue id diam imperdiet condimentum. Sed vel erat lorem, at feugiat velit. Morbi 
 malesuada arcu at urna venenatis pharetra. Sed porta dictum urna vitae aliquam.>>>>
+
+show SAD_MAN "450, 320"
+show ANGRY_MAN "670, 320"
+
+text <<<<Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur tortor mi, 
+mattis nec consectetur vel, posuere quis nunc. Nam viverra rutrum lectus, id molestie 
+turpis aliquet at. Nam lacus dui, vehicula sagittis tempor vitae, venenatis lobortis orci. 
+Pellentesque eu justo ipsum. In sollicitudin iaculis leo, vitae fringilla mi venenatis non. 
+In quis augue id diam imperdiet condimentum. Sed vel erat lorem, at feugiat velit. Morbi 
+malesuada arcu at urna venenatis pharetra. Sed porta dictum urna vitae aliquam.>>>>
+
+unshow ANGRY_MAN
+unshow HAPPY_MAN
+
+text <<<<This visual novel is very bad!>>>>
+
+image "theend.png"
+
+>end
