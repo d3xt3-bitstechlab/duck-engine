@@ -5,7 +5,7 @@
 ** Login   <marcha_r@epitech.net>
 ** 
 ** Started on  Wed Jun  6 01:53:48 2012 
-** Last update Fri Jun  8 20:17:41 2012 
+** Last update Fri Jun  8 20:24:59 2012 
 */
 
 #include <sys/types.h>
@@ -255,6 +255,15 @@ void	pars_scene(t_window *w, t_music *m)
 	    }
 	  else
 	    show_error(4);
+	}
+      if (!strncmp(s, "music = \"", 9))
+	{
+	  if (s[9] != '"')
+	    {
+	      for (j = 0, i = 9 ; s[i] != '"';)
+		mus[j++] = s[i++];
+	      music(mus, m);
+	    }
 	}
       if (!strncmp(s, "music = \"", 9))
 	{
