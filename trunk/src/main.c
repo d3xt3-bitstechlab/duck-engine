@@ -5,7 +5,7 @@
 ** Login   <marcha_r@epitech.net>
 ** 
 ** Started on  Wed Jun  6 01:53:48 2012 
-** Last update Fri Jun  8 20:24:59 2012 
+** Last update Fri Jun  8 20:36:28 2012 
 */
 
 #include <sys/types.h>
@@ -229,6 +229,7 @@ void	pars_scene(t_window *w, t_music *m)
   char	*s;
   char	*back;
   char	*mus;
+  char	*perso;
   SDL_Surface *text_support;
 
   music_close(m);
@@ -236,6 +237,8 @@ void	pars_scene(t_window *w, t_music *m)
   memset(back, 0, 512);
   mus = xmalloc(512);
   memset(mus, 0, 512);
+  perso = xmalloc(512);
+  memset(perso, 0, 512);
   if ((fd = open_fd("script.duck")) == -1)
     show_error(2);
   while ((s = get_next_line(fd)))
@@ -265,13 +268,13 @@ void	pars_scene(t_window *w, t_music *m)
 	      music(mus, m);
 	    }
 	}
-      if (!strncmp(s, "music = \"", 9))
+      if (!strncmp(s, "show = \"", 8))
 	{
-	  if (s[9] != '"')
+	  if (s[8] != '"')
 	    {
-	      for (j = 0, i = 9 ; s[i] != '"';)
-		mus[j++] = s[i++];
-	      music(mus, m);
+	      for (j = 0, i = 8 ; s[i] != '"';)
+		perso[j++] = s[i++];
+	      
 	    }
 	}
       text_support = SDL_CreateRGBSurface(SDL_HWSURFACE, atoi(sizeX), atoi(sizeY),
