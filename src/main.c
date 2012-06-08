@@ -5,19 +5,19 @@
 ** Login   <marcha_r@epitech.net>
 ** 
 ** Started on  Wed Jun  6 01:53:48 2012 
-** Last update Fri Jun  8 17:38:59 2012 
+** Last update Fri Jun  8 20:17:41 2012 
 */
 
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <unistd.h>
 #include "SDL/SDL.h"
 #include "SDL/SDL_image.h"
 #include "fmodex/fmod.h"
 #include "get_next_line.h"
 #include "xmalloc.h"
 #include "list.h"
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <unistd.h>
 
 typedef struct s_window
 {
@@ -41,7 +41,7 @@ void	show_error(int error)
   if (error == 0)
     printf("SDL error: %s\n", SDL_GetError());
   if (error == 1)
-    printf("no background title image set.\n");  
+    printf("no background title image set.\n");
   if (error == 2)
     printf("no script.duck file found.\n");
   if (error == 3)
@@ -119,12 +119,13 @@ void	pars_list(t_list *l)
     }
 }
 
+char	*sizeX;
+char	*sizeY;
+
 SDL_Surface	*init_window_size(SDL_Surface *screen, char *s)
 {
   int	i;
   int	j;
-  char	*sizeX;
-  char	*sizeY;
 
   sizeY = xmalloc(6);
   sizeX =  xmalloc(6);
@@ -144,8 +145,6 @@ SDL_Surface	*init_window_size(SDL_Surface *screen, char *s)
     if ((screen = SDL_SetVideoMode(1000, 750, 32,
 				   SDL_SWSURFACE | SDL_DOUBLEBUF)) == NULL)
       show_error(0);
-  free(sizeX);
-  free(sizeY);
   return (screen);
 }
 
@@ -230,6 +229,7 @@ void	pars_scene(t_window *w, t_music *m)
   char	*s;
   char	*back;
   char	*mus;
+  SDL_Surface *text_support;
 
   music_close(m);
   back = xmalloc(512);
@@ -265,7 +265,12 @@ void	pars_scene(t_window *w, t_music *m)
 	      music(mus, m);
 	    }
 	}
-    }  
+      text_support = SDL_CreateRGBSurface(SDL_HWSURFACE, atoi(sizeX), atoi(sizeY),
+					  32, 0, 0, 0, 0);
+      SDL_SetAlpha(text_support, SDL_SRCALPHA, 10);
+      SDL_BlitSurface(text_support, NULL, w->screen, &w->posBack);
+      SDL_Flip(w->screen);
+    }
 }
 
 void	events(t_window *w, t_music *m)
@@ -311,19 +316,21 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)))
   printf("duck-engine: initialiazing SDL... ");
   if (SDL_Init(SDL_INIT_AUDIO | SDL_INIT_VIDEO | SDL_INIT_EVENTTHREAD) == -1)
     show_error(0);
-  printf("done!\n");
+  printf("done\n");
   printf("duck-engine: initialiazing window parameters... ");
   init_window(&w, &m);
-  printf("done!\n");
+  printf("done\n");
   init_list(&l);
   printf("duck-engine: parsing caracter list... ");
   pars_list(&l);
-  printf("done!\n");
+  printf("done\n");
   printf("duck-engine: putting to screen...\n");
   events(&w, &m);
   SDL_FreeSurface(w.screen);
   SDL_FreeSurface(w.background);
   music_close(&m);
+  free(sizeX);
+  free(sizeY);
   SDL_Quit();
   return (0);
 }
