@@ -6,7 +6,7 @@
 
 >init
 
-WINDOW_SIZE = "1000, 750" ## leave it blank for default : 1000*750
+WINDOW_SIZE = "400, 400" ## leave it blank for default : 1000*750
 WINDOW_TITLE = "" ## title of the window of your VN
 WINDOW_ICON = "" ## the icon of the window
 BACKGROUND_TITLE = "graph/title.png" ## the background of the window
@@ -20,7 +20,7 @@ MUSIC_TITLE = "music/narcissu-theme.mp3" ## leave it blank for no music
 
 >scene
 
-background = ""
+background = "graph/scene.jpg"
 music = "music/narcissu-15cm.mp3"
 
 show HAPPY_MAN "320, 320" ## position of the HAPPY_MAN in X and Y

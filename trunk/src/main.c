@@ -5,7 +5,7 @@
 ** Login   <marcha_r@epitech.net>
 ** 
 ** Started on  Wed Jun  6 01:53:48 2012 
-** Last update Fri Jun  8 01:38:26 2012 
+** Last update Fri Jun  8 15:49:26 2012 
 */
 
 #include "SDL/SDL.h"
@@ -35,7 +35,9 @@ typedef struct s_music
   FMOD_RESULT   result;
 } t_music;
 
-void	show_error(int error, int line)
+int line = 0;
+
+void	show_error(int error)
 {
   printf("%s!!!FATAL ERROR!!!%s\nduck-engine:%d: ", "\033[01;31m", "\033[00m", line);
   if (error == 0)
@@ -49,22 +51,22 @@ void	show_error(int error, int line)
   exit(0);
 }
 
-void    music(char *path, t_music *m, int line)
+void    music(char *path, t_music *m)
 {
   FMOD_System_Create(&m->system);
   FMOD_System_Init(m->system, 1, FMOD_INIT_NORMAL, NULL);
   m->result = FMOD_System_CreateSound(m->system, path, FMOD_SOFTWARE
                                       | FMOD_2D | FMOD_CREATESTREAM, 0, &m->music);
   if (m->result != FMOD_OK)
-    show_error(3, line);
+    show_error(3);
   FMOD_Sound_SetLoopCount(m->music, -1);
   FMOD_System_PlaySound(m->system, FMOD_CHANNEL_FREE, m->music, 0, NULL);
 }
 
-void    music_close(t_music m)
+void    music_close(t_music *m)
 {
-  FMOD_System_Close(m.system);
-  FMOD_System_Release(m.system);
+  FMOD_System_Close(m->system);
+  FMOD_System_Release(m->system);
 }
 
 int	open_fd(char *str)
@@ -77,25 +79,6 @@ int	open_fd(char *str)
   return (fd);
 }
 
-void	events()
-{
-  int	quit;
-  SDL_Event event;
-  KEYSTATES;
-
-  quit = 0;
-  while (quit == 0)
-    {
-      while (SDL_PollEvent(&event))
-        {
-          if (event.type == SDL_QUIT)
-            quit = 1;
-          if (keystates[SDLK_ESCAPE])
-	    quit = 1;
-        }
-    }
-}
-
 void	pars_list(t_list *l)
 {
   int	i;
@@ -106,7 +89,7 @@ void	pars_list(t_list *l)
   char	*img;
 
   if ((fd = open_fd("script.duck")) == -1)
-    show_error(2, 0);
+    show_error(2);
   while ((s = get_next_line(fd)))
     {
       if (!strncmp(s, ">scene", 6))
@@ -135,10 +118,9 @@ void	pars_list(t_list *l)
 	  free(img);
 	}
     }
-  show_list(l);
 }
 
-SDL_Surface	*init_window_size(SDL_Surface *screen, char *s, int line)
+SDL_Surface	*init_window_size(SDL_Surface *screen, char *s)
 {
   int	i;
   int	j;
@@ -157,12 +139,12 @@ SDL_Surface	*init_window_size(SDL_Surface *screen, char *s, int line)
 	sizeY[j++] = s[i++];
       if ((screen = SDL_SetVideoMode(atoi(sizeX), atoi(sizeY),
 				     32, SDL_SWSURFACE | SDL_DOUBLEBUF)) == NULL)
-	show_error(0, line);
+	show_error(0);
     }
   else
     if ((screen = SDL_SetVideoMode(1000, 750, 32,
 				   SDL_SWSURFACE | SDL_DOUBLEBUF)) == NULL)
-      show_error(0, line);
+      show_error(0);
   free(sizeX);
   free(sizeY);
   return (screen);
@@ -172,7 +154,6 @@ void	init_window(t_window *w, t_music *m)
 {
   int	i;
   int	j;
-  int	line;
   int	fd;
   char	*s;
   char	*title;
@@ -180,7 +161,6 @@ void	init_window(t_window *w, t_music *m)
   char	*back;
   char	*mus;
 
-  line = 0;
   w->posBack.x = 0;
   w->posBack.y = 0;
   title = xmalloc(512);
@@ -192,14 +172,14 @@ void	init_window(t_window *w, t_music *m)
   mus = xmalloc(512);
   memset(mus, 0, 512);
   if ((fd = open_fd("script.duck")) == -1)
-    show_error(2, 0);
+    show_error(2);
   while ((s = get_next_line(fd)))
     {
       ++line;
       if (!strncmp(s, ">caracters", 10))
 	break;
       if (!strncmp(s, "WINDOW_SIZE = \"", 15))
-	w->screen = init_window_size(w->screen, s, line);
+	w->screen = init_window_size(w->screen, s);
       if (!strncmp(s, "WINDOW_TITLE = \"", 16))
 	{
 	  if (s[16] != '"')
@@ -222,7 +202,7 @@ void	init_window(t_window *w, t_music *m)
 	    for (j = 0, i = 20 ; s[i] != '"';)
 	      back[j++] = s[i++];
 	  else
-	    show_error(1, line);
+	    show_error(1);
 	  w->background = IMG_Load(back);
 	  SDL_BlitSurface(w->background, NULL, w->screen, &w->posBack);
 	  SDL_Flip(w->screen);
@@ -233,7 +213,7 @@ void	init_window(t_window *w, t_music *m)
 	    {
 	      for (j = 0, i = 15 ; s[i] != '"';)
 		mus[j++] = s[i++];
-	      music(mus, m, line);
+	      music(mus, m);
 	    }
 	}
     }
@@ -241,6 +221,74 @@ void	init_window(t_window *w, t_music *m)
   free(title);
   free(icon);
   free(back);
+}
+
+void	pars_scene(t_window *w, t_music *m)
+{
+  int	i;
+  int	j;
+  int	line;
+  int	fd;
+  char	*s;
+  char	*back;
+  char	*mus;
+
+  music_close(m);
+  back = xmalloc(512);
+  memset(back, 0, 512);
+  mus = xmalloc(512);
+  memset(mus, 0, 512);
+  if ((fd = open_fd("script.duck")) == -1)
+    show_error(2);
+  while ((s = get_next_line(fd)))
+    {
+      line++;
+      if (!strncmp(s, ">end", 4))
+	break;
+      if (!strncmp(s, "background = \"", 14))
+	{
+	  if (s[14] != '"')
+	    {
+	      for (j = 0, i = 14 ; s[i] != '"';)
+		back[j++] = s[i++];
+	      w->background = IMG_Load(back);
+	      SDL_BlitSurface(w->background, NULL, w->screen, &w->posBack);
+	      SDL_Flip(w->screen);
+	    }
+	  else
+	    show_error(4);
+	}
+      if (!strncmp(s, "music = \"", 9))
+	{
+	  if (s[9] != '"')
+	    {
+	      for (j = 0, i = 9 ; s[i] != '"';)
+		mus[j++] = s[i++];
+	      music(mus, m);
+	    }
+	}
+    }  
+}
+
+void	events(t_window *w, t_music *m)
+{
+  int	quit;
+  SDL_Event event;
+  KEYSTATES;
+
+  quit = 0;
+  while (quit == 0)
+    {
+      while (SDL_PollEvent(&event))
+        {
+          if (event.type == SDL_QUIT)
+            quit = 1;
+          if (keystates[SDLK_ESCAPE])
+	    quit = 1;
+          if (keystates[SDLK_RETURN])
+	    pars_scene(w, m);
+        }
+    }
 }
 
 int	main(int ac __attribute__((unused)), char **av __attribute__((unused)))
@@ -251,15 +299,22 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)))
 
   w.screen = NULL;
   w.background = NULL;
+  printf("%sduck-engine:%s initialiazing SDL... ", "\033[01;29m", "\033[00m");
   if (SDL_Init(SDL_INIT_AUDIO | SDL_INIT_VIDEO | SDL_INIT_EVENTTHREAD) == -1)
-    show_error(0, 0);
+    show_error(0);
+  printf("done!\n");
+  printf("%sduck-engine:%s initialiazing window parameters... ", "\033[01;29m", "\033[00m");
   init_window(&w, &m);
+  printf("done!\n");
   init_list(&l);
+  printf("%sduck-engine:%s parsing caracter list... ", "\033[01;29m", "\033[00m");
   pars_list(&l);
-  events();
+  printf("done!\n");
+  printf("%sduck-engine:%s putting to screen...\n", "\033[01;29m", "\033[00m");
+  events(&w, &m);
   SDL_FreeSurface(w.screen);
   SDL_FreeSurface(w.background);
-  music_close(m);
+  music_close(&m);
   SDL_Quit();
   return (0);
 }
