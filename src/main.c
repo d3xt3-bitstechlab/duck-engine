@@ -5,7 +5,7 @@
 ** Login   <marcha_r@epitech.net>
 ** 
 ** Started on  Wed Jun  6 01:53:48 2012 
-** Last update Fri Jun  8 15:49:26 2012 
+** Last update Fri Jun  8 17:38:59 2012 
 */
 
 #include "SDL/SDL.h"
@@ -18,8 +18,6 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <unistd.h>
-
-#define KEYSTATES Uint8 *keystates = SDL_GetKeyState(NULL)
 
 typedef struct s_window
 {
@@ -59,7 +57,7 @@ void    music(char *path, t_music *m)
                                       | FMOD_2D | FMOD_CREATESTREAM, 0, &m->music);
   if (m->result != FMOD_OK)
     show_error(3);
-  FMOD_Sound_SetLoopCount(m->music, -1);
+  FMOD_Sound_SetLoopCount(m->music, 0);
   FMOD_System_PlaySound(m->system, FMOD_CHANNEL_FREE, m->music, 0, NULL);
 }
 
@@ -92,6 +90,7 @@ void	pars_list(t_list *l)
     show_error(2);
   while ((s = get_next_line(fd)))
     {
+      line++;
       if (!strncmp(s, ">scene", 6))
 	break;
       if (!strncmp(s, ">>", 2))
@@ -227,7 +226,6 @@ void	pars_scene(t_window *w, t_music *m)
 {
   int	i;
   int	j;
-  int	line;
   int	fd;
   char	*s;
   char	*back;
@@ -272,22 +270,33 @@ void	pars_scene(t_window *w, t_music *m)
 
 void	events(t_window *w, t_music *m)
 {
-  int	quit;
   SDL_Event event;
-  KEYSTATES;
+  int	continuer;
 
-  quit = 0;
-  while (quit == 0)
+  continuer = 1;
+  while (continuer)
     {
-      while (SDL_PollEvent(&event))
-        {
-          if (event.type == SDL_QUIT)
-            quit = 1;
-          if (keystates[SDLK_ESCAPE])
-	    quit = 1;
-          if (keystates[SDLK_RETURN])
-	    pars_scene(w, m);
-        }
+      SDL_WaitEvent(&event);
+      switch(event.type)
+	{
+        case SDL_QUIT:
+	  continuer = 0;
+	  break;
+        case SDL_KEYDOWN:
+	  switch (event.key.keysym.sym)
+            {
+	    case SDLK_ESCAPE:
+	      continuer = 0;
+	      break;
+	    case SDLK_RETURN:
+	      pars_scene(w, m);
+	    default:
+	      break;
+            }
+	  break;
+	default:
+	  break;
+	}
     }
 }
 
@@ -299,18 +308,18 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)))
 
   w.screen = NULL;
   w.background = NULL;
-  printf("%sduck-engine:%s initialiazing SDL... ", "\033[01;29m", "\033[00m");
+  printf("duck-engine: initialiazing SDL... ");
   if (SDL_Init(SDL_INIT_AUDIO | SDL_INIT_VIDEO | SDL_INIT_EVENTTHREAD) == -1)
     show_error(0);
   printf("done!\n");
-  printf("%sduck-engine:%s initialiazing window parameters... ", "\033[01;29m", "\033[00m");
+  printf("duck-engine: initialiazing window parameters... ");
   init_window(&w, &m);
   printf("done!\n");
   init_list(&l);
-  printf("%sduck-engine:%s parsing caracter list... ", "\033[01;29m", "\033[00m");
+  printf("duck-engine: parsing caracter list... ");
   pars_list(&l);
   printf("done!\n");
-  printf("%sduck-engine:%s putting to screen...\n", "\033[01;29m", "\033[00m");
+  printf("duck-engine: putting to screen...\n");
   events(&w, &m);
   SDL_FreeSurface(w.screen);
   SDL_FreeSurface(w.background);
