@@ -5,7 +5,7 @@
 ** Login   <marcha_r@epitech.net>
 ** 
 ** Started on  Wed Jun  6 01:53:48 2012 
-** Last update Fri Jun  8 20:36:28 2012 
+** Last update Fri Jun  8 23:24:38 2012 
 */
 
 #include <sys/types.h>
@@ -14,6 +14,7 @@
 #include <unistd.h>
 #include "SDL/SDL.h"
 #include "SDL/SDL_image.h"
+#include "SDL/SDL_ttf.h"
 #include "fmodex/fmod.h"
 #include "get_next_line.h"
 #include "xmalloc.h"
@@ -46,6 +47,8 @@ void	show_error(int error)
     printf("no script.duck file found.\n");
   if (error == 3)
     printf("unable to load music file.\n");
+  if (error == 4)
+    printf("SDL_ttf error : %s\n", TTF_GetError());
   exit(0);
 }
 
@@ -268,15 +271,7 @@ void	pars_scene(t_window *w, t_music *m)
 	      music(mus, m);
 	    }
 	}
-      if (!strncmp(s, "show = \"", 8))
-	{
-	  if (s[8] != '"')
-	    {
-	      for (j = 0, i = 8 ; s[i] != '"';)
-		perso[j++] = s[i++];
-	      
-	    }
-	}
+      
       text_support = SDL_CreateRGBSurface(SDL_HWSURFACE, atoi(sizeX), atoi(sizeY),
 					  32, 0, 0, 0, 0);
       SDL_SetAlpha(text_support, SDL_SRCALPHA, 10);
@@ -329,6 +324,10 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)))
   if (SDL_Init(SDL_INIT_AUDIO | SDL_INIT_VIDEO | SDL_INIT_EVENTTHREAD) == -1)
     show_error(0);
   printf("done\n");
+  printf("duck-engine: initialiazing SDL_ttf... ");
+  if (TTF_Init() == -1)
+    show_error(4);
+  printf("done\n");
   printf("duck-engine: initialiazing window parameters... ");
   init_window(&w, &m);
   printf("done\n");
@@ -336,13 +335,14 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)))
   printf("duck-engine: parsing caracter list... ");
   pars_list(&l);
   printf("done\n");
-  printf("duck-engine: putting to screen...\n");
+  printf("duck-engine: showing window...\n");
   events(&w, &m);
   SDL_FreeSurface(w.screen);
   SDL_FreeSurface(w.background);
   music_close(&m);
   free(sizeX);
   free(sizeY);
+  TTF_Quit();
   SDL_Quit();
   return (0);
 }
