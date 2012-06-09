@@ -5,7 +5,7 @@
 ** Login   <marcha_r@epitech.net>
 ** 
 ** Started on  Wed Jun  6 01:53:48 2012 
-** Last update Sat Jun  9 03:01:41 2012 
+** Last update Sat Jun  9 03:03:11 2012 
 */
 
 #include <sys/types.h>
@@ -206,7 +206,8 @@ void	init_window(t_window *w, t_music *m)
 	      back[j++] = s[i++];
 	  else
 	    show_error(1);
-	  w->background = IMG_Load(back);
+	  if ((w->background = IMG_Load(back)) == NULL)
+	    show_error(5);
 	  SDL_BlitSurface(w->background, NULL, w->screen, &w->posBack);
 	  SDL_Flip(w->screen);
 	}
