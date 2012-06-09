@@ -5,7 +5,7 @@
 ** Login   <marcha_r@epitech.net>
 ** 
 ** Started on  Wed Jun  6 01:53:48 2012 
-** Last update Sat Jun  9 04:30:31 2012 
+** Last update Sat Jun  9 04:31:53 2012 
 */
 
 #include <sys/types.h>
@@ -317,15 +317,10 @@ void	pars_scene(t_window *w, t_music *m, t_list *l)
 	      printf(">>> %s$\n", e->name);
 	      if (!strcmp(show, e->name))
 		{
-		  printf("caca\n");
 		  e->pos.x = atoi(posPersoX);
-		  printf("caca\n");
 		  e->pos.y = atoi(posPersoY);
-		  printf("caca\n");
 		  SDL_BlitSurface(e->perso, NULL, w->screen, &e->pos);
-		  printf("caca\n");
 		  SDL_Flip(w->screen);
-		  printf("caca\n");
 		}
 	      e = e->next;
 	    }
