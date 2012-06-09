@@ -5,7 +5,7 @@
 ** Login   <marcha_r@epitech.net>
 ** 
 ** Started on  Wed Jun  6 01:53:48 2012 
-** Last update Sat Jun  9 02:58:13 2012 
+** Last update Sat Jun  9 03:01:41 2012 
 */
 
 #include <sys/types.h>
@@ -49,6 +49,8 @@ void	show_error(int error)
     printf("unable to load music file.\n");
   if (error == 4)
     printf("SDL_ttf error : %s\n", TTF_GetError());
+  if (error == 5)
+    printf("unable to load image.\n");
   exit(0);
 }
 
@@ -262,7 +264,8 @@ void	pars_scene(t_window *w, t_music *m)
   if ((fd = open_fd("script.duck")) == -1)
     show_error(2);
 
-  perso111 = IMG_Load("graph/perso/happy_man.png");
+  if ((perso111 = IMG_Load("graph/perso/happy_man.png")) == NULL)
+    show_error(5);
   SDL_BlitSurface(perso111, NULL, w->screen, &posPerso);
   SDL_Flip(w->screen);
 
