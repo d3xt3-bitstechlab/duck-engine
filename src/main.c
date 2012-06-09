@@ -5,7 +5,7 @@
 ** Login   <marcha_r@epitech.net>
 ** 
 ** Started on  Wed Jun  6 01:53:48 2012 
-** Last update Fri Jun  8 23:24:38 2012 
+** Last update Sat Jun  9 02:58:13 2012 
 */
 
 #include <sys/types.h>
@@ -233,7 +233,22 @@ void	pars_scene(t_window *w, t_music *m)
   char	*back;
   char	*mus;
   char	*perso;
+  char	*text;
   SDL_Surface *text_support;
+
+  TTF_Font *police = NULL;
+  SDL_Color noir_color = {255,255,255,255};
+  SDL_Surface *texte = NULL;
+
+  SDL_Rect posText;
+  SDL_Rect posPerso;
+  SDL_Surface *perso111 = NULL;
+
+  posText.x = 15;
+  posText.y = 15;
+
+  posPerso.x = 320;
+  posPerso.y = 320;
 
   music_close(m);
   back = xmalloc(512);
@@ -242,8 +257,20 @@ void	pars_scene(t_window *w, t_music *m)
   memset(mus, 0, 512);
   perso = xmalloc(512);
   memset(perso, 0, 512);
+  text = xmalloc(4096);
+  memset(text, 0, 4096);
   if ((fd = open_fd("script.duck")) == -1)
     show_error(2);
+
+  perso111 = IMG_Load("graph/perso/happy_man.png");
+  SDL_BlitSurface(perso111, NULL, w->screen, &posPerso);
+  SDL_Flip(w->screen);
+
+  text_support = SDL_CreateRGBSurface(SDL_HWSURFACE, atoi(sizeX), atoi(sizeY),
+				      32, 0, 0, 0, 0);
+  SDL_SetAlpha(text_support, SDL_SRCALPHA, 50);
+  SDL_BlitSurface(text_support, NULL, w->screen, &w->posBack);
+  SDL_Flip(w->screen);
   while ((s = get_next_line(fd)))
     {
       line++;
@@ -271,12 +298,14 @@ void	pars_scene(t_window *w, t_music *m)
 	      music(mus, m);
 	    }
 	}
-      
-      text_support = SDL_CreateRGBSurface(SDL_HWSURFACE, atoi(sizeX), atoi(sizeY),
-					  32, 0, 0, 0, 0);
-      SDL_SetAlpha(text_support, SDL_SRCALPHA, 10);
-      SDL_BlitSurface(text_support, NULL, w->screen, &w->posBack);
-      SDL_Flip(w->screen);
+      if (!strncmp(s, "<", 1))
+	{
+	  for (j = 0, i = 1 ; s[i] != '/' && s[i + 1] != '>';)
+	    text[j++] = s[i++];
+	  police = TTF_OpenFont("fonts/designosaur-regular.ttf", 30);
+	  texte = TTF_RenderText_Blended(police, text, noir_color);
+	  SDL_BlitSurface(texte, NULL, w->screen, &posText);
+	}
     }
 }
 
