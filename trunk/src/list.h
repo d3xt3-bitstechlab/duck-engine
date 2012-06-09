@@ -5,7 +5,7 @@
 ** Login   <marcha_r@epitech.net>
 ** 
 ** Started on  Tue May  1 16:37:22 2012 
-** Last update Sat Jun  9 04:17:08 2012 
+** Last update Sat Jun  9 04:30:10 2012 
 */
 
 #include <string.h>
@@ -20,7 +20,7 @@ typedef struct s_elem
   char          *name;
   char		*img;
   SDL_Surface	*perso;
-  SDL_Rect	*pos;
+  SDL_Rect	pos;
   struct s_elem *next;
   struct s_elem *prev;
 } t_elem;
