@@ -5,7 +5,7 @@
 ** Login   <marcha_r@epitech.net>
 ** 
 ** Started on  Wed Jun  6 01:53:48 2012 
-** Last update Sat Jun  9 03:05:01 2012 
+** Last update Sat Jun  9 04:25:08 2012 
 */
 
 #include <sys/types.h>
@@ -227,7 +227,7 @@ void	init_window(t_window *w, t_music *m)
   free(back);
 }
 
-void	pars_scene(t_window *w, t_music *m)
+void	pars_scene(t_window *w, t_music *m, t_list *l)
 {
   int	i;
   int	j;
@@ -236,7 +236,11 @@ void	pars_scene(t_window *w, t_music *m)
   char	*back;
   char	*mus;
   char	*perso;
+  char	*show;
   char	*text;
+  char	*posPersoX;
+  char	*posPersoY;
+  t_elem *e;
   SDL_Surface *text_support;
 
   TTF_Font *police = NULL;
@@ -244,14 +248,9 @@ void	pars_scene(t_window *w, t_music *m)
   SDL_Surface *texte = NULL;
 
   SDL_Rect posText;
-  SDL_Rect posPerso;
-  SDL_Surface *perso111 = NULL;
 
   posText.x = 15;
   posText.y = 15;
-
-  posPerso.x = 320;
-  posPerso.y = 320;
 
   music_close(m);
   back = xmalloc(512);
@@ -262,13 +261,12 @@ void	pars_scene(t_window *w, t_music *m)
   memset(perso, 0, 512);
   text = xmalloc(4096);
   memset(text, 0, 4096);
+  posPersoX = xmalloc(512);
+  memset(posPersoX, 0, 512);
+  posPersoY = xmalloc(512);
+  memset(posPersoY, 0, 512);
   if ((fd = open_fd("script.duck")) == -1)
     show_error(2);
-
-  if ((perso111 = IMG_Load("graph/perso/happy_man.png")) == NULL)
-    show_error(5);
-  SDL_BlitSurface(perso111, NULL, w->screen, &posPerso);
-  SDL_Flip(w->screen);
 
   text_support = SDL_CreateRGBSurface(SDL_HWSURFACE, atoi(sizeX), atoi(sizeY),
 				      32, 0, 0, 0, 0);
@@ -302,6 +300,32 @@ void	pars_scene(t_window *w, t_music *m)
 	      music(mus, m);
 	    }
 	}
+      if (!strncmp(s, "show ", 5))
+	{
+	  show = xmalloc(512);
+	  memset(show, 0, 512);
+	  e = l->head;
+	  for (j = 0, i = 5 ; s[i] != ' ' ;)
+	    show[j++] = s[i++];
+	  for (j = 0, i += 2 ; s[i] != ',' ;)
+	    posPersoX[j++] = s[i++];
+	  for (j = 0, i += 2 ; s[i] != '"' ;)
+	    posPersoY[j++] = s[i++];
+	  printf("%s %s %s\n", show, posPersoX, posPersoY);
+	  while (e)
+	    {
+	      printf(">>> %s$\n", e->name);
+	      if (!strcmp(show, e->name))
+		{
+		  printf("caca\n");
+		  e->pos->x = atoi(posPersoX);
+		  e->pos->y = atoi(posPersoY);
+		  SDL_BlitSurface(e->perso, NULL, w->screen, e->pos);
+		  SDL_Flip(w->screen);
+		}
+	      e = e->next;
+	    }
+	}
       if (!strncmp(s, "<", 1))
 	{
 	  for (j = 0, i = 1 ; s[i] != '/' && s[i + 1] != '>';)
@@ -313,7 +337,7 @@ void	pars_scene(t_window *w, t_music *m)
     }
 }
 
-void	events(t_window *w, t_music *m)
+void	events(t_window *w, t_music *m, t_list *l)
 {
   SDL_Event event;
   int	continuer;
@@ -334,7 +358,7 @@ void	events(t_window *w, t_music *m)
 	      continuer = 0;
 	      break;
 	    case SDLK_RETURN:
-	      pars_scene(w, m);
+	      pars_scene(w, m, l);
 	    default:
 	      break;
             }
@@ -369,7 +393,8 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)))
   pars_list(&l);
   printf("done\n");
   printf("duck-engine: showing window...\n");
-  events(&w, &m);
+  events(&w, &m, &l);
+  show_list(&l);
   SDL_FreeSurface(w.screen);
   SDL_FreeSurface(w.background);
   music_close(&m);
