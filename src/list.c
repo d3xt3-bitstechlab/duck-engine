@@ -5,10 +5,12 @@
 ** Login   <marcha_r@epitech.net>
 ** 
 ** Started on  Fri Dec 30 04:59:13 2011 theo marchal
-** Last update Thu Jun  7 13:50:44 2012 
+** Last update Sat Jun  9 04:17:40 2012 
 */
 
 #include "list.h"
+
+void    show_error(int error);
 
 void	init_list(t_list *l)
 {
@@ -65,6 +67,8 @@ int	ins_end_list(t_list *l, char *name, char *img)
   e = xmalloc(sizeof(*e));
   e->name = strdup(name);
   e->img = strdup(img);
+  if ((e->perso = IMG_Load(img)) == NULL)
+    show_error(5);
   e->next = 0;
   e->prev = l->tail;
   if (!l->tail)
