@@ -5,7 +5,7 @@
 ** Login   <marcha_r@epitech.net>
 ** 
 ** Started on  Wed Jun  6 01:53:48 2012 
-** Last update Sun Jun 10 17:10:29 2012 
+** Last update Mon Jun 11 01:16:40 2012 
 */
 
 #include <sys/types.h>
@@ -79,7 +79,7 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)))
 
   if (SDL_Init(SDL_INIT_AUDIO | SDL_INIT_VIDEO | SDL_INIT_EVENTTHREAD) == -1)
     printf("SDL error: %s\n", SDL_GetError());
-  music("all.mp3", &m);
+  music("jaguar.wav", &m);
   events();
   music_close(&m);
   SDL_Quit();
