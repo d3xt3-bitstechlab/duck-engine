@@ -5,7 +5,7 @@
 ** Login   <marcha_r@epitech.net>
 ** 
 ** Started on  Wed Jun  6 01:53:48 2012 
-** Last update Sat Jun  9 04:31:53 2012 
+** Last update Tue Jun 12 02:16:45 2012 
 */
 
 #include <sys/types.h>
@@ -225,6 +225,7 @@ void	init_window(t_window *w, t_music *m)
   free(title);
   free(icon);
   free(back);
+  free(mus);
 }
 
 void	pars_scene(t_window *w, t_music *m, t_list *l)
@@ -358,6 +359,7 @@ void	events(t_window *w, t_music *m, t_list *l)
 	      break;
 	    case SDLK_RETURN:
 	      pars_scene(w, m, l);
+	      break;
 	    default:
 	      break;
             }
