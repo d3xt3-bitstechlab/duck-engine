@@ -5,7 +5,7 @@
 ** Login   <marcha_r@epitech.net>
 ** 
 ** Started on  Wed Jun  6 01:53:48 2012 
-** Last update Tue Jun 12 17:29:17 2012 
+** Last update Tue Jun 12 18:24:26 2012 
 */
 
 #include <sys/types.h>
@@ -290,6 +290,7 @@ void	pars_scene(t_window *w, t_music *m, t_list *l)
   int	j;
   int	fd;
   char	*s;
+  t_elem *e;
   char	*back;
   char	*mus;
   char	*perso;
@@ -297,7 +298,6 @@ void	pars_scene(t_window *w, t_music *m, t_list *l)
   char	*text;
   char	*posPersoX;
   char	*posPersoY;
-  t_elem *e;
   SDL_Surface *text_support;
 
   TTF_Font *police = NULL;
@@ -305,7 +305,6 @@ void	pars_scene(t_window *w, t_music *m, t_list *l)
   SDL_Surface *texte = NULL;
 
   SDL_Rect posText;
-
   posText.x = 15;
   posText.y = 15;
   
@@ -337,7 +336,7 @@ void	pars_scene(t_window *w, t_music *m, t_list *l)
       line++;
       if (!strncmp(s, ">end", 4))
 	break;
-      else if (!strncmp(s, "background = \"", 14))
+      if (!strncmp(s, "background = \"", 14))
 	{
 	  if (s[14] != '"')
 	    {
@@ -350,7 +349,7 @@ void	pars_scene(t_window *w, t_music *m, t_list *l)
 	  else
 	    show_error(4);
 	}
-      else if (!strncmp(s, "music = \"", 9))
+      if (!strncmp(s, "music = \"", 9))
 	{
 	  if (s[9] != '"')
 	    {
@@ -359,7 +358,7 @@ void	pars_scene(t_window *w, t_music *m, t_list *l)
 	      music(mus, m);
 	    }
 	}
-      else if (!strncmp(s, "show ", 5))
+      if (!strncmp(s, "show ", 5))
 	{
 	  show = xmalloc(512);
 	  memset(show, 0, 512);
@@ -382,7 +381,7 @@ void	pars_scene(t_window *w, t_music *m, t_list *l)
 	      e = e->next;
 	    }
 	}
-      else if (!strncmp(s, "<", 1))
+      if (!strncmp(s, "<", 1))
 	{
 	  for (j = 0, i = 1 ; s[i] != '/' && s[i + 1] != '>';)
 	    text[j++] = s[i++];
