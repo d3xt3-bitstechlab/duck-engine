@@ -5,7 +5,7 @@
 ** Login   <marcha_r@epitech.net>
 ** 
 ** Started on  Wed Jun  6 01:53:48 2012 
-** Last update Tue Jun 12 02:16:45 2012 
+** Last update Tue Jun 12 02:37:25 2012 
 */
 
 #include <sys/types.h>
@@ -228,6 +228,37 @@ void	init_window(t_window *w, t_music *m)
   free(mus);
 }
 
+
+void	events2()
+{
+  SDL_Event event;
+  int	continuer;
+
+  continuer = 1;
+  while (continuer)
+    {
+      SDL_WaitEvent(&event);
+      switch(event.type)
+	{
+        case SDL_QUIT:
+	  continuer = 0;
+	  break;
+        case SDL_KEYDOWN:
+	  switch (event.key.keysym.sym)
+            {
+	    case SDLK_ESCAPE:
+	      continuer = 0;
+	      break;
+	    default:
+	      break;
+            }
+	  break;
+	default:
+	  break;
+	}
+    }
+}
+
 void	pars_scene(t_window *w, t_music *m, t_list *l)
 {
   int	i;
@@ -245,13 +276,15 @@ void	pars_scene(t_window *w, t_music *m, t_list *l)
   SDL_Surface *text_support;
 
   TTF_Font *police = NULL;
-  SDL_Color noir_color = {255,255,255,255};
+  SDL_Color white_color = {255,255,255,255};
   SDL_Surface *texte = NULL;
 
   SDL_Rect posText;
 
   posText.x = 15;
   posText.y = 15;
+  
+  police = TTF_OpenFont("fonts/designosaur-regular.ttf", 30);
 
   music_close(m);
   back = xmalloc(512);
@@ -268,10 +301,9 @@ void	pars_scene(t_window *w, t_music *m, t_list *l)
   memset(posPersoY, 0, 512);
   if ((fd = open_fd("script.duck")) == -1)
     show_error(2);
-
   text_support = SDL_CreateRGBSurface(SDL_HWSURFACE, atoi(sizeX), atoi(sizeY),
 				      32, 0, 0, 0, 0);
-  SDL_SetAlpha(text_support, SDL_SRCALPHA, 50);
+  SDL_SetAlpha(text_support, SDL_SRCALPHA, 100);
   SDL_BlitSurface(text_support, NULL, w->screen, &w->posBack);
   SDL_Flip(w->screen);
   while ((s = get_next_line(fd)))
@@ -279,7 +311,7 @@ void	pars_scene(t_window *w, t_music *m, t_list *l)
       line++;
       if (!strncmp(s, ">end", 4))
 	break;
-      if (!strncmp(s, "background = \"", 14))
+      else if (!strncmp(s, "background = \"", 14))
 	{
 	  if (s[14] != '"')
 	    {
@@ -292,7 +324,7 @@ void	pars_scene(t_window *w, t_music *m, t_list *l)
 	  else
 	    show_error(4);
 	}
-      if (!strncmp(s, "music = \"", 9))
+      else if (!strncmp(s, "music = \"", 9))
 	{
 	  if (s[9] != '"')
 	    {
@@ -301,7 +333,7 @@ void	pars_scene(t_window *w, t_music *m, t_list *l)
 	      music(mus, m);
 	    }
 	}
-      if (!strncmp(s, "show ", 5))
+      else if (!strncmp(s, "show ", 5))
 	{
 	  show = xmalloc(512);
 	  memset(show, 0, 512);
@@ -312,10 +344,8 @@ void	pars_scene(t_window *w, t_music *m, t_list *l)
 	    posPersoX[j++] = s[i++];
 	  for (j = 0, i += 2 ; s[i] != '"' ;)
 	    posPersoY[j++] = s[i++];
-	  printf("%s %s %s\n", show, posPersoX, posPersoY);
 	  while (e)
 	    {
-	      printf(">>> %s$\n", e->name);
 	      if (!strcmp(show, e->name))
 		{
 		  e->pos.x = atoi(posPersoX);
@@ -326,15 +356,16 @@ void	pars_scene(t_window *w, t_music *m, t_list *l)
 	      e = e->next;
 	    }
 	}
-      if (!strncmp(s, "<", 1))
+      else if (!strncmp(s, "<", 1))
 	{
 	  for (j = 0, i = 1 ; s[i] != '/' && s[i + 1] != '>';)
 	    text[j++] = s[i++];
-	  police = TTF_OpenFont("fonts/designosaur-regular.ttf", 30);
-	  texte = TTF_RenderText_Blended(police, text, noir_color);
+	  texte = TTF_RenderText_Blended(police, text, white_color);
 	  SDL_BlitSurface(texte, NULL, w->screen, &posText);
+	  SDL_Flip(w->screen);
 	}
     }
+  events2();
 }
 
 void	events(t_window *w, t_music *m, t_list *l)
@@ -395,7 +426,6 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)))
   printf("done\n");
   printf("duck-engine: showing window...\n");
   events(&w, &m, &l);
-  show_list(&l);
   SDL_FreeSurface(w.screen);
   SDL_FreeSurface(w.background);
   music_close(&m);
