@@ -5,7 +5,7 @@
 ** Login   <marcha_r@epitech.net>
 ** 
 ** Started on  Wed Jun  6 01:53:48 2012 
-** Last update Tue Jun 12 02:37:25 2012 
+** Last update Tue Jun 12 02:53:57 2012 
 */
 
 #include <sys/types.h>
@@ -34,7 +34,9 @@ typedef struct s_music
   FMOD_RESULT   result;
 } t_music;
 
-int line = 0;
+int	line = 0;
+char	*sizeX;
+char	*sizeY;
 
 void	show_error(int error)
 {
@@ -70,6 +72,29 @@ void    music_close(t_music *m)
 {
   FMOD_System_Close(m->system);
   FMOD_System_Release(m->system);
+}
+
+void	clean_exit(t_window *w, t_music *m, t_list *l)
+{
+  t_elem	*e;
+
+  e = l->head;
+  while (e)
+    {
+      free(e->name);
+      free(e->img);
+      SDL_FreeSurface(e->perso);
+      e = e->next;
+    }
+  SDL_FreeSurface(w->screen);
+  SDL_FreeSurface(w->background);
+  /* music_close(m); */
+  /* CHECK IF MUSIC WAS PLAYED */
+  free(sizeX);
+  free(sizeY);
+  TTF_Quit();
+  SDL_Quit();
+  exit(0);
 }
 
 int	open_fd(char *str)
@@ -123,9 +148,6 @@ void	pars_list(t_list *l)
 	}
     }
 }
-
-char	*sizeX;
-char	*sizeY;
 
 SDL_Surface	*init_window_size(SDL_Surface *screen, char *s)
 {
@@ -229,7 +251,7 @@ void	init_window(t_window *w, t_music *m)
 }
 
 
-void	events2()
+void	events2(t_window *w, t_music *m, t_list *l)
 {
   SDL_Event event;
   int	continuer;
@@ -241,13 +263,13 @@ void	events2()
       switch(event.type)
 	{
         case SDL_QUIT:
-	  continuer = 0;
+	  clean_exit(w, m, l);
 	  break;
         case SDL_KEYDOWN:
 	  switch (event.key.keysym.sym)
             {
 	    case SDLK_ESCAPE:
-	      continuer = 0;
+	      clean_exit(w, m, l);
 	      break;
 	    default:
 	      break;
@@ -286,7 +308,8 @@ void	pars_scene(t_window *w, t_music *m, t_list *l)
   
   police = TTF_OpenFont("fonts/designosaur-regular.ttf", 30);
 
-  music_close(m);
+  /* music_close(m); */
+  /* CHECK IF MUSIC WAS PLAYED */
   back = xmalloc(512);
   memset(back, 0, 512);
   mus = xmalloc(512);
@@ -365,7 +388,7 @@ void	pars_scene(t_window *w, t_music *m, t_list *l)
 	  SDL_Flip(w->screen);
 	}
     }
-  events2();
+  events2(w, m, l);
 }
 
 void	events(t_window *w, t_music *m, t_list *l)
@@ -426,12 +449,6 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)))
   printf("done\n");
   printf("duck-engine: showing window...\n");
   events(&w, &m, &l);
-  SDL_FreeSurface(w.screen);
-  SDL_FreeSurface(w.background);
-  music_close(&m);
-  free(sizeX);
-  free(sizeY);
-  TTF_Quit();
-  SDL_Quit();
+  clean_exit(&w, &m, &l);
   return (0);
 }
