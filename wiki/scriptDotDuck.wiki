@@ -1,72 +1,95 @@
+= scrip.duck syntax =
+
+== Introduction ==
+
 The script.duck file is the core of your visual novel. You only have to modify it and put your ressources into the right folders, and let's go!
+
+=== Initialization ===
 
 The first thing you have to put to initialize the following parameters.
 {{{
 >init
 }}}
 
+
 The size of the window of the visual novel. If you leave it blank, you will have a 1000*750 pixel window.
 {{{
 WINDOW_SIZE = "1000, 750"
 }}}
+
 
 The title of your window. Set it up, if not you will have a generic title...
 {{{
 WINDOW_TITLE = "My Visual Novel"
 }}}
 
+
 If you want something else than the superb duck-engine's duck.
 {{{
 WINDOW_ICON = ""
 }}}
+
 
 The background of the title window. Interesting, because if you don't set it up, it won't work.
 {{{
 BACKGROUND_TITLE = "graph/title.png"
 }}}
 
+
 And finally, the music of the title window. You can obviously leave it blank.
 {{{
 MUSIC_TITLE = "music/narcissu-theme.mp3"
 }}}
+
+=== Setting up caracters ===
 
 You have to add _all_ the caracters that you will use during the visual novel. You can as much as you want. They will be saved in memory, and later you can use them.
 {{{
 >caracters
 }}}
 
+
 Use this exact syntax to add a caracter.
 {{{
 >>HAPPY_MAN = "graph/perso/happy_man.png"
 }}}
+
+=== Finally, the scene! ===
 
 Now, you can finally script your scene. Don't forget to use this tag!
 {{{
 >scene
 }}}
 
+
 As for the title window, don't forget to set a background, if there is none, duck-engine will produce an error.
 {{{
 background = "graph/scene.jpg"
 }}}
+
 
 Music of the scene. You can leave it blank as well as the music title.
 {{{
 music = "music/narcissu-15cm.mp3"
 }}}
 
+
 _Note: obviously you can use "background" and "music" as much as you want, if there was music and background before they will be replaced._
+
 
 Use "show" ONLY with caracters you have defined before. The numbers correspond to the X and Y position of the caracter.
 {{{
 show HAPPY_MAN "400, 400"
 }}}
 
+
 This text will be show at screen.
 {{{
 <Lorem ipsum dolor sit amet, consectetur adipiscing elit./>
 }}}
 
-Finally, to tell duck-engine that your visual novel is finished!{{{
+
+Finally, to tell duck-engine that your visual novel is finished!
+{{{
 >end
 }}}
