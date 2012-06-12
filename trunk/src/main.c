@@ -5,7 +5,7 @@
 ** Login   <marcha_r@epitech.net>
 ** 
 ** Started on  Wed Jun  6 01:53:48 2012 
-** Last update Tue Jun 12 17:20:08 2012 
+** Last update Tue Jun 12 17:29:17 2012 
 */
 
 #include <sys/types.h>
@@ -37,6 +37,7 @@ typedef struct s_music
 int	line = 0;
 char	*sizeX;
 char	*sizeY;
+int	isPlaying = 0;
 
 void	show_error(int error)
 {
@@ -66,10 +67,13 @@ void    music(char *path, t_music *m)
     show_error(3);
   FMOD_Sound_SetLoopCount(m->music, -1);
   FMOD_System_PlaySound(m->system, FMOD_CHANNEL_FREE, m->music, 0, NULL);
+  isPlaying = 1;
 }
 
 void    music_close(t_music *m)
 {
+  isPlaying = 0;
+  FMOD_Sound_Release(m->music);
   FMOD_System_Close(m->system);
   FMOD_System_Release(m->system);
 }
@@ -88,8 +92,8 @@ void	clean_exit(t_window *w, t_music *m, t_list *l)
     }
   SDL_FreeSurface(w->screen);
   SDL_FreeSurface(w->background);
-  /* music_close(m); */
-  /* CHECK IF MUSIC WAS PLAYED */
+  if (isPlaying == 1)
+    music_close(m);
   free(sizeX);
   free(sizeY);
   TTF_Quit();
@@ -250,7 +254,6 @@ void	init_window(t_window *w, t_music *m)
   free(mus);
 }
 
-
 void	events2(t_window *w, t_music *m, t_list *l)
 {
   SDL_Event event;
@@ -308,8 +311,8 @@ void	pars_scene(t_window *w, t_music *m, t_list *l)
   
   police = TTF_OpenFont("fonts/designosaur-regular.ttf", 30);
 
-  /* music_close(m); */
-  /* CHECK IF MUSIC WAS PLAYED */
+  if (isPlaying == 1)
+    music_close(m);
   back = xmalloc(512);
   memset(back, 0, 512);
   mus = xmalloc(512);
