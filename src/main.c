@@ -5,7 +5,7 @@
 ** Login   <marcha_r@epitech.net>
 ** 
 ** Started on  Wed Jun  6 01:53:48 2012 
-** Last update Tue Jun 12 16:34:54 2012 
+** Last update Tue Jun 12 17:20:08 2012 
 */
 
 #include <sys/types.h>
@@ -64,7 +64,7 @@ void    music(char *path, t_music *m)
                                       | FMOD_2D | FMOD_CREATESTREAM | FMOD_LOOP_NORMAL, 0, &m->music);
   if (m->result != FMOD_OK)
     show_error(3);
-  FMOD_Sound_SetLoopCount(m->music, 0);
+  FMOD_Sound_SetLoopCount(m->music, -1);
   FMOD_System_PlaySound(m->system, FMOD_CHANNEL_FREE, m->music, 0, NULL);
 }
 
