@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
   FMOD_System_Init(system, 1, FMOD_INIT_NORMAL, NULL);
 
   /* On ouvre la musique */
-  resultat = FMOD_System_CreateSound(system, "all.mp3", FMOD_SOFTWARE | FMOD_2D | FMOD_CREATESTREAM, 0, &musique);
+  resultat = FMOD_System_CreateSound(system, "jaguar.wav", FMOD_SOFTWARE | FMOD_2D | FMOD_CREATESTREAM, 0, &musique);
 
   /* On vérifie si elle a bien été ouverte (IMPORTANT) */
   if (resultat != FMOD_OK)
@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
     }
 
   /* On active la répétition de la musique à l'infini */
-  FMOD_Sound_SetLoopCount(musique, -1);
+  /* FMOD_Sound_SetLoopCount(musique, -1); */
 
   /* On joue la musique */
   FMOD_System_PlaySound(system, FMOD_CHANNEL_FREE, musique, 0, NULL);
