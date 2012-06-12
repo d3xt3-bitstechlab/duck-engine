@@ -5,7 +5,7 @@
 ** Login   <marcha_r@epitech.net>
 ** 
 ** Started on  Wed Jun  6 01:53:48 2012 
-** Last update Tue Jun 12 18:24:26 2012 
+** Last update Tue Jun 12 22:10:53 2012 
 */
 
 #include <sys/types.h>
@@ -308,7 +308,8 @@ void	pars_scene(t_window *w, t_music *m, t_list *l)
   posText.x = 15;
   posText.y = 15;
   
-  police = TTF_OpenFont("fonts/designosaur-regular.ttf", 30);
+  if ((police = TTF_OpenFont("fonts/deAsignosaur-regular.ttf", 30)) == NULL)
+    show_error(4);
 
   if (isPlaying == 1)
     music_close(m);

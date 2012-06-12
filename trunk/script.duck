@@ -26,5 +26,11 @@ music = "music/narcissu-15cm.mp3"
 show HAPPY_MAN "400, 400" ## position of the HAPPY_MAN in X and Y
 
 <Lorem ipsum dolor sit amet, consectetur adipiscing elit./>
+<<w
+show SAD_MAN "100, 400"
+<<w
+show ANGRY_MAN "700, 400"
+
+<J'aime bien la tarte à la mirabelle. Avec toi?/>
 
 >end
