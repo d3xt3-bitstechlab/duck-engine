@@ -1,6 +1,6 @@
 NAME	=	duck-engine
 OBJ	=	$(SRC:.c=.o)
-CC	=	gcc
+CC	=	clang
 CFLAGS	=	-W -Wall -Wextra -Wunused -pedantic -pedantic -O3 -pipe -g
 LIB	=	-lSDLmain -lSDL -lSDL_image -lSDL_ttf -lfmodex64
 SRC	=	src/main.c		\
