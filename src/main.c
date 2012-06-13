@@ -5,7 +5,7 @@
 ** Login   <marcha_r@epitech.net>
 ** 
 ** Started on  Wed Jun  6 01:53:48 2012 
-** Last update Wed Jun 13 17:50:59 2012 
+** Last update Wed Jun 13 18:11:53 2012 
 */
 
 #include <sys/types.h>
@@ -269,7 +269,7 @@ void	pars_scene(t_window *w, t_music *m, t_list *l)
   char	*posPersoY;
   SDL_Surface *text_support;
 
-  TTF_Font *police = NULL;
+  TTF_Font *font = NULL;
   SDL_Color white_color = {255,255,255,255};
   SDL_Surface *texte = NULL;
 
@@ -277,7 +277,7 @@ void	pars_scene(t_window *w, t_music *m, t_list *l)
   posText.x = 15;
   posText.y = 15;
   
-  if ((police = TTF_OpenFont("fonts/designosaur-regular.ttf", 30)) == NULL)
+  if ((font = TTF_OpenFont("fonts/designosaur-regular.ttf", 30)) == NULL)
     show_error(4);
 
   if (DUCK_isPlaying == 1)
@@ -355,7 +355,7 @@ void	pars_scene(t_window *w, t_music *m, t_list *l)
 	  SDL_Flip(w->screen);
 	  for (j = 0, i = 1 ; s[i] != '/' && s[i + 1] != '>';)
 	    text[j++] = s[i++];
-	  texte = TTF_RenderText_Blended(police, text, white_color);
+	  texte = TTF_RenderText_Blended(font, text, white_color);
 	  SDL_BlitSurface(texte, NULL, w->screen, &posText);
 	  SDL_Flip(w->screen);
 	}
