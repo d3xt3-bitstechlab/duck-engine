@@ -77,6 +77,12 @@ music = "music/narcissu-15cm.mp3"
 _Note: obviously you can use "background" and "music" as much as you want, if there was music and background before they will be replaced._
 
 
+This function will wait for the player to press the enter button. That way, everything is not showed at once.
+{{{
+>>w
+}}}
+
+
 Use "show" ONLY with caracters you have defined before. The numbers correspond to the X and Y position of the caracter.
 {{{
 show HAPPY_MAN "400, 400"
