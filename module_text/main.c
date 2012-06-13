@@ -8,6 +8,7 @@ void pause();
 
 int sizeX = 800;
 int sizeY = 600;
+int w, h;
 
 int main(int argc, char *argv[])
 {
@@ -24,7 +25,6 @@ int main(int argc, char *argv[])
   posText.x = 15;
   posText.y = 15;
   text = strdup("Coucou je suis un nazi et je teste le super module de texte que je suis en train de coder pour Duck-Engine!");
-
   SDL_Init(SDL_INIT_VIDEO);
   TTF_Init();
   ecran = SDL_SetVideoMode(800, 600, 32, SDL_HWSURFACE);
@@ -33,6 +33,13 @@ int main(int argc, char *argv[])
   SDL_BlitSurface(imageDeFond, NULL, ecran, &positionFond);
   SDL_Flip(ecran);
   font = TTF_OpenFont("../fonts/designosaur-regular.ttf", 30);
+
+  printf("WINDOW_SIZE: %d*%d\n", sizeX, sizeY);
+  if (TTF_SizeText(font, text, &w, &h))
+    printf("lol\n");
+  else
+    printf("width=%d height=%d\n", w, h);
+
   texte = TTF_RenderText_Blended(font, text, white_color);
   SDL_BlitSurface(texte, NULL, ecran, &posText);
   SDL_Flip(ecran);
