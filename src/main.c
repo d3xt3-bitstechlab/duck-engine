@@ -5,7 +5,7 @@
 ** Login   <marcha_r@epitech.net>
 ** 
 ** Started on  Wed Jun  6 01:53:48 2012 
-** Last update Wed Jun 13 16:42:48 2012 
+** Last update Wed Jun 13 17:50:59 2012 
 */
 
 #include <sys/types.h>
@@ -23,9 +23,9 @@
 
 void	events2(t_window *w, t_music *m, t_list *l);
 
-void	show_error(int error)
+void    show_error(int error)
 {
-  printf("%s!!!FATAL ERROR!!!%s\nduck-engine:%d: ", "\033[01;31m", "\033[00m", line);
+  printf("%s!!!FATAL ERROR!!!%s\nduck-engine:%d: ", "\033[01;31m", "\033[00m", DUCK_line);
   if (error == 0)
     printf("SDL error: %s\n", SDL_GetError());
   if (error == 1)
@@ -53,12 +53,12 @@ void    music(char *path, t_music *m)
     show_error(3);
   FMOD_Sound_SetLoopCount(m->music, -1);
   FMOD_System_PlaySound(m->system, FMOD_CHANNEL_FREE, m->music, 0, NULL);
-  isPlaying = 1;
+  DUCK_isPlaying = 1;
 }
 
 void    music_close(t_music *m)
 {
-  isPlaying = 0;
+  DUCK_isPlaying = 0;
   FMOD_Sound_Release(m->music);
   FMOD_System_Close(m->system);
   FMOD_System_Release(m->system);
@@ -79,7 +79,7 @@ void	clean_exit(t_window *w, t_music *m, t_list *l)
     }
   SDL_FreeSurface(w->screen);
   SDL_FreeSurface(w->background);
-  if (isPlaying == 1)
+  if (DUCK_isPlaying == 1)
     music_close(m);
   free(sizeX);
   free(sizeY);
@@ -141,7 +141,7 @@ void	pars_list(t_list *l)
     show_error(2);
   while ((s = get_next_line(fd)))
     {
-      line++;
+      DUCK_line++;
       if (!strncmp(s, ">scene", 6))
 	break;
       pars_list2(l, s);
@@ -203,7 +203,7 @@ void	init_window(t_window *w, t_music *m)
     show_error(2);
   while ((s = get_next_line(fd)))
     {
-      ++line;
+      ++DUCK_line;
       if (!strncmp(s, ">caracters", 10))
 	break;
       if (!strncmp(s, "WINDOW_SIZE = \"", 15))
@@ -280,7 +280,7 @@ void	pars_scene(t_window *w, t_music *m, t_list *l)
   if ((police = TTF_OpenFont("fonts/designosaur-regular.ttf", 30)) == NULL)
     show_error(4);
 
-  if (isPlaying == 1)
+  if (DUCK_isPlaying == 1)
     music_close(m);
   back = xmalloc(512);
   memset(back, 0, 512);
@@ -298,7 +298,7 @@ void	pars_scene(t_window *w, t_music *m, t_list *l)
     show_error(2);
   while ((s = get_next_line(fd)))
     {
-      line++;
+      DUCK_line++;
       if (!strncmp(s, ">end", 4))
 	break;
       if (!strncmp(s, "background = \"", 14))
@@ -438,7 +438,7 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)))
 
   w.screen = NULL;
   w.background = NULL;
-  printf("welcome to %sduck-engine%s alpha 0.0.7\n", "\033[01;32m", "\033[00m");
+  printf("%sWELCOME TO %sDUCK-ENGINE%s%s ALPHA 0.0.7%s\n", "\033[04;29m", "\033[01;32m", "\033[00m", "\033[04;29m", "\033[00m");
   printf("initialiazing SDL... ");
   if (SDL_Init(SDL_INIT_AUDIO | SDL_INIT_VIDEO | SDL_INIT_EVENTTHREAD) == -1)
     show_error(0);

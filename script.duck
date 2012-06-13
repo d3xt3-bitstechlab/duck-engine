@@ -26,7 +26,7 @@ background = "graph/scene.jpg"
 
 show HAPPY_MAN "400, 400" ## position of the HAPPY_MAN in X and Y
 
-<J'aime bien la tarte a la mirabelle. Avec toi?/>
+<J'aime bien la tarte a la mirabelle. Avec toi ?/>
 
 >>w
 
