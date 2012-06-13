@@ -5,7 +5,7 @@
 ** Login   <marcha_r@epitech.net>
 ** 
 ** Started on  Wed Jun  6 01:53:48 2012 
-** Last update Wed Jun 13 14:18:23 2012 
+** Last update Wed Jun 13 14:28:20 2012 
 */
 
 #include <sys/types.h>
@@ -119,14 +119,41 @@ int	open_fd(char *str)
   return (fd);
 }
 
-void	pars_list(t_list *l)
+void	pars_list2(t_list *l, char *s)
 {
   int	i;
   int	j;
-  int	fd;
-  char	*s;
   char	*name;
   char	*img;
+
+  if (!strncmp(s, ">>", 2))
+    {
+      name = xmalloc(512);
+      memset(name, 0, 512);
+      img = xmalloc(512);
+      memset(img, 0, 512);
+      for (j = 0, i = 2 ; s[i] ;)
+	{
+	  if (s[i] == ' ' && s[i + 1] == '=')
+	    break;
+	  name[j++] = s[i++];
+	}
+      for (i += 4, j = 0 ; s[i] ;)
+	{
+	  if (s[i] == '"')
+	    break;
+	  img[j++] = s[i++];
+	}
+      ins_end_list(l, name, img);
+      free(name);
+      free(img);
+    }
+}
+
+void	pars_list(t_list *l)
+{
+  int	fd;
+  char	*s;
 
   if ((fd = open_fd("script.duck")) == -1)
     show_error(2);
@@ -135,30 +162,8 @@ void	pars_list(t_list *l)
       line++;
       if (!strncmp(s, ">scene", 6))
 	break;
-      if (!strncmp(s, ">>", 2))
-	{
-	  name = xmalloc(512);
-	  memset(name, 0, 512);
-	  img = xmalloc(512);
-	  memset(img, 0, 512);
-	  for (j = 0, i = 2 ; s[i] ;)
-	    {
-	      if (s[i] == ' ' && s[i + 1] == '=')
-		break;
-	      name[j++] = s[i++];
-	    }
-	  i += 4;
-	  for (j = 0 ; s[i] ;)
-	    {
-	      if (s[i] == '"')
-		break;
-	      img[j++] = s[i++];
-	    }
-	  ins_end_list(l, name, img);
-	  free(name);
-	  free(img);
-	}
-    }
+      pars_list2(l, s);
+   }
 }
 
 SDL_Surface	*init_window_size(SDL_Surface *screen, char *s)
@@ -174,7 +179,7 @@ SDL_Surface	*init_window_size(SDL_Surface *screen, char *s)
     {
       for (j = 0, i = 15 ; s[i] != ',';)
 	sizeX[j++] = s[i++];
-      for (j = 0, i +=2 ; s[i] != '"';)
+      for (j = 0, i += 2 ; s[i] != '"';)
 	sizeY[j++] = s[i++];
       if ((screen = SDL_SetVideoMode(atoi(sizeX), atoi(sizeY),
 				     32, SDL_SWSURFACE | SDL_DOUBLEBUF)) == NULL)
