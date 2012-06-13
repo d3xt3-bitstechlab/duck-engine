@@ -5,7 +5,7 @@
 ** Login   <marcha_r@epitech.net>
 ** 
 ** Started on  Wed Jun  6 01:53:48 2012 
-** Last update Wed Jun 13 14:28:20 2012 
+** Last update Wed Jun 13 16:40:46 2012 
 */
 
 #include <sys/types.h>
@@ -19,6 +19,7 @@
 #include "get_next_line.h"
 #include "xmalloc.h"
 #include "list.h"
+#include "header.h"
 
 typedef struct s_window
 {
@@ -33,11 +34,6 @@ typedef struct s_music
   FMOD_SOUND    *music;
   FMOD_RESULT   result;
 } t_music;
-
-int	line = 0;
-char	*sizeX;
-char	*sizeY;
-int	isPlaying = 0;
 
 void	events2(t_window *w, t_music *m, t_list *l);
 
