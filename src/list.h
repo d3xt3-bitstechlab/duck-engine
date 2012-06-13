@@ -5,8 +5,11 @@
 ** Login   <marcha_r@epitech.net>
 ** 
 ** Started on  Tue May  1 16:37:22 2012 
-** Last update Sat Jun  9 04:30:10 2012 
+** Last update Wed Jun 13 16:26:10 2012 
 */
+
+#ifndef __DUCK_ENGINE_LIST__
+#define __DUCK_ENGINE_LIST__
 
 #include <string.h>
 #include <stdlib.h>
@@ -36,3 +39,5 @@ void    init_list(t_list *l);
 void    del_elem(t_elem *e, t_list *l);
 void    show_list(t_list *l);
 int     ins_end_list(t_list *l, char *name, char *img);
+
+#endif
