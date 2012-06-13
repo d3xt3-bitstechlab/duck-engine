@@ -5,7 +5,7 @@
 ** Login   <marcha_r@epitech.net>
 ** 
 ** Started on  Wed Jun  6 01:53:48 2012 
-** Last update Wed Jun 13 16:40:46 2012 
+** Last update Wed Jun 13 16:42:48 2012 
 */
 
 #include <sys/types.h>
@@ -20,20 +20,6 @@
 #include "xmalloc.h"
 #include "list.h"
 #include "header.h"
-
-typedef struct s_window
-{
-  SDL_Surface *screen;
-  SDL_Surface *background;
-  SDL_Rect posBack;
-} t_window;
-
-typedef struct s_music
-{
-  FMOD_SYSTEM   *system;
-  FMOD_SOUND    *music;
-  FMOD_RESULT   result;
-} t_music;
 
 void	events2(t_window *w, t_music *m, t_list *l);
 
