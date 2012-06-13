@@ -6,7 +6,8 @@
 
 >init
 
-WINDOW_SIZE = "1000, 750" ## leave it blank for default : 1000*750
+WINDOW_SIZE = ""
+#WINDOW_SIZE = "1000, 750" ## leave it blank for default : 1000*750
 WINDOW_TITLE = "" ## title of the window of your VN
 WINDOW_ICON = "" ## the icon of the window
 BACKGROUND_TITLE = "graph/title.png" ## the background of the window
@@ -25,12 +26,14 @@ music = "music/narcissu-15cm.mp3"
 
 show HAPPY_MAN "400, 400" ## position of the HAPPY_MAN in X and Y
 
-<Lorem ipsum dolor sit amet, consectetur adipiscing elit./>
-<<w
-show SAD_MAN "100, 400"
-<<w
-show ANGRY_MAN "700, 400"
+<J'aime bien la tarte a la mirabelle. Avec toi?/>
 
-<J'aime bien la tarte à la mirabelle. Avec toi?/>
+>>w
+
+show SAD_MAN "100, 400"
+
+>>w
+
+show ANGRY_MAN "700, 400"
 
 >end

@@ -5,7 +5,7 @@
 ** Login   <marcha_r@epitech.net>
 ** 
 ** Started on  Wed Jun  6 01:53:48 2012 
-** Last update Tue Jun 12 22:10:53 2012 
+** Last update Wed Jun 13 14:18:23 2012 
 */
 
 #include <sys/types.h>
@@ -39,6 +39,8 @@ char	*sizeX;
 char	*sizeY;
 int	isPlaying = 0;
 
+void	events2(t_window *w, t_music *m, t_list *l);
+
 void	show_error(int error)
 {
   printf("%s!!!FATAL ERROR!!!%s\nduck-engine:%d: ", "\033[01;31m", "\033[00m", line);
@@ -54,6 +56,8 @@ void	show_error(int error)
     printf("SDL_ttf error : %s\n", TTF_GetError());
   if (error == 5)
     printf("unable to load image.\n");
+  if (error == 6)
+    printf("write(); has failed.\n");
   exit(0);
 }
 
@@ -61,9 +65,9 @@ void    music(char *path, t_music *m)
 {
   FMOD_System_Create(&m->system);
   FMOD_System_Init(m->system, 1, FMOD_INIT_NORMAL, NULL);
-  m->result = FMOD_System_CreateSound(m->system, path, FMOD_SOFTWARE
-                                      | FMOD_2D | FMOD_CREATESTREAM | FMOD_LOOP_NORMAL, 0, &m->music);
-  if (m->result != FMOD_OK)
+  if ((m->result = FMOD_System_CreateSound(m->system, path, FMOD_SOFTWARE
+					   | FMOD_2D | FMOD_CREATESTREAM
+					   | FMOD_LOOP_NORMAL, 0, &m->music)) != FMOD_OK)
     show_error(3);
   FMOD_Sound_SetLoopCount(m->music, -1);
   FMOD_System_PlaySound(m->system, FMOD_CHANNEL_FREE, m->music, 0, NULL);
@@ -82,6 +86,7 @@ void	clean_exit(t_window *w, t_music *m, t_list *l)
 {
   t_elem	*e;
 
+  printf(" done\ncleaning...");
   e = l->head;
   while (e)
     {
@@ -96,8 +101,11 @@ void	clean_exit(t_window *w, t_music *m, t_list *l)
     music_close(m);
   free(sizeX);
   free(sizeY);
+  printf(" done\n");
+  printf("exiting...");
   TTF_Quit();
   SDL_Quit();
+  printf(" done\n");
   exit(0);
 }
 
@@ -162,7 +170,7 @@ SDL_Surface	*init_window_size(SDL_Surface *screen, char *s)
   sizeX =  xmalloc(6);
   memset(sizeX, 0, 6);
   memset(sizeY, 0, 6);
-  if (s[16] != '"')
+  if (s[15] != '"')
     {
       for (j = 0, i = 15 ; s[i] != ',';)
 	sizeX[j++] = s[i++];
@@ -173,9 +181,13 @@ SDL_Surface	*init_window_size(SDL_Surface *screen, char *s)
 	show_error(0);
     }
   else
-    if ((screen = SDL_SetVideoMode(1000, 750, 32,
-				   SDL_SWSURFACE | SDL_DOUBLEBUF)) == NULL)
-      show_error(0);
+    {
+      if ((screen = SDL_SetVideoMode(1000, 750, 32,
+				     SDL_SWSURFACE | SDL_DOUBLEBUF)) == NULL)
+	show_error(0);
+      sizeX = strdup("1000");
+      sizeY = strdup("750");
+    }
   return (screen);
 }
 
@@ -254,36 +266,6 @@ void	init_window(t_window *w, t_music *m)
   free(mus);
 }
 
-void	events2(t_window *w, t_music *m, t_list *l)
-{
-  SDL_Event event;
-  int	continuer;
-
-  continuer = 1;
-  while (continuer)
-    {
-      SDL_WaitEvent(&event);
-      switch(event.type)
-	{
-        case SDL_QUIT:
-	  clean_exit(w, m, l);
-	  break;
-        case SDL_KEYDOWN:
-	  switch (event.key.keysym.sym)
-            {
-	    case SDLK_ESCAPE:
-	      clean_exit(w, m, l);
-	      break;
-	    default:
-	      break;
-            }
-	  break;
-	default:
-	  break;
-	}
-    }
-}
-
 void	pars_scene(t_window *w, t_music *m, t_list *l)
 {
   int	i;
@@ -308,7 +290,7 @@ void	pars_scene(t_window *w, t_music *m, t_list *l)
   posText.x = 15;
   posText.y = 15;
   
-  if ((police = TTF_OpenFont("fonts/deAsignosaur-regular.ttf", 30)) == NULL)
+  if ((police = TTF_OpenFont("fonts/designosaur-regular.ttf", 30)) == NULL)
     show_error(4);
 
   if (isPlaying == 1)
@@ -327,11 +309,6 @@ void	pars_scene(t_window *w, t_music *m, t_list *l)
   memset(posPersoY, 0, 512);
   if ((fd = open_fd("script.duck")) == -1)
     show_error(2);
-  text_support = SDL_CreateRGBSurface(SDL_HWSURFACE, atoi(sizeX), atoi(sizeY),
-				      32, 0, 0, 0, 0);
-  SDL_SetAlpha(text_support, SDL_SRCALPHA, 100);
-  SDL_BlitSurface(text_support, NULL, w->screen, &w->posBack);
-  SDL_Flip(w->screen);
   while ((s = get_next_line(fd)))
     {
       line++;
@@ -384,14 +361,53 @@ void	pars_scene(t_window *w, t_music *m, t_list *l)
 	}
       if (!strncmp(s, "<", 1))
 	{
+	  text_support = SDL_CreateRGBSurface(SDL_HWSURFACE, atoi(sizeX), atoi(sizeY),
+					      32, 0, 0, 0, 0);
+	  SDL_SetAlpha(text_support, SDL_SRCALPHA, 100);
+	  SDL_BlitSurface(text_support, NULL, w->screen, &w->posBack);
+	  SDL_Flip(w->screen);
 	  for (j = 0, i = 1 ; s[i] != '/' && s[i + 1] != '>';)
 	    text[j++] = s[i++];
 	  texte = TTF_RenderText_Blended(police, text, white_color);
 	  SDL_BlitSurface(texte, NULL, w->screen, &posText);
 	  SDL_Flip(w->screen);
 	}
+      if (!strncmp(s, ">>w", 3))
+	events2(w, m, l);
     }
-  events2(w, m, l);
+}
+
+void	events2(t_window *w, t_music *m, t_list *l)
+{
+  SDL_Event event;
+  int	continuer;
+
+  continuer = 1;
+  while (continuer)
+    {
+      SDL_WaitEvent(&event);
+      switch(event.type)
+	{
+        case SDL_QUIT:
+	  clean_exit(w, m, l);
+	  break;
+        case SDL_KEYDOWN:
+	  switch (event.key.keysym.sym)
+            {
+	    case SDLK_RETURN:
+	      pars_scene(w, m, l);
+	      break;
+	    case SDLK_ESCAPE:
+	      clean_exit(w, m, l);
+	      break;
+	    default:
+	      break;
+            }
+	  break;
+	default:
+	  break;
+	}
+    }
 }
 
 void	events(t_window *w, t_music *m, t_list *l)
@@ -435,22 +451,24 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)))
 
   w.screen = NULL;
   w.background = NULL;
-  printf("duck-engine: initialiazing SDL... ");
+  printf("welcome to %sduck-engine%s alpha 0.0.7\n", "\033[01;32m", "\033[00m");
+  printf("initialiazing SDL... ");
   if (SDL_Init(SDL_INIT_AUDIO | SDL_INIT_VIDEO | SDL_INIT_EVENTTHREAD) == -1)
     show_error(0);
   printf("done\n");
-  printf("duck-engine: initialiazing SDL_ttf... ");
+  printf("initialiazing SDL_ttf... ");
   if (TTF_Init() == -1)
     show_error(4);
   printf("done\n");
-  printf("duck-engine: initialiazing window parameters... ");
+  printf("initialiazing window parameters... ");
   init_window(&w, &m);
   printf("done\n");
   init_list(&l);
-  printf("duck-engine: parsing caracter list... ");
+  printf("parsing caracter list... ");
   pars_list(&l);
   printf("done\n");
-  printf("duck-engine: showing window...\n");
+  if ((write(1, "showing window...", 17)) == -1)
+    show_error(6);
   events(&w, &m, &l);
   clean_exit(&w, &m, &l);
   return (0);
