@@ -30,6 +30,12 @@ WINDOW_ICON = ""
 }}}
 
 
+The font size.
+{{{
+FONT_SIZE = "35"
+}}}
+
+
 The background of the title window. Interesting, because if you don't set it up, it won't work.
 {{{
 BACKGROUND_TITLE = "graph/title.png"
