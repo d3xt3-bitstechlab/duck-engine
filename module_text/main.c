@@ -60,27 +60,6 @@ int main(int argc, char *argv[])
   SDL_Flip(ecran);
   font = TTF_OpenFont("../fonts/designosaur-regular.ttf", 30);
 
-  while (text[i])
-    {
-      limit_char(text, 0, i);
-      TTF_SizeText(font, limit_char(text, 0, i), &w, &h);
-      if (w > sizeX)
-	{
-	  size_saved = i - 3;
-	  break;
-	}
-      if (text[i + 1] == '\0')
-	{
-	  size_saved = i + 1;
-	  break;
-	}
-      ++i;
-    }
-
-  texte = TTF_RenderText_Blended(font, limit_char(text, 0, size_saved), white_color);
-  SDL_BlitSurface(texte, NULL, ecran, &posText);
-  SDL_Flip(ecran);
-
   while (i < strlen(text))
     {
       size_init = size_saved;
@@ -101,8 +80,9 @@ int main(int argc, char *argv[])
 	      break;
 	    }
 	  ++i;
-	}      
-      posText.y += h + 3;
+	}
+      if (size_init > 0)
+	posText.y += h + 3;
       texte = TTF_RenderText_Blended(font, limit_char(text, size_init, size_saved), white_color);
       SDL_BlitSurface(texte, NULL, ecran, &posText);
       SDL_Flip(ecran);
