@@ -5,7 +5,7 @@
 ** Login   <marcha_r@epitech.net>
 ** 
 ** Started on  Wed Jun  6 01:53:48 2012 
-** Last update Sat Jun 16 18:47:25 2012 
+** Last update Sun Jun 17 00:38:57 2012 
 */
 
 #include <sys/types.h>
@@ -44,6 +44,27 @@ void    show_error(int error)
   if (error == 6)
     printf("write(); has failed.\n");
   exit(0);
+}
+
+char    *limit_char(char *str, int i, int limit)
+{
+  int   j;
+  int   k;
+  char  *result;
+
+  j = i;
+  k = 0;
+  result = malloc(strlen(str) + 1);
+  memset(result, 0, strlen(str) + 1);
+  while (str[j])
+    {
+      if (j == limit)
+        return (result);
+      result[k] = str[j];
+      ++j;
+      ++k;
+    }
+  return (result);
 }
 
 void    music(char *path, t_music *m)
@@ -280,6 +301,46 @@ void	init_window(t_window *w, t_music *m)
   free(font);
 }
 
+void	text_module(char *text, t_window *w, TTF_Font *font, SDL_Rect posText)
+{
+  int i = 2;
+  int height, width;
+  int size_saved;
+  int size_init = 0;
+  SDL_Color white_color = {255,255,255,255};
+  SDL_Surface *texte = NULL;
+
+  size_saved = 0;
+  while (i < strlen(text))
+    {
+      size_init = size_saved;
+      i = size_saved + 2;
+      width = 0;
+      while (text[i])
+        {
+          TTF_SizeText(font, limit_char(text, size_init, i), &width, &height);
+          if (width > atoi(sizeX))
+            {
+              size_saved = i - 3;
+              break;
+            }
+          if (text[i + 1] == '\0')
+            {
+              size_saved = i + 1;
+              break;
+            }
+          ++i;
+        }
+      if (size_init > 0)
+        posText.y += height + 3;
+      texte = TTF_RenderText_Blended(font, limit_char(text, size_init, size_saved),
+				     white_color);
+      SDL_BlitSurface(texte, NULL, w->screen, &posText);
+      SDL_Flip(w->screen);
+      i += 2;
+    }
+}
+
 void	pars_scene(t_window *w, t_music *m, t_list *l)
 {
   int	i;
@@ -382,9 +443,12 @@ void	pars_scene(t_window *w, t_music *m, t_list *l)
 	  SDL_Flip(w->screen);
 	  for (j = 0, i = 1 ; s[i] != '/' && s[i + 1] != '>';)
 	    text[j++] = s[i++];
-	  texte = TTF_RenderText_Blended(font, text, white_color);
+	  
+	  text_module(text, w, font, posText);
+
+	  /*texte = TTF_RenderText_Blended(font, text, white_color);
 	  SDL_BlitSurface(texte, NULL, w->screen, &posText);
-	  SDL_Flip(w->screen);
+	  SDL_Flip(w->screen);*/
 	}
       if (!strncmp(s, ">>w", 3))
 	events2(w, m, l);
