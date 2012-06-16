@@ -12,23 +12,29 @@ int w, h;
 
 char	*limit_char(char *str, int i, int limit)
 {
+  int	j;
+  int	k;
   char	*result;
 
+  j = i;
+  k = 0;
   result = malloc(strlen(str) + 1);
   memset(result, 0, strlen(str) + 1);
-  while (str[i])
+  while (str[j])
     {
-      if (i == limit)
+      if (j == limit)
 	return (result);
-      result[i] = str[i];
-      ++i;
+      result[k] = str[j];
+      /*printf("%c, %c\n", result[k], str[j]);*/
+      ++j;
+      ++k;
     }
   return (result);
 }
 
 int main(int argc, char *argv[])
 {
-  SDL_Surface *ecran = NULL, *imageDeFond = NULL, *sapin = NULL;
+  SDL_Surface *ecran = NULL, *imageDeFond = NULL;
   SDL_Rect positionFond, positionSapin; 
   TTF_Font *font = NULL;
   SDL_Color white_color = {255,255,255,255};
@@ -41,7 +47,7 @@ int main(int argc, char *argv[])
   posText.x = 15;
   posText.y = 15;
   memset(text, 0, 4096);
-  text = strdup("Coucou texte trop long il faut qu'il le soit... C'est pour le bien de l'humanite, tu comprends?");
+  text = strdup("Coucou texte trop long il faut qu'il le soit. Aujourd'hui j'ai mange du pain grille avec du nutella, je dois vous dire que c'est vraiment tres bon");
   SDL_Init(SDL_INIT_VIDEO);
   TTF_Init();
   ecran = SDL_SetVideoMode(800, 600, 32, SDL_HWSURFACE);
@@ -51,6 +57,10 @@ int main(int argc, char *argv[])
   SDL_Flip(ecran);
   font = TTF_OpenFont("../fonts/designosaur-regular.ttf", 30);
 
+  printf("text : %s\n", text);
+  printf("limited : %s\n", limit_char(text, 0, 20));
+  printf("limited : %s\n", limit_char(text, 10, 20));
+
   int size_init = 0;
   int size_saved;
   int i = 2;
@@ -58,24 +68,82 @@ int main(int argc, char *argv[])
     {
       limit_char(text, 0, i);
       TTF_SizeText(font, limit_char(text, 0, i), &w, &h);
+      printf("w : %d\n", w);
       if (w > sizeX)
 	{
 	  size_saved = i - 3;
 	  break;
 	}
+      if (text[i + 1] == '\0')
+	{
+	  size_saved = i + 1;
+	  break;
+	}
       ++i;
     }
-
-  printf("WINDOW_SIZE: %d*%d\n", sizeX, sizeY);
-  if (TTF_SizeText(font, "m", &w, &h))
-    printf("lol\n");
-  else
-    printf("width=%d height=%d\n", w, h);
-  printf("size_saved : %d\n", size_saved);
 
   texte = TTF_RenderText_Blended(font, limit_char(text, 0, size_saved), white_color);
   SDL_BlitSurface(texte, NULL, ecran, &posText);
   SDL_Flip(ecran);
+
+  size_init = size_saved;
+  i = size_saved + 2;
+  w = 0;
+  while (text[i])
+    {
+      limit_char(text, size_init, i);
+      TTF_SizeText(font, limit_char(text, size_init, i), &w, &h);
+      printf("w : %d\n", w);
+      if (w > sizeX)
+	{
+	  size_saved = i - 3;
+	  break;
+	}
+      if (text[i + 1] == '\0')
+	{
+	  size_saved = i + 1;
+	  break;
+	}
+      ++i;
+    }
+
+  printf("text coupé : %s\n", limit_char(text, size_init, size_saved));
+  printf("size_init : %d, size_saved : %d\n", size_init, size_saved);
+
+  posText.y += h + 3;
+  texte = TTF_RenderText_Blended(font, limit_char(text, size_init, size_saved), white_color);
+  SDL_BlitSurface(texte, NULL, ecran, &posText);
+  SDL_Flip(ecran);
+
+  size_init = size_saved;
+  i = size_saved + 2;
+  w = 0;
+  while (text[i])
+    {
+      limit_char(text, size_init, i);
+      TTF_SizeText(font, limit_char(text, size_init, i), &w, &h);
+      printf("w : %d\n", w);
+      if (w > sizeX)
+	{
+	  size_saved = i - 3;
+	  break;
+	}
+      if (text[i + 1] == '\0')
+	{
+	  size_saved = i + 1;
+	  break;
+	}
+      ++i;
+    }
+
+  printf("text coupé : %s\n", limit_char(text, size_init, size_saved));
+  printf("size_init : %d, size_saved : %d\n", size_init, size_saved);
+
+  posText.y += h + 3;
+  texte = TTF_RenderText_Blended(font, limit_char(text, size_init, size_saved), white_color);
+  SDL_BlitSurface(texte, NULL, ecran, &posText);
+  SDL_Flip(ecran);
+
 
   pause();
  
