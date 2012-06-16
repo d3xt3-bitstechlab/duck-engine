@@ -13,6 +13,7 @@ WINDOW_ICON = "" ## the icon of the window
 BACKGROUND_TITLE = "graph/title.png" ## the background of the window
 #MUSIC_TITLE = "music/narcissu-theme.mp3" ## leave it blank for no music
 FONT_SIZE = "30" ## size of the font that will be used
+FONT = "fonts/designosaur-regular.ttf" ## font that will be used
 
 >caracters
 

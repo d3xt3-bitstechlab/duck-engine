@@ -5,7 +5,7 @@
 ** Login   <marcha_r@epitech.net>
 ** 
 ** Started on  Wed Jun  6 01:53:48 2012 
-** Last update Sat Jun 16 18:39:30 2012 
+** Last update Sat Jun 16 18:47:25 2012 
 */
 
 #include <sys/types.h>
@@ -24,6 +24,7 @@
 void	events2(t_window *w, t_music *m, t_list *l);
 
 int sizeFont;
+char *font_used;
 
 void    show_error(int error)
 {
@@ -85,6 +86,7 @@ void	clean_exit(t_window *w, t_music *m, t_list *l)
     music_close(m);
   free(sizeX);
   free(sizeY);
+  free(font_used);
   printf(" done\n");
   printf("exiting...");
   TTF_Quit();
@@ -204,6 +206,8 @@ void	init_window(t_window *w, t_music *m)
   memset(mus, 0, 512);
   font = xmalloc(512);
   memset(font, 0, 512);
+  font_used = xmalloc(512);
+  memset(font_used, 0, 512);
   if ((fd = open_fd("script.duck")) == -1)
     show_error(2);
   while ((s = get_next_line(fd)))
@@ -259,6 +263,14 @@ void	init_window(t_window *w, t_music *m)
 	      sizeFont = atoi(font);
 	    }
 	}
+      if (!strncmp(s, "FONT = \"", 8))
+	{
+	  if (s[8] != '"')
+	    {
+	      for (j = 0, i = 8 ; s[i] != '"';)
+		font_used[j++] = s[i++];
+	    }
+	}
     }
   SDL_WM_SetCaption(title, icon);
   free(title);
@@ -292,7 +304,7 @@ void	pars_scene(t_window *w, t_music *m, t_list *l)
   posText.x = 15;
   posText.y = 15;
   
-  if ((font = TTF_OpenFont("fonts/designosaur-regular.ttf", sizeFont)) == NULL)
+  if ((font = TTF_OpenFont(/*"fonts/designosaur-regular.ttf"*/font_used, sizeFont)) == NULL)
     show_error(4);
 
   if (DUCK_isPlaying == 1)
