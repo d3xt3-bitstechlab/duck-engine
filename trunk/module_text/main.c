@@ -67,7 +67,6 @@ int main(int argc, char *argv[])
       w = 0;
       while (text[i])
 	{
-	  limit_char(text, size_init, i);
 	  TTF_SizeText(font, limit_char(text, size_init, i), &w, &h);
 	  if (w > sizeX)
 	    {
