@@ -5,11 +5,16 @@
 ** Login   <marcha_r@epitech.net>
 ** 
 ** Started on  Wed Jun 13 16:38:31 2012 
-** Last update Sun Jun 17 17:31:20 2012 
+** Last update Sun Jun 17 18:06:12 2012 
 */
 
 #ifndef __DUCK_ENGINE__
 #define __DUCK_ENGINE__
+
+#include "SDL/SDL.h"
+#include "SDL/SDL_image.h"
+#include "SDL/SDL_ttf.h"
+#include "fmodex/fmod.h"
 
 typedef struct s_window
 {
@@ -25,14 +30,24 @@ typedef struct s_music
   FMOD_RESULT   result;
 } t_music;
 
+typedef struct s_font
+{
+  TTF_Font *font;
+  int	size_font;
+  char	*font_used;
+  SDL_Rect posText;
+  SDL_Surface *text_support;
+} t_font;
+
 int	DUCK_line = 0;
 char    *sizeX;
 char    *sizeY;
 int	DUCK_isPlaying = 0;
-int	sizeFont;
-char	*font_used;
 int	DUCK_TitleMusic = 0;
 
 char    *limit_char(char *str, int i, int limit);
+
+void    music(char *path, t_music *m);
+void    music_close(t_music *m);
 
 #endif

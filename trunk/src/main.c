@@ -5,24 +5,20 @@
 ** Login   <marcha_r@epitech.net>
 ** 
 ** Started on  Wed Jun  6 01:53:48 2012 
-** Last update Sun Jun 17 17:31:00 2012 
+** Last update Sun Jun 17 18:02:13 2012 
 */
 
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <unistd.h>
-#include "SDL/SDL.h"
-#include "SDL/SDL_image.h"
-#include "SDL/SDL_ttf.h"
-#include "fmodex/fmod.h"
 #include "get_next_line.h"
 #include "xmalloc.h"
 #include "list.h"
 #include "text.h"
 #include "header.h"
 
-void	events2(t_window *w, t_music *m, t_list *l, t_text *t);
+void	events2(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f);
 
 void    show_error(int error)
 {
@@ -43,27 +39,6 @@ void    show_error(int error)
     printf("write(); has failed.\n");
   exit(0);
 }
-
-/*char    *limit_char(char *str, int i, int limit)
-{
-  int   j;
-  int   k;
-  char  *result;
-
-  j = i;
-  k = 0;
-  result = malloc(strlen(str) + 1);
-  memset(result, 0, strlen(str) + 1);
-  while (str[j])
-    {
-      if (j == limit)
-        return (result);
-      result[k] = str[j];
-      ++j;
-      ++k;
-    }
-  return (result);
-  }*/
 
 void    music(char *path, t_music *m)
 {
@@ -105,7 +80,6 @@ void	clean_exit(t_window *w, t_music *m, t_list *l)
     music_close(m);
   free(sizeX);
   free(sizeY);
-  free(font_used);
   printf(" done\n");
   printf("exiting...");
   TTF_Quit();
@@ -201,7 +175,7 @@ SDL_Surface	*init_window_size(SDL_Surface *screen, char *s)
   return (screen);
 }
 
-void	init_window(t_window *w, t_music *m)
+void	init_window(t_window *w, t_music *m, t_font *f)
 {
   int	i;
   int	j;
@@ -225,8 +199,8 @@ void	init_window(t_window *w, t_music *m)
   memset(mus, 0, 512);
   font = xmalloc(512);
   memset(font, 0, 512);
-  font_used = xmalloc(512);
-  memset(font_used, 0, 512);
+  f->font_used = xmalloc(512);
+  memset(f->font_used, 0, 512);
   if ((fd = open_fd("script.duck")) == -1)
     show_error(2);
   while ((s = get_next_line(fd)))
@@ -280,7 +254,7 @@ void	init_window(t_window *w, t_music *m)
 	    {
 	      for (j = 0, i = 13 ; s[i] != '"';)
 		font[j++] = s[i++];
-	      sizeFont = atoi(font);
+	      f->size_font = atoi(font);
 	    }
 	}
       if (!strncmp(s, "FONT = \"", 8))
@@ -288,7 +262,7 @@ void	init_window(t_window *w, t_music *m)
 	  if (s[8] != '"')
 	    {
 	      for (j = 0, i = 8 ; s[i] != '"';)
-		font_used[j++] = s[i++];
+		f->font_used[j++] = s[i++];
 	    }
 	}
     }
@@ -300,7 +274,7 @@ void	init_window(t_window *w, t_music *m)
   free(font);
 }
 
-void	text_module(char *text, t_window *w, TTF_Font *font, SDL_Rect posText)
+void	text_module(char *text, t_window *w, t_font *f)
 {
   unsigned int i = 2;
   int height, width;
@@ -309,6 +283,8 @@ void	text_module(char *text, t_window *w, TTF_Font *font, SDL_Rect posText)
   SDL_Color white_color = {255,255,255,255};
   SDL_Surface *texte = NULL;
 
+  f->posText.x = 15;
+  f->posText.y = 15;
   size_saved = 0;
   while (i < strlen(text))
     {
@@ -317,7 +293,7 @@ void	text_module(char *text, t_window *w, TTF_Font *font, SDL_Rect posText)
       width = 0;
       while (text[i])
         {
-          TTF_SizeText(font, limit_char(text, size_init, i), &width, &height);
+          TTF_SizeText(f->font, limit_char(text, size_init, i), &width, &height);
           if (width > atoi(sizeX))
             {
               size_saved = i - 3;
@@ -331,16 +307,16 @@ void	text_module(char *text, t_window *w, TTF_Font *font, SDL_Rect posText)
           ++i;
         }
       if (size_init > 0)
-        posText.y += height + 3;
-      texte = TTF_RenderText_Blended(font, limit_char(text, size_init, size_saved),
+        f->posText.y += height + 3;
+      texte = TTF_RenderText_Blended(f->font, limit_char(text, size_init, size_saved),
 				     white_color);
-      SDL_BlitSurface(texte, NULL, w->screen, &posText);
+      SDL_BlitSurface(texte, NULL, w->screen, &f->posText);
       SDL_Flip(w->screen);
       i += 2;
     }
 }
 
-void	pars_scene(t_window *w, t_music *m, t_list *l, t_text *t)
+void	pars_scene(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f)
 {
   int	i;
   int	j;
@@ -356,18 +332,6 @@ void	pars_scene(t_window *w, t_music *m, t_list *l, t_text *t)
   char	*posPersoY;
   t_elem_text *e_text;
   char *text_save;
-  SDL_Surface *text_support;
-
-  TTF_Font *font = NULL;
-  SDL_Rect posText;
-  posText.x = 15;
-  posText.y = 15;
-
-  if ((font = TTF_OpenFont(font_used, sizeFont)) == NULL)
-    show_error(4);
-
-  text_support = SDL_CreateRGBSurface(SDL_HWSURFACE, atoi(sizeX), atoi(sizeY),
-				      32, 0, 0, 0, 0);
 
   if (DUCK_isPlaying == 1 && DUCK_TitleMusic == 1)
     {
@@ -444,11 +408,11 @@ void	pars_scene(t_window *w, t_music *m, t_list *l, t_text *t)
       if (!strncmp(s, ">end", 4))
 	clean_exit(w, m, l);
       if (!strncmp(s, ">>w", 3))
-	events2(w, m, l, t);
+	events2(w, m, l, t, f);
 
       SDL_BlitSurface(w->background, NULL, w->screen, &w->posBack);
-      SDL_SetAlpha(text_support, SDL_SRCALPHA, 100);
-      SDL_BlitSurface(text_support, NULL, w->screen, &w->posBack);
+      SDL_SetAlpha(f->text_support, SDL_SRCALPHA, 100);
+      SDL_BlitSurface(f->text_support, NULL, w->screen, &w->posBack);
       e = l->head;
       while (e)
 	{
@@ -465,12 +429,12 @@ void	pars_scene(t_window *w, t_music *m, t_list *l, t_text *t)
 	  memset(text_save, 0, 4096);
 	  e_text = t->tail;
 	  text_save = strdup(e_text->data);
-	  text_module(text_save, w, font, posText);
+	  text_module(text_save, w, f);
 	}
     }
 }
 
-void	events2(t_window *w, t_music *m, t_list *l, t_text *t)
+void	events2(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f)
 {
   SDL_Event event;
   int	continuer;
@@ -488,7 +452,7 @@ void	events2(t_window *w, t_music *m, t_list *l, t_text *t)
 	  switch (event.key.keysym.sym)
             {
 	    case SDLK_RETURN:
-	      pars_scene(w, m, l, t);
+	      pars_scene(w, m, l, t, f);
 	      break;
 	    case SDLK_ESCAPE:
 	      clean_exit(w, m, l);
@@ -503,7 +467,7 @@ void	events2(t_window *w, t_music *m, t_list *l, t_text *t)
     }
 }
 
-void	events(t_window *w, t_music *m, t_list *l, t_text *t)
+void	events(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f)
 {
   SDL_Event event;
   int	continuer;
@@ -524,7 +488,7 @@ void	events(t_window *w, t_music *m, t_list *l, t_text *t)
 	      continuer = 0;
 	      break;
 	    case SDLK_RETURN:
-	      pars_scene(w, m, l, t);
+	      pars_scene(w, m, l, t, f);
 	      break;
 	    default:
 	      break;
@@ -552,8 +516,9 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)))
 {
   t_list l;
   t_text t;
-  t_window w;
+  t_font f;
   t_music m;
+  t_window w;
 
   w.screen = NULL;
   w.background = NULL;
@@ -567,17 +532,23 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)))
     show_error(4);
   printf("done\n");
   printf("initialiazing window parameters... ");
-  init_window(&w, &m);
+  init_window(&w, &m, &f);
   printf("done\n");
   init_list(&l);
   printf("parsing caracter list... ");
   pars_list(&l);
   init_zeroes(&l);
   printf("done\n");
+  printf("initializing font... ");
+  if ((f.font = TTF_OpenFont(f.font_used, f.size_font)) == NULL)
+    show_error(4);
+  f.text_support = SDL_CreateRGBSurface(SDL_HWSURFACE, atoi(sizeX), atoi(sizeY),
+				      32, 0, 0, 0, 0);
+  printf("done\n");
   init_list_text(&t);
   if ((write(1, "showing window...", 17)) == -1)
     show_error(6);
-  events(&w, &m, &l, &t);
+  events(&w, &m, &l, &t, &f);
   clean_exit(&w, &m, &l);
   return (0);
 }
