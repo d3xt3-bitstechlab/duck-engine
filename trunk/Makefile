@@ -7,6 +7,7 @@ SRC	=	src/main.c		\
 		src/get_next_line.c	\
 		src/xmalloc.c		\
 		src/list.c		\
+		src/text.c		\
 
 all:	comp
 

@@ -5,7 +5,7 @@
 ** Login   <marcha_r@epitech.net>
 ** 
 ** Started on  Wed Jun  6 01:53:48 2012 
-** Last update Sun Jun 17 00:38:57 2012 
+** Last update Sun Jun 17 02:28:22 2012 
 */
 
 #include <sys/types.h>
@@ -19,6 +19,7 @@
 #include "get_next_line.h"
 #include "xmalloc.h"
 #include "list.h"
+#include "text.h"
 #include "header.h"
 
 void	events2(t_window *w, t_music *m, t_list *l);
@@ -303,7 +304,7 @@ void	init_window(t_window *w, t_music *m)
 
 void	text_module(char *text, t_window *w, TTF_Font *font, SDL_Rect posText)
 {
-  int i = 2;
+  unsigned int i = 2;
   int height, width;
   int size_saved;
   int size_init = 0;
@@ -358,13 +359,10 @@ void	pars_scene(t_window *w, t_music *m, t_list *l)
   SDL_Surface *text_support;
 
   TTF_Font *font = NULL;
-  SDL_Color white_color = {255,255,255,255};
-  SDL_Surface *texte = NULL;
-
   SDL_Rect posText;
   posText.x = 15;
   posText.y = 15;
-  
+
   if ((font = TTF_OpenFont(/*"fonts/designosaur-regular.ttf"*/font_used, sizeFont)) == NULL)
     show_error(4);
 
@@ -524,6 +522,7 @@ void	events(t_window *w, t_music *m, t_list *l)
 int	main(int ac __attribute__((unused)), char **av __attribute__((unused)))
 {
   t_list l;
+  t_text t;
   t_window w;
   t_music m;
 
@@ -545,6 +544,7 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)))
   printf("parsing caracter list... ");
   pars_list(&l);
   printf("done\n");
+  init_list_text(&t);
   if ((write(1, "showing window...", 17)) == -1)
     show_error(6);
   events(&w, &m, &l);
