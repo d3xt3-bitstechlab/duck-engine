@@ -9,6 +9,7 @@ SRC	=	src/main.c		\
 		src/list.c		\
 		src/text.c		\
 		src/limit_char.c	\
+		src/show_error.c	\
 
 all:	comp
 
