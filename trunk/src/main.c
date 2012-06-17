@@ -5,7 +5,7 @@
 ** Login   <marcha_r@epitech.net>
 ** 
 ** Started on  Wed Jun  6 01:53:48 2012 
-** Last update Sun Jun 17 18:17:15 2012 
+** Last update Sun Jun 17 18:31:03 2012 
 */
 
 #include <sys/types.h>
@@ -20,7 +20,7 @@
 
 void	events2(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f);
 
-void    show_error(int error)
+/*void    show_error(int error)
 {
   printf("%s!!!FATAL ERROR!!!%s\nduck-engine:%d: ", "\033[01;31m", "\033[00m", DUCK_line);
   if (error == 0)
@@ -38,7 +38,7 @@ void    show_error(int error)
   if (error == 6)
     printf("write(); has failed.\n");
   exit(0);
-}
+  }*/
 
 void    music(char *path, t_music *m)
 {
@@ -524,6 +524,7 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)))
   w.background = NULL;
   m.DUCK_isPlaying = 0;
   m.DUCK_TitleMusic = 0;
+  DUCK_line = 0;
   printf("%sWELCOME TO %sDUCK-ENGINE%s%s ALPHA 0.1%s\n", "\033[04;29m", "\033[01;32m", "\033[00m", "\033[04;29m", "\033[00m");
   printf("initialiazing SDL... ");
   if (SDL_Init(SDL_INIT_AUDIO | SDL_INIT_VIDEO | SDL_INIT_EVENTTHREAD) == -1)
