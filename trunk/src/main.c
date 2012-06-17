@@ -5,7 +5,7 @@
 ** Login   <marcha_r@epitech.net>
 ** 
 ** Started on  Wed Jun  6 01:53:48 2012 
-** Last update Sun Jun 17 03:09:14 2012 
+** Last update Sun Jun 17 03:21:23 2012 
 */
 
 #include <sys/types.h>
@@ -388,8 +388,8 @@ void	pars_scene(t_window *w, t_music *m, t_list *l, t_text *t)
   while ((s = get_next_line(fd)))
     {
       DUCK_line++;
-      if (!strncmp(s, ">end", 4))
-	break;
+      /*if (!strncmp(s, ">end", 4))
+	break;*/
       if (!strncmp(s, "background = \"", 14))
 	{
 	  if (s[14] != '"')
@@ -441,6 +441,9 @@ void	pars_scene(t_window *w, t_music *m, t_list *l, t_text *t)
 	  /*SDL_SetAlpha(text_support, SDL_SRCALPHA, 100);
 	  SDL_BlitSurface(text_support, NULL, w->screen, &w->posBack);
 	  SDL_Flip(w->screen);*/
+	  text = xmalloc(4096);
+	  memset(text, 0, 4096);
+
 	  for (j = 0, i = 1 ; s[i] != '/' && s[i + 1] != '>';)
 	    text[j++] = s[i++];
 	  
@@ -451,6 +454,8 @@ void	pars_scene(t_window *w, t_music *m, t_list *l, t_text *t)
 	  SDL_BlitSurface(texte, NULL, w->screen, &posText);
 	  SDL_Flip(w->screen);*/
 	}
+      if (!strncmp(s, ">end", 4))
+	clean_exit(w, m, l);
       if (!strncmp(s, ">>w", 3))
 	events2(w, m, l, t);
 
@@ -576,6 +581,13 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)))
   init_list(&l);
   printf("parsing caracter list... ");
   pars_list(&l);
+  t_elem *e;
+  e = l.head;
+  while (e)
+    {
+      e->show = 0;
+      e = e->next;
+    }
   printf("done\n");
   init_list_text(&t);
   if ((write(1, "showing window...", 17)) == -1)
