@@ -8,6 +8,7 @@ SRC	=	src/main.c		\
 		src/xmalloc.c		\
 		src/list.c		\
 		src/text.c		\
+		src/limit_char.c	\
 
 all:	comp
 
