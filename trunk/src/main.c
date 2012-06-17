@@ -5,7 +5,7 @@
 ** Login   <marcha_r@epitech.net>
 ** 
 ** Started on  Wed Jun  6 01:53:48 2012 
-** Last update Sun Jun 17 05:43:54 2012 
+** Last update Sun Jun 17 07:47:02 2012 
 */
 
 #include <sys/types.h>
@@ -26,6 +26,7 @@ void	events2(t_window *w, t_music *m, t_list *l, t_text *t);
 
 int sizeFont;
 char *font_used;
+int DUCK_TitleMusic = 0;
 
 void    show_error(int error)
 {
@@ -274,6 +275,7 @@ void	init_window(t_window *w, t_music *m)
 	      for (j = 0, i = 15 ; s[i] != '"';)
 		mus[j++] = s[i++];
 	      music(mus, m);
+	      DUCK_TitleMusic = 1;
 	    }
 	}
       if (!strncmp(s, "FONT_SIZE = \"", 13))
@@ -365,18 +367,19 @@ void	pars_scene(t_window *w, t_music *m, t_list *l, t_text *t)
   posText.x = 15;
   posText.y = 15;
 
-  if ((font = TTF_OpenFont(/*"fonts/designosaur-regular.ttf"*/font_used, sizeFont)) == NULL)
+  if ((font = TTF_OpenFont(font_used, sizeFont)) == NULL)
     show_error(4);
 
   text_support = SDL_CreateRGBSurface(SDL_HWSURFACE, atoi(sizeX), atoi(sizeY),
 				      32, 0, 0, 0, 0);
 
-  if (DUCK_isPlaying == 1)
-    music_close(m);
+  if (DUCK_isPlaying == 1 && DUCK_TitleMusic == 1)
+    {
+      music_close(m);
+      DUCK_TitleMusic = 0;
+    }
   back = xmalloc(512);
   memset(back, 0, 512);
-  mus = xmalloc(512);
-  memset(mus, 0, 512);
   perso = xmalloc(512);
   memset(perso, 0, 512);
   text = xmalloc(4096);
@@ -390,8 +393,6 @@ void	pars_scene(t_window *w, t_music *m, t_list *l, t_text *t)
   while ((s = get_next_line(fd)))
     {
       DUCK_line++;
-      /*if (!strncmp(s, ">end", 4))
-	break;*/
       if (!strncmp(s, "background = \"", 14))
 	{
 	  if (s[14] != '"')
@@ -405,6 +406,8 @@ void	pars_scene(t_window *w, t_music *m, t_list *l, t_text *t)
 	}
       if (!strncmp(s, "music = \"", 9))
 	{
+	  mus = xmalloc(512);
+	  memset(mus, 0, 512);
 	  if (s[9] != '"')
 	    {
 	      for (j = 0, i = 9 ; s[i] != '"';)
