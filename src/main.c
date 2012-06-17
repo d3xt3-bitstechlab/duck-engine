@@ -5,7 +5,7 @@
 ** Login   <marcha_r@epitech.net>
 ** 
 ** Started on  Wed Jun  6 01:53:48 2012 
-** Last update Sun Jun 17 18:10:50 2012 
+** Last update Sun Jun 17 18:17:15 2012 
 */
 
 #include <sys/types.h>
@@ -78,8 +78,8 @@ void	clean_exit(t_window *w, t_music *m, t_list *l)
   SDL_FreeSurface(w->background);
   if (m->DUCK_isPlaying == 1)
     music_close(m);
-  free(sizeX);
-  free(sizeY);
+  free(w->sizeX);
+  free(w->sizeY);
   printf(" done\n");
   printf("exiting...");
   TTF_Quit();
@@ -145,22 +145,22 @@ void	pars_list(t_list *l)
    }
 }
 
-SDL_Surface	*init_window_size(SDL_Surface *screen, char *s)
+SDL_Surface	*init_window_size(SDL_Surface *screen, char *s, t_window *w)
 {
   int	i;
   int	j;
 
-  sizeY = xmalloc(6);
-  sizeX =  xmalloc(6);
-  memset(sizeX, 0, 6);
-  memset(sizeY, 0, 6);
+  w->sizeY = xmalloc(6);
+  w->sizeX = xmalloc(6);
+  memset(w->sizeX, 0, 6);
+  memset(w->sizeY, 0, 6);
   if (s[15] != '"')
     {
       for (j = 0, i = 15 ; s[i] != ',';)
-	sizeX[j++] = s[i++];
+	w->sizeX[j++] = s[i++];
       for (j = 0, i += 2 ; s[i] != '"';)
-	sizeY[j++] = s[i++];
-      if ((screen = SDL_SetVideoMode(atoi(sizeX), atoi(sizeY),
+	w->sizeY[j++] = s[i++];
+      if ((screen = SDL_SetVideoMode(atoi(w->sizeX), atoi(w->sizeY),
 				     32, SDL_SWSURFACE | SDL_DOUBLEBUF)) == NULL)
 	show_error(0);
     }
@@ -169,8 +169,8 @@ SDL_Surface	*init_window_size(SDL_Surface *screen, char *s)
       if ((screen = SDL_SetVideoMode(1000, 750, 32,
 				     SDL_SWSURFACE | SDL_DOUBLEBUF)) == NULL)
 	show_error(0);
-      sizeX = strdup("1000");
-      sizeY = strdup("750");
+      w->sizeX = strdup("1000");
+      w->sizeY = strdup("750");
     }
   return (screen);
 }
@@ -209,7 +209,7 @@ void	init_window(t_window *w, t_music *m, t_font *f)
       if (!strncmp(s, ">caracters", 10))
 	break;
       if (!strncmp(s, "WINDOW_SIZE = \"", 15))
-	w->screen = init_window_size(w->screen, s);
+	w->screen = init_window_size(w->screen, s, w);
       if (!strncmp(s, "WINDOW_TITLE = \"", 16))
 	{
 	  if (s[16] != '"')
@@ -294,7 +294,7 @@ void	text_module(char *text, t_window *w, t_font *f)
       while (text[i])
         {
           TTF_SizeText(f->font, limit_char(text, size_init, i), &width, &height);
-          if (width > atoi(sizeX))
+          if (width > atoi(w->sizeX))
             {
               size_saved = i - 3;
               break;
@@ -544,7 +544,7 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)))
   printf("initializing font... ");
   if ((f.font = TTF_OpenFont(f.font_used, f.size_font)) == NULL)
     show_error(4);
-  f.text_support = SDL_CreateRGBSurface(SDL_HWSURFACE, atoi(sizeX), atoi(sizeY),
+  f.text_support = SDL_CreateRGBSurface(SDL_HWSURFACE, atoi(w.sizeX), atoi(w.sizeY),
 				      32, 0, 0, 0, 0);
   printf("done\n");
   init_list_text(&t);
