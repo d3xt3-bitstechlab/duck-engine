@@ -5,7 +5,7 @@
 ** Login   <marcha_r@epitech.net>
 ** 
 ** Started on  Wed Jun  6 01:53:48 2012 
-** Last update Sun Jun 17 03:21:23 2012 
+** Last update Sun Jun 17 05:12:36 2012 
 */
 
 #include <sys/types.h>
@@ -369,6 +369,13 @@ void	pars_scene(t_window *w, t_music *m, t_list *l, t_text *t)
   text_support = SDL_CreateRGBSurface(SDL_HWSURFACE, atoi(sizeX), atoi(sizeY),
 				      32, 0, 0, 0, 0);
 
+  e = l->head;
+  while (e)
+    {
+      printf("HELLO %d\n", e->is_show);
+      e = e->next;
+    }
+
   if (DUCK_isPlaying == 1)
     music_close(m);
   back = xmalloc(512);
@@ -429,7 +436,8 @@ void	pars_scene(t_window *w, t_music *m, t_list *l, t_text *t)
 		{
 		  e->pos.x = atoi(posPersoX);
 		  e->pos.y = atoi(posPersoY);
-		  e->show = 1;
+		  e->is_show = 1;
+
 		  /*SDL_BlitSurface(e->perso, NULL, w->screen, &e->pos);
 		    SDL_Flip(w->screen);*/
 		}
@@ -448,7 +456,7 @@ void	pars_scene(t_window *w, t_music *m, t_list *l, t_text *t)
 	    text[j++] = s[i++];
 	  
 	  ins_end_list_text(t, text);
-	  text_module(text, w, font, posText);
+	  /*text_module(text, w, font, posText);*/
 
 	  /*texte = TTF_RenderText_Blended(font, text, white_color);
 	  SDL_BlitSurface(texte, NULL, w->screen, &posText);
@@ -467,17 +475,19 @@ void	pars_scene(t_window *w, t_music *m, t_list *l, t_text *t)
       SDL_BlitSurface(text_support, NULL, w->screen, &w->posBack);
       /* SDL_Flip(w->screen); */
 
+      show_list(l);
+      show_list_text(t);
       e = l->head;
       while (e)
 	{
-	  if (e->show == 1)
+	  if (e->is_show == 1)
 	    {
 	      SDL_BlitSurface(e->perso, NULL, w->screen, &e->pos);
 	      SDL_Flip(w->screen);
 	    }
 	  e = e->next;
-	}
-
+	  }
+      
       if (t->size >= 1)
 	{
 	  t_elem_text *e_text;
@@ -557,6 +567,19 @@ void	events(t_window *w, t_music *m, t_list *l, t_text *t)
     }
 }
 
+void	init_zeroes(t_list *l)
+{
+  t_elem *e;
+
+  e = l->head;
+  while (e)
+    {
+      printf("\n>>>>> %s\n", e->name);
+      e->is_show = 0;
+      e = e->next;
+    }
+}
+
 int	main(int ac __attribute__((unused)), char **av __attribute__((unused)))
 {
   t_list l;
@@ -581,13 +604,8 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)))
   init_list(&l);
   printf("parsing caracter list... ");
   pars_list(&l);
-  t_elem *e;
-  e = l.head;
-  while (e)
-    {
-      e->show = 0;
-      e = e->next;
-    }
+  show_list(&l);
+  init_zeroes(&l);
   printf("done\n");
   init_list_text(&t);
   if ((write(1, "showing window...", 17)) == -1)
