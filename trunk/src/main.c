@@ -5,7 +5,7 @@
 ** Login   <marcha_r@epitech.net>
 ** 
 ** Started on  Wed Jun  6 01:53:48 2012 
-** Last update Sun Jun 17 07:47:02 2012 
+** Last update Sun Jun 17 07:48:12 2012 
 */
 
 #include <sys/types.h>
@@ -561,7 +561,7 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)))
 
   w.screen = NULL;
   w.background = NULL;
-  printf("%sWELCOME TO %sDUCK-ENGINE%s%s ALPHA 0.0.9%s\n", "\033[04;29m", "\033[01;32m", "\033[00m", "\033[04;29m", "\033[00m");
+  printf("%sWELCOME TO %sDUCK-ENGINE%s%s ALPHA 0.1%s\n", "\033[04;29m", "\033[01;32m", "\033[00m", "\033[04;29m", "\033[00m");
   printf("initialiazing SDL... ");
   if (SDL_Init(SDL_INIT_AUDIO | SDL_INIT_VIDEO | SDL_INIT_EVENTTHREAD) == -1)
     show_error(0);
