@@ -17,3 +17,5 @@ comp: $(OBJ)
 fclean:
 	rm -rf $(OBJ)
 	rm -rf $(NAME)
+
+re: fclean all
