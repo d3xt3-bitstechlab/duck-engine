@@ -5,7 +5,7 @@
 ** Login   <marcha_r@epitech.net>
 ** 
 ** Started on  Wed Jun  6 01:53:48 2012 
-** Last update Sun Jun 17 07:48:12 2012 
+** Last update Sun Jun 17 17:31:00 2012 
 */
 
 #include <sys/types.h>
@@ -23,10 +23,6 @@
 #include "header.h"
 
 void	events2(t_window *w, t_music *m, t_list *l, t_text *t);
-
-int sizeFont;
-char *font_used;
-int DUCK_TitleMusic = 0;
 
 void    show_error(int error)
 {
@@ -48,7 +44,7 @@ void    show_error(int error)
   exit(0);
 }
 
-char    *limit_char(char *str, int i, int limit)
+/*char    *limit_char(char *str, int i, int limit)
 {
   int   j;
   int   k;
@@ -67,7 +63,7 @@ char    *limit_char(char *str, int i, int limit)
       ++k;
     }
   return (result);
-}
+  }*/
 
 void    music(char *path, t_music *m)
 {
