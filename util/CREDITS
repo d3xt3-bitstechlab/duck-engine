@@ -1,4 +1,5 @@
-## DUCK-ENGINE ALPHA 0.0.9
+## DUCK-ENGINE ALPHA 0.1
+## 17/06/2012 release
 
 Duck-Engine is a free and open-source visual novel creator.
 It was made entirely for the purpose of creating fun, fast and optimized novels.
@@ -12,6 +13,6 @@ Everything was made by Théo Marchal <theomarchal.com>, except:
 - get_next_line function, made by Romain Bruder ;
 - the Duck-Engine logo <turbomilk.com> ;
 - the awesome musics, made for the visual novel Narcissu <stage-nana.sakura.ne.jp> ;
-- the title image is from Flickr <flickr.com/photos/wackybadger/4347389615/in/photostream/> ;
+- the title image is from Flickr <flickr.com/photos/wackybadger/4347389615/> ;
 - and the scene image too <flickr.com/photos/33852840@N06/5851521709/> ;
 - the font used is Designosaur <dafont.com/designosaur.font>.
