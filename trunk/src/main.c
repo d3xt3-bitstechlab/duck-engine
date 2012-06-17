@@ -5,7 +5,7 @@
 ** Login   <marcha_r@epitech.net>
 ** 
 ** Started on  Wed Jun  6 01:53:48 2012 
-** Last update Sun Jun 17 02:28:22 2012 
+** Last update Sun Jun 17 02:37:42 2012 
 */
 
 #include <sys/types.h>
@@ -22,7 +22,7 @@
 #include "text.h"
 #include "header.h"
 
-void	events2(t_window *w, t_music *m, t_list *l);
+void	events2(t_window *w, t_music *m, t_list *l, t_text *t);
 
 int sizeFont;
 char *font_used;
@@ -342,7 +342,7 @@ void	text_module(char *text, t_window *w, TTF_Font *font, SDL_Rect posText)
     }
 }
 
-void	pars_scene(t_window *w, t_music *m, t_list *l)
+void	pars_scene(t_window *w, t_music *m, t_list *l, t_text *t)
 {
   int	i;
   int	j;
@@ -442,6 +442,7 @@ void	pars_scene(t_window *w, t_music *m, t_list *l)
 	  for (j = 0, i = 1 ; s[i] != '/' && s[i + 1] != '>';)
 	    text[j++] = s[i++];
 	  
+	  ins_end_list_text(t, text);
 	  text_module(text, w, font, posText);
 
 	  /*texte = TTF_RenderText_Blended(font, text, white_color);
@@ -449,11 +450,12 @@ void	pars_scene(t_window *w, t_music *m, t_list *l)
 	  SDL_Flip(w->screen);*/
 	}
       if (!strncmp(s, ">>w", 3))
-	events2(w, m, l);
+	events2(w, m, l, t);
+      /* bliter background, ecran, et dernier texte ! */
     }
 }
 
-void	events2(t_window *w, t_music *m, t_list *l)
+void	events2(t_window *w, t_music *m, t_list *l, t_text *t)
 {
   SDL_Event event;
   int	continuer;
@@ -471,7 +473,7 @@ void	events2(t_window *w, t_music *m, t_list *l)
 	  switch (event.key.keysym.sym)
             {
 	    case SDLK_RETURN:
-	      pars_scene(w, m, l);
+	      pars_scene(w, m, l, t);
 	      break;
 	    case SDLK_ESCAPE:
 	      clean_exit(w, m, l);
@@ -486,7 +488,7 @@ void	events2(t_window *w, t_music *m, t_list *l)
     }
 }
 
-void	events(t_window *w, t_music *m, t_list *l)
+void	events(t_window *w, t_music *m, t_list *l, t_text *t)
 {
   SDL_Event event;
   int	continuer;
@@ -507,7 +509,7 @@ void	events(t_window *w, t_music *m, t_list *l)
 	      continuer = 0;
 	      break;
 	    case SDLK_RETURN:
-	      pars_scene(w, m, l);
+	      pars_scene(w, m, l, t);
 	      break;
 	    default:
 	      break;
@@ -547,7 +549,7 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)))
   init_list_text(&t);
   if ((write(1, "showing window...", 17)) == -1)
     show_error(6);
-  events(&w, &m, &l);
+  events(&w, &m, &l, &t);
   clean_exit(&w, &m, &l);
   return (0);
 }
