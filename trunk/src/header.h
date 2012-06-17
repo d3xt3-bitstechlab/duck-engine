@@ -5,7 +5,7 @@
 ** Login   <marcha_r@epitech.net>
 ** 
 ** Started on  Wed Jun 13 16:38:31 2012 
-** Last update Wed Jun 13 17:02:37 2012 
+** Last update Sun Jun 17 17:31:20 2012 
 */
 
 #ifndef __DUCK_ENGINE__
@@ -29,7 +29,10 @@ int	DUCK_line = 0;
 char    *sizeX;
 char    *sizeY;
 int	DUCK_isPlaying = 0;
+int	sizeFont;
+char	*font_used;
+int	DUCK_TitleMusic = 0;
 
-void	show_error(int error);
+char    *limit_char(char *str, int i, int limit);
 
 #endif
