@@ -5,7 +5,7 @@
 ** Login   <marcha_r@epitech.net>
 ** 
 ** Started on  Wed Jun  6 01:53:48 2012 
-** Last update Sun Jun 17 05:12:36 2012 
+** Last update Sun Jun 17 05:43:54 2012 
 */
 
 #include <sys/types.h>
@@ -356,6 +356,8 @@ void	pars_scene(t_window *w, t_music *m, t_list *l, t_text *t)
   char	*text;
   char	*posPersoX;
   char	*posPersoY;
+  t_elem_text *e_text;
+  char *text_save;
   SDL_Surface *text_support;
 
   TTF_Font *font = NULL;
@@ -368,13 +370,6 @@ void	pars_scene(t_window *w, t_music *m, t_list *l, t_text *t)
 
   text_support = SDL_CreateRGBSurface(SDL_HWSURFACE, atoi(sizeX), atoi(sizeY),
 				      32, 0, 0, 0, 0);
-
-  e = l->head;
-  while (e)
-    {
-      printf("HELLO %d\n", e->is_show);
-      e = e->next;
-    }
 
   if (DUCK_isPlaying == 1)
     music_close(m);
@@ -404,8 +399,6 @@ void	pars_scene(t_window *w, t_music *m, t_list *l, t_text *t)
 	      for (j = 0, i = 14 ; s[i] != '"';)
 		back[j++] = s[i++];
 	      w->background = IMG_Load(back);
-	      /*SDL_BlitSurface(w->background, NULL, w->screen, &w->posBack);
-		SDL_Flip(w->screen);*/
 	    }
 	  else
 	    show_error(4);
@@ -437,46 +430,26 @@ void	pars_scene(t_window *w, t_music *m, t_list *l, t_text *t)
 		  e->pos.x = atoi(posPersoX);
 		  e->pos.y = atoi(posPersoY);
 		  e->is_show = 1;
-
-		  /*SDL_BlitSurface(e->perso, NULL, w->screen, &e->pos);
-		    SDL_Flip(w->screen);*/
 		}
 	      e = e->next;
 	    }
 	}
       if (!strncmp(s, "<", 1))
 	{
-	  /*SDL_SetAlpha(text_support, SDL_SRCALPHA, 100);
-	  SDL_BlitSurface(text_support, NULL, w->screen, &w->posBack);
-	  SDL_Flip(w->screen);*/
 	  text = xmalloc(4096);
 	  memset(text, 0, 4096);
-
 	  for (j = 0, i = 1 ; s[i] != '/' && s[i + 1] != '>';)
 	    text[j++] = s[i++];
-	  
 	  ins_end_list_text(t, text);
-	  /*text_module(text, w, font, posText);*/
-
-	  /*texte = TTF_RenderText_Blended(font, text, white_color);
-	  SDL_BlitSurface(texte, NULL, w->screen, &posText);
-	  SDL_Flip(w->screen);*/
 	}
       if (!strncmp(s, ">end", 4))
 	clean_exit(w, m, l);
       if (!strncmp(s, ">>w", 3))
 	events2(w, m, l, t);
 
-      /* bliter background, ecran, et dernier texte ! */
       SDL_BlitSurface(w->background, NULL, w->screen, &w->posBack);
-      /* SDL_Flip(w->screen); */
-
       SDL_SetAlpha(text_support, SDL_SRCALPHA, 100);
       SDL_BlitSurface(text_support, NULL, w->screen, &w->posBack);
-      /* SDL_Flip(w->screen); */
-
-      show_list(l);
-      show_list_text(t);
       e = l->head;
       while (e)
 	{
@@ -486,12 +459,9 @@ void	pars_scene(t_window *w, t_music *m, t_list *l, t_text *t)
 	      SDL_Flip(w->screen);
 	    }
 	  e = e->next;
-	  }
-      
+	}
       if (t->size >= 1)
 	{
-	  t_elem_text *e_text;
-	  char *text_save;
 	  text_save = xmalloc(4096);
 	  memset(text_save, 0, 4096);
 	  e_text = t->tail;
@@ -574,7 +544,6 @@ void	init_zeroes(t_list *l)
   e = l->head;
   while (e)
     {
-      printf("\n>>>>> %s\n", e->name);
       e->is_show = 0;
       e = e->next;
     }
@@ -589,7 +558,7 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)))
 
   w.screen = NULL;
   w.background = NULL;
-  printf("%sWELCOME TO %sDUCK-ENGINE%s%s ALPHA 0.0.7%s\n", "\033[04;29m", "\033[01;32m", "\033[00m", "\033[04;29m", "\033[00m");
+  printf("%sWELCOME TO %sDUCK-ENGINE%s%s ALPHA 0.0.9%s\n", "\033[04;29m", "\033[01;32m", "\033[00m", "\033[04;29m", "\033[00m");
   printf("initialiazing SDL... ");
   if (SDL_Init(SDL_INIT_AUDIO | SDL_INIT_VIDEO | SDL_INIT_EVENTTHREAD) == -1)
     show_error(0);
@@ -604,7 +573,6 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)))
   init_list(&l);
   printf("parsing caracter list... ");
   pars_list(&l);
-  show_list(&l);
   init_zeroes(&l);
   printf("done\n");
   init_list_text(&t);
