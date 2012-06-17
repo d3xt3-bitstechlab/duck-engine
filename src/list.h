@@ -5,7 +5,7 @@
 ** Login   <marcha_r@epitech.net>
 ** 
 ** Started on  Tue May  1 16:37:22 2012 
-** Last update Sun Jun 17 02:17:06 2012 
+** Last update Sun Jun 17 03:06:46 2012 
 */
 
 #ifndef __DUCK_ENGINE_LIST__
@@ -24,6 +24,7 @@ typedef struct s_elem
   char		*img;
   SDL_Surface	*perso;
   SDL_Rect	pos;
+  int		show;
   struct s_elem *next;
   struct s_elem *prev;
 } t_elem;
