@@ -5,7 +5,7 @@
 ** Login   <marcha_r@epitech.net>
 ** 
 ** Started on  Wed Jun  6 01:53:48 2012 
-** Last update Sun Jun 17 18:02:13 2012 
+** Last update Sun Jun 17 18:10:50 2012 
 */
 
 #include <sys/types.h>
@@ -50,12 +50,12 @@ void    music(char *path, t_music *m)
     show_error(3);
   FMOD_Sound_SetLoopCount(m->music, -1);
   FMOD_System_PlaySound(m->system, FMOD_CHANNEL_FREE, m->music, 0, NULL);
-  DUCK_isPlaying = 1;
+  m->DUCK_isPlaying = 1;
 }
 
 void    music_close(t_music *m)
 {
-  DUCK_isPlaying = 0;
+  m->DUCK_isPlaying = 0;
   FMOD_Sound_Release(m->music);
   FMOD_System_Close(m->system);
   FMOD_System_Release(m->system);
@@ -76,7 +76,7 @@ void	clean_exit(t_window *w, t_music *m, t_list *l)
     }
   SDL_FreeSurface(w->screen);
   SDL_FreeSurface(w->background);
-  if (DUCK_isPlaying == 1)
+  if (m->DUCK_isPlaying == 1)
     music_close(m);
   free(sizeX);
   free(sizeY);
@@ -245,7 +245,7 @@ void	init_window(t_window *w, t_music *m, t_font *f)
 	      for (j = 0, i = 15 ; s[i] != '"';)
 		mus[j++] = s[i++];
 	      music(mus, m);
-	      DUCK_TitleMusic = 1;
+	      m->DUCK_TitleMusic = 1;
 	    }
 	}
       if (!strncmp(s, "FONT_SIZE = \"", 13))
@@ -333,10 +333,10 @@ void	pars_scene(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f)
   t_elem_text *e_text;
   char *text_save;
 
-  if (DUCK_isPlaying == 1 && DUCK_TitleMusic == 1)
+  if (m->DUCK_isPlaying == 1 && m->DUCK_TitleMusic == 1)
     {
       music_close(m);
-      DUCK_TitleMusic = 0;
+      m->DUCK_TitleMusic = 0;
     }
   back = xmalloc(512);
   memset(back, 0, 512);
@@ -522,6 +522,8 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)))
 
   w.screen = NULL;
   w.background = NULL;
+  m.DUCK_isPlaying = 0;
+  m.DUCK_TitleMusic = 0;
   printf("%sWELCOME TO %sDUCK-ENGINE%s%s ALPHA 0.1%s\n", "\033[04;29m", "\033[01;32m", "\033[00m", "\033[04;29m", "\033[00m");
   printf("initialiazing SDL... ");
   if (SDL_Init(SDL_INIT_AUDIO | SDL_INIT_VIDEO | SDL_INIT_EVENTTHREAD) == -1)

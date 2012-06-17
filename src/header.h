@@ -5,7 +5,7 @@
 ** Login   <marcha_r@epitech.net>
 ** 
 ** Started on  Wed Jun 13 16:38:31 2012 
-** Last update Sun Jun 17 18:06:12 2012 
+** Last update Sun Jun 17 18:09:23 2012 
 */
 
 #ifndef __DUCK_ENGINE__
@@ -28,6 +28,8 @@ typedef struct s_music
   FMOD_SYSTEM   *system;
   FMOD_SOUND    *music;
   FMOD_RESULT   result;
+  int	DUCK_isPlaying;
+  int	DUCK_TitleMusic;
 } t_music;
 
 typedef struct s_font
@@ -42,8 +44,6 @@ typedef struct s_font
 int	DUCK_line = 0;
 char    *sizeX;
 char    *sizeY;
-int	DUCK_isPlaying = 0;
-int	DUCK_TitleMusic = 0;
 
 char    *limit_char(char *str, int i, int limit);
 
