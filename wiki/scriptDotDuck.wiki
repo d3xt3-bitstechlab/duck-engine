@@ -1,4 +1,4 @@
-= scrip.duck syntax =
+= script.duck syntax =
 
 == Introduction ==
 
@@ -30,9 +30,15 @@ WINDOW_ICON = ""
 }}}
 
 
-The font size.
+The font that will be used by your visual novel.
 {{{
-FONT_SIZE = "35"
+FONT = "/fonts/your_font.ttf"
+}}}
+
+
+The size of your font. Because yes, it is important...
+{{{
+FONT_SIZE = "42"
 }}}
 
 
