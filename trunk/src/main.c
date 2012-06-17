@@ -5,7 +5,7 @@
 ** Login   <marcha_r@epitech.net>
 ** 
 ** Started on  Wed Jun  6 01:53:48 2012 
-** Last update Sun Jun 17 02:37:42 2012 
+** Last update Sun Jun 17 03:09:14 2012 
 */
 
 #include <sys/types.h>
@@ -366,6 +366,9 @@ void	pars_scene(t_window *w, t_music *m, t_list *l, t_text *t)
   if ((font = TTF_OpenFont(/*"fonts/designosaur-regular.ttf"*/font_used, sizeFont)) == NULL)
     show_error(4);
 
+  text_support = SDL_CreateRGBSurface(SDL_HWSURFACE, atoi(sizeX), atoi(sizeY),
+				      32, 0, 0, 0, 0);
+
   if (DUCK_isPlaying == 1)
     music_close(m);
   back = xmalloc(512);
@@ -394,8 +397,8 @@ void	pars_scene(t_window *w, t_music *m, t_list *l, t_text *t)
 	      for (j = 0, i = 14 ; s[i] != '"';)
 		back[j++] = s[i++];
 	      w->background = IMG_Load(back);
-	      SDL_BlitSurface(w->background, NULL, w->screen, &w->posBack);
-	      SDL_Flip(w->screen);
+	      /*SDL_BlitSurface(w->background, NULL, w->screen, &w->posBack);
+		SDL_Flip(w->screen);*/
 	    }
 	  else
 	    show_error(4);
@@ -426,19 +429,18 @@ void	pars_scene(t_window *w, t_music *m, t_list *l, t_text *t)
 		{
 		  e->pos.x = atoi(posPersoX);
 		  e->pos.y = atoi(posPersoY);
-		  SDL_BlitSurface(e->perso, NULL, w->screen, &e->pos);
-		  SDL_Flip(w->screen);
+		  e->show = 1;
+		  /*SDL_BlitSurface(e->perso, NULL, w->screen, &e->pos);
+		    SDL_Flip(w->screen);*/
 		}
 	      e = e->next;
 	    }
 	}
       if (!strncmp(s, "<", 1))
 	{
-	  text_support = SDL_CreateRGBSurface(SDL_HWSURFACE, atoi(sizeX), atoi(sizeY),
-					      32, 0, 0, 0, 0);
-	  SDL_SetAlpha(text_support, SDL_SRCALPHA, 100);
+	  /*SDL_SetAlpha(text_support, SDL_SRCALPHA, 100);
 	  SDL_BlitSurface(text_support, NULL, w->screen, &w->posBack);
-	  SDL_Flip(w->screen);
+	  SDL_Flip(w->screen);*/
 	  for (j = 0, i = 1 ; s[i] != '/' && s[i + 1] != '>';)
 	    text[j++] = s[i++];
 	  
@@ -451,7 +453,36 @@ void	pars_scene(t_window *w, t_music *m, t_list *l, t_text *t)
 	}
       if (!strncmp(s, ">>w", 3))
 	events2(w, m, l, t);
+
       /* bliter background, ecran, et dernier texte ! */
+      SDL_BlitSurface(w->background, NULL, w->screen, &w->posBack);
+      /* SDL_Flip(w->screen); */
+
+      SDL_SetAlpha(text_support, SDL_SRCALPHA, 100);
+      SDL_BlitSurface(text_support, NULL, w->screen, &w->posBack);
+      /* SDL_Flip(w->screen); */
+
+      e = l->head;
+      while (e)
+	{
+	  if (e->show == 1)
+	    {
+	      SDL_BlitSurface(e->perso, NULL, w->screen, &e->pos);
+	      SDL_Flip(w->screen);
+	    }
+	  e = e->next;
+	}
+
+      if (t->size >= 1)
+	{
+	  t_elem_text *e_text;
+	  char *text_save;
+	  text_save = xmalloc(4096);
+	  memset(text_save, 0, 4096);
+	  e_text = t->tail;
+	  text_save = strdup(e_text->data);
+	  text_module(text_save, w, font, posText);
+	}
     }
 }
 
