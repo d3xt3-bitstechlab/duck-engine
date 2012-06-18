@@ -5,7 +5,7 @@
 ** Login   <marcha_r@epitech.net>
 ** 
 ** Started on  Wed Jun  6 01:53:48 2012 
-** Last update Mon Jun 18 10:51:16 2012 
+** Last update Mon Jun 18 11:18:48 2012 
 */
 
 #include <sys/types.h>
@@ -29,6 +29,7 @@ void	pars_scene(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f)
   char	*mus;
   char	*perso;
   char	*show;
+  char	*unshow;
   char	*text;
   char	*posPersoX;
   char	*posPersoY;
@@ -95,6 +96,22 @@ void	pars_scene(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f)
 		  e->pos.x = atoi(posPersoX);
 		  e->pos.y = atoi(posPersoY);
 		  e->is_show = 1;
+		}
+	      e = e->next;
+	    }
+	}
+      if (!strncmp(s, "unshow ", 7))
+	{
+	  unshow = xmalloc(512);
+	  memset(unshow, 0, 512);
+	  e = l->head;
+	  for (j = 0, i = 7 ; s[i] ;)
+	    unshow[j++] = s[i++];
+	  while (e)
+	    {
+	      if (!strcmp(unshow, e->name))
+		{
+		  e->is_show = 0;
 		}
 	      e = e->next;
 	    }
