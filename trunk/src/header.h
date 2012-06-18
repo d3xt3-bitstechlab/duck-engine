@@ -5,7 +5,7 @@
 ** Login   <marcha_r@epitech.net>
 ** 
 ** Started on  Wed Jun 13 16:38:31 2012 
-** Last update Mon Jun 18 10:43:18 2012 
+** Last update Mon Jun 18 10:49:07 2012 
 */
 
 #ifndef __DUCK_ENGINE__
@@ -54,6 +54,8 @@ void	music_close(t_music *m);
 void	music(char *path, t_music *m);
 char	*limit_char(char *str, int i, int limit);
 void	clean_exit(t_window *w, t_music *m, t_list *l);
+void    text_module(char *text, t_window *w, t_font *f);
+void	init_window(t_window *w, t_music *m, t_font *f);
 SDL_Surface *init_window_size(SDL_Surface *screen, char *s, t_window *w);
 
 #endif

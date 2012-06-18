@@ -16,6 +16,8 @@ SRC	=	src/main.c		\
 		src/characters.c	\
 		src/init_zero.c		\
 		src/init_window_size.c	\
+		src/init_window.c	\
+		src/text_module.c	\
 
 all:	comp
 
