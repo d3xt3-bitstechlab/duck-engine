@@ -5,7 +5,7 @@
 ** Login   <marcha_r@epitech.net>
 ** 
 ** Started on  Wed Jun  6 01:53:48 2012 
-** Last update Mon Jun 18 10:48:38 2012 
+** Last update Mon Jun 18 10:51:16 2012 
 */
 
 #include <sys/types.h>
@@ -17,8 +17,6 @@
 #include "list.h"
 #include "text.h"
 #include "header.h"
-
-void	events2(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f);
 
 void	pars_scene(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f)
 {
@@ -134,72 +132,6 @@ void	pars_scene(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f)
 	  e_text = t->tail;
 	  text_save = strdup(e_text->data);
 	  text_module(text_save, w, f);
-	}
-    }
-}
-
-void	events2(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f)
-{
-  SDL_Event event;
-  int	continuer;
-
-  continuer = 1;
-  while (continuer)
-    {
-      SDL_WaitEvent(&event);
-      switch(event.type)
-	{
-        case SDL_QUIT:
-	  clean_exit(w, m, l);
-	  break;
-        case SDL_KEYDOWN:
-	  switch (event.key.keysym.sym)
-            {
-	    case SDLK_RETURN:
-	      pars_scene(w, m, l, t, f);
-	      break;
-	    case SDLK_ESCAPE:
-	      clean_exit(w, m, l);
-	      break;
-	    default:
-	      break;
-            }
-	  break;
-	default:
-	  break;
-	}
-    }
-}
-
-void	events(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f)
-{
-  SDL_Event event;
-  int	continuer;
-
-  continuer = 1;
-  while (continuer)
-    {
-      SDL_WaitEvent(&event);
-      switch(event.type)
-	{
-        case SDL_QUIT:
-	  continuer = 0;
-	  break;
-        case SDL_KEYDOWN:
-	  switch (event.key.keysym.sym)
-            {
-	    case SDLK_ESCAPE:
-	      continuer = 0;
-	      break;
-	    case SDLK_RETURN:
-	      pars_scene(w, m, l, t, f);
-	      break;
-	    default:
-	      break;
-            }
-	  break;
-	default:
-	  break;
 	}
     }
 }

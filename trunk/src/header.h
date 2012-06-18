@@ -5,7 +5,7 @@
 ** Login   <marcha_r@epitech.net>
 ** 
 ** Started on  Wed Jun 13 16:38:31 2012 
-** Last update Mon Jun 18 10:49:07 2012 
+** Last update Mon Jun 18 10:52:35 2012 
 */
 
 #ifndef __DUCK_ENGINE__
@@ -16,6 +16,7 @@
 #include "SDL/SDL_ttf.h"
 #include "fmodex/fmod.h"
 #include "list.h"
+#include "text.h"
 
 typedef struct s_window
 {
@@ -57,5 +58,8 @@ void	clean_exit(t_window *w, t_music *m, t_list *l);
 void    text_module(char *text, t_window *w, t_font *f);
 void	init_window(t_window *w, t_music *m, t_font *f);
 SDL_Surface *init_window_size(SDL_Surface *screen, char *s, t_window *w);
+void    events(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f);
+void    events2(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f);
+void    pars_scene(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f);
 
 #endif

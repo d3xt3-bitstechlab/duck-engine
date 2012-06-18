@@ -18,6 +18,7 @@ SRC	=	src/main.c		\
 		src/init_window_size.c	\
 		src/init_window.c	\
 		src/text_module.c	\
+		src/events.c		\
 
 all:	comp
 
