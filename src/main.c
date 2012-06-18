@@ -19,6 +19,22 @@ typedef struct s_scene
   
 } t_scene;
 
+void	scene_text(char *s, t_text *t)
+{
+  int	i, j;
+  char	*text;
+
+  text = xmalloc(4096);
+  memset(text, 0, 4096);
+  if (!strncmp(s, "<", 1))
+    {
+      for (j = 0, i = 1 ; s[i] != '/' && s[i + 1] != '>';)
+	text[j++] = s[i++];
+      ins_end_list_text(t, text);
+    }
+  free(text);
+}
+
 void	pars_scene(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f)
 {
   int	i;
@@ -31,7 +47,6 @@ void	pars_scene(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f)
   char	*perso;
   char	*show;
   char	*unshow;
-  char	*text;
   char	*posPersoX;
   char	*posPersoY;
   char *text_save;
@@ -54,8 +69,6 @@ void	pars_scene(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f)
   memset(back, 0, 512);
   perso = xmalloc(512);
   memset(perso, 0, 512);
-  text = xmalloc(4096);
-  memset(text, 0, 4096);
   posPersoX = xmalloc(512);
   memset(posPersoX, 0, 512);
   posPersoY = xmalloc(512);
@@ -71,6 +84,7 @@ void	pars_scene(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f)
   while ((s = get_next_line(fd)))
     {
       DUCK_line++;
+      scene_text(s, t);
       if (!strncmp(s, "background = \"", 14))
 	{
 	  for (j = 0, i = 14 ; s[i] != '"';)
@@ -130,14 +144,6 @@ void	pars_scene(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f)
 		}
 	      e = e->next;
 	    }
-	}
-      if (!strncmp(s, "<", 1))
-	{
-	  text = xmalloc(4096);
-	  memset(text, 0, 4096);
-	  for (j = 0, i = 1 ; s[i] != '/' && s[i + 1] != '>';)
-	    text[j++] = s[i++];
-	  ins_end_list_text(t, text);
 	}
       if (!strncmp(s, "image \"", 7))
 	{
