@@ -10,6 +10,12 @@ SRC	=	src/main.c		\
 		src/text.c		\
 		src/limit_char.c	\
 		src/show_error.c	\
+		src/music.c		\
+		src/clean_exit.c	\
+		src/open_fd.c		\
+		src/characters.c	\
+		src/init_zero.c		\
+		src/init_window_size.c	\
 
 all:	comp
 
