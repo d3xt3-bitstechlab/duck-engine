@@ -5,7 +5,7 @@
 ** Login   <marcha_r@epitech.net>
 ** 
 ** Started on  Wed Jun 13 16:38:31 2012 
-** Last update Mon Jun 18 10:52:35 2012 
+** Last update Mon Jun 18 14:42:47 2012 
 */
 
 #ifndef __DUCK_ENGINE__
@@ -51,6 +51,7 @@ int	open_fd(char *str);
 void	pars_list(t_list *l);
 void	show_error(int error);
 void	init_zeroes(t_list *l);
+void	music_pause(t_music *m);
 void	music_close(t_music *m);
 void	music(char *path, t_music *m);
 char	*limit_char(char *str, int i, int limit);

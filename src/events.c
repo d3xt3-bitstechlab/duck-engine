@@ -5,7 +5,7 @@
 ** Login   <marcha_r@epitech.net>
 ** 
 ** Started on  Mon Jun 18 10:50:02 2012 
-** Last update Mon Jun 18 11:44:18 2012 
+** Last update Mon Jun 18 14:44:03 2012 
 */
 
 #include "header.h"
@@ -37,6 +37,9 @@ void	events2(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f)
 	      break;
 	    case SDLK_SPACE:
 	      pars_scene(w, m, l, t, f);
+	      break;
+	    case SDLK_m:
+	      music_pause(m);
 	      break;
 	    case SDLK_ESCAPE:
 	      clean_exit(w, m, l);

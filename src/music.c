@@ -5,7 +5,7 @@
 ** Login   <marcha_r@epitech.net>
 ** 
 ** Started on  Sun Jun 17 17:33:36 2012 
-** Last update Mon Jun 18 11:28:34 2012 
+** Last update Mon Jun 18 14:43:03 2012 
 */
 
 #include "header.h"
@@ -24,9 +24,20 @@ void    music(char *path, t_music *m)
   m->DUCK_isPlaying = 1;
 }
 
-void	music_pause(t_music *m)
+void    music_pause(t_music *m)
 {
+  FMOD_CHANNELGROUP *channel;
+  FMOD_BOOL state;
 
+  if (m->DUCK_isPlaying == 1)
+    {
+      FMOD_System_GetMasterChannelGroup(m->system, &channel);
+      FMOD_ChannelGroup_GetPaused(channel, &state);
+      if (state)
+        FMOD_ChannelGroup_SetPaused(channel, 0);
+      else
+        FMOD_ChannelGroup_SetPaused(channel, 1);
+    }
 }
 
 void    music_close(t_music *m)
