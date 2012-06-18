@@ -5,7 +5,7 @@
 ** Login   <marcha_r@epitech.net>
 ** 
 ** Started on  Wed Jun 13 16:38:31 2012 
-** Last update Sun Jun 17 18:30:43 2012 
+** Last update Mon Jun 18 10:31:09 2012 
 */
 
 #ifndef __DUCK_ENGINE__
@@ -45,10 +45,11 @@ typedef struct s_font
 
 int	DUCK_line/* = 0*/;
 
-char    *limit_char(char *str, int i, int limit);
-
 void	show_error(int error);
-void    music(char *path, t_music *m);
-void    music_close(t_music *m);
+void	music_close(t_music *m);
+void	music(char *path, t_music *m);
+char	*limit_char(char *str, int i, int limit);
+int     open_fd(char *str);
+/* void	clean_exit(t_window *w, t_music *m, t_list *l); */
 
 #endif
