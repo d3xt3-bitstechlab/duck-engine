@@ -5,7 +5,7 @@
 ** Login   <marcha_r@epitech.net>
 ** 
 ** Started on  Wed Jun  6 01:53:48 2012 
-** Last update Mon Jun 18 10:31:21 2012 
+** Last update Mon Jun 18 10:37:55 2012 
 */
 
 #include <sys/types.h>
@@ -20,33 +20,6 @@
 
 void	events2(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f);
 void	pars_list(t_list *l);
-
-void	clean_exit(t_window *w, t_music *m, t_list *l)
-{
-  t_elem	*e;
-
-  printf(" done\ncleaning...");
-  e = l->head;
-  while (e)
-    {
-      free(e->name);
-      free(e->img);
-      SDL_FreeSurface(e->perso);
-      e = e->next;
-    }
-  SDL_FreeSurface(w->screen);
-  SDL_FreeSurface(w->background);
-  if (m->DUCK_isPlaying == 1)
-    music_close(m);
-  free(w->sizeX);
-  free(w->sizeY);
-  printf(" done\n");
-  printf("exiting...");
-  TTF_Quit();
-  SDL_Quit();
-  printf(" done\n");
-  exit(0);
-}
 
 SDL_Surface	*init_window_size(SDL_Surface *screen, char *s, t_window *w)
 {
@@ -400,18 +373,6 @@ void	events(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f)
 	default:
 	  break;
 	}
-    }
-}
-
-void	init_zeroes(t_list *l)
-{
-  t_elem *e;
-
-  e = l->head;
-  while (e)
-    {
-      e->is_show = 0;
-      e = e->next;
     }
 }
 
