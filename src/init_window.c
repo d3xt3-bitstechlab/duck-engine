@@ -5,7 +5,7 @@
 ** Login   <marcha_r@epitech.net>
 ** 
 ** Started on  Mon Jun 18 10:44:44 2012 
-** Last update Mon Jun 18 15:39:22 2012 
+** Last update Mon Jun 18 18:52:42 2012 
 */
 
 #include "header.h"
@@ -56,11 +56,8 @@ void	init_window(t_window *w, t_music *m, t_font *f)
 	}
       if (!strncmp(s, "WINDOW_ICON = \"", 15))
 	{
-	  if (s[15] != '"')
-	    for (j = 0, i = 15 ; s[i] != '"';)
-	      icon[j++] = s[i++];
-	  else
-	    icon = strdup(".duck-graph/icon.png");
+	  for (j = 0, i = 15 ; s[i] != '"';)
+	    icon[j++] = s[i++];
 	}
       if (!strncmp(s, "BACKGROUND_TITLE = \"", 20))
 	{
@@ -76,13 +73,10 @@ void	init_window(t_window *w, t_music *m, t_font *f)
 	}
       if (!strncmp(s, "MUSIC_TITLE = \"", 15))
 	{
-	  if (s[15] != '"')
-	    {
-	      for (j = 0, i = 15 ; s[i] != '"';)
-		mus[j++] = s[i++];
-	      music(mus, m);
-	      m->DUCK_TitleMusic = 1;
-	    }
+	  for (j = 0, i = 15 ; s[i] != '"';)
+	    mus[j++] = s[i++];
+	  music(mus, m);
+	  m->DUCK_TitleMusic = 1;
 	}
       if (!strncmp(s, "FONT_SIZE = \"", 13))
 	{
