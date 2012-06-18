@@ -5,7 +5,7 @@
 ** Login   <marcha_r@epitech.net>
 ** 
 ** Started on  Wed Jun  6 01:53:48 2012 
-** Last update Mon Jun 18 15:22:45 2012 
+** Last update Mon Jun 18 16:42:08 2012 
 */
 
 #include <sys/types.h>
@@ -41,6 +41,7 @@ void	pars_scene(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f)
   char	*posImageY;
   char	*image_name;
   int	image_show;
+  char	*sound_effect;
 
   if (m->DUCK_isPlaying == 1 && m->DUCK_TitleMusic == 1)
     {
@@ -64,6 +65,8 @@ void	pars_scene(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f)
   memset(posImageY, 0, 512);
   image_name = xmalloc(512);
   memset(image_name, 0, 512);
+  sound_effect = xmalloc(512);
+  memset(sound_effect, 0, 512);
   if ((fd = open_fd("script.duck")) == -1)
     show_error(2);
   while ((s = get_next_line(fd)))
@@ -80,15 +83,14 @@ void	pars_scene(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f)
 	  else
 	    show_error(4);
 	}
-      if (!strncmp(s, "music = \"", 9))
+      if (!strncmp(s, "SE \"", 4))
 	{
-	  mus = xmalloc(512);
-	  memset(mus, 0, 512);
-	  if (s[9] != '"')
+	  printf("coucou\n");
+	  if (s[4] != '"')
 	    {
-	      for (j = 0, i = 9 ; s[i] != '"';)
-		mus[j++] = s[i++];
-	      music(mus, m);
+	      for (j = 0, i = 4 ; s[i] != '"';)
+		sound_effect[j++] = s[i++];
+	      music(sound_effect, m);
 	    }
 	}
       if (!strncmp(s, "show ", 5))
@@ -153,35 +155,34 @@ void	pars_scene(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f)
 	clean_exit(w, m, l);
       if (!strncmp(s, ">>w", 3))
 	events2(w, m, l, t, f);
-
-      SDL_BlitSurface(w->background, NULL, w->screen, &w->posBack);
-      SDL_SetAlpha(f->text_support, SDL_SRCALPHA, 100);
-      SDL_BlitSurface(f->text_support, NULL, w->screen, &w->posBack);
-      e = l->head;
-      while (e)
+    }
+  SDL_BlitSurface(w->background, NULL, w->screen, &w->posBack);
+  SDL_SetAlpha(f->text_support, SDL_SRCALPHA, 100);
+  SDL_BlitSurface(f->text_support, NULL, w->screen, &w->posBack);
+  e = l->head;
+  while (e)
+    {
+      if (e->is_show == 1)
 	{
-	  if (e->is_show == 1)
-	    {
-	      SDL_BlitSurface(e->perso, NULL, w->screen, &e->pos);
-	      SDL_Flip(w->screen);
-	    }
-	  e = e->next;
-	}
-      if (t->size >= 1)
-	{
-	  text_save = xmalloc(4096);
-	  memset(text_save, 0, 4096);
-	  e_text = t->tail;
-	  text_save = strdup(e_text->data);
-	  text_module(text_save, w, f);
-	}
-      if (image_show == 1)
-	{
-	  image = IMG_Load(image_name);
-	  SDL_BlitSurface(image, NULL, w->screen, &posImage);
+	  SDL_BlitSurface(e->perso, NULL, w->screen, &e->pos);
 	  SDL_Flip(w->screen);
 	}
+      e = e->next;
     }
+  if (t->size >= 1)
+    {
+      text_save = xmalloc(4096);
+      memset(text_save, 0, 4096);
+      e_text = t->tail;
+      text_save = strdup(e_text->data);
+      text_module(text_save, w, f);
+    }
+  if (image_show == 1)
+    {
+      image = IMG_Load(image_name);
+      SDL_BlitSurface(image, NULL, w->screen, &posImage);
+      SDL_Flip(w->screen);
+    } 
 }
 
 int	main(int ac __attribute__((unused)), char **av __attribute__((unused)))
