@@ -4,13 +4,13 @@
 == duck-engine alpha 0.2 (being developed) ==
 
 added script.duck elements:
- * unshow function
- * image function
- * SE support
+ * _unshow_ function
+ * _image_ function
+ * _SE_ support
 
 added general platform elements:
  * code optimisations
- * mute music (with m) (does not apply to SE)
+ * mute music with m key (does not apply to SE)
  * progression with left click and space key
 
 == [http://duck-engine.googlecode.com/svn/tags/alpha01-2012-06-17.tar.gz duck-engine alpha 0.1] (released 17/06/2012) ==
