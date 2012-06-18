@@ -5,7 +5,7 @@
 ** Login   <marcha_r@epitech.net>
 ** 
 ** Started on  Wed Jun  6 01:53:48 2012 
-** Last update Sun Jun 17 18:31:03 2012 
+** Last update Mon Jun 18 10:31:21 2012 
 */
 
 #include <sys/types.h>
@@ -19,47 +19,7 @@
 #include "header.h"
 
 void	events2(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f);
-
-/*void    show_error(int error)
-{
-  printf("%s!!!FATAL ERROR!!!%s\nduck-engine:%d: ", "\033[01;31m", "\033[00m", DUCK_line);
-  if (error == 0)
-    printf("SDL error: %s\n", SDL_GetError());
-  if (error == 1)
-    printf("no background title image set.\n");
-  if (error == 2)
-    printf("no script.duck file found.\n");
-  if (error == 3)
-    printf("unable to load music file.\n");
-  if (error == 4)
-    printf("SDL_ttf error : %s\n", TTF_GetError());
-  if (error == 5)
-    printf("unable to load image.\n");
-  if (error == 6)
-    printf("write(); has failed.\n");
-  exit(0);
-  }*/
-
-void    music(char *path, t_music *m)
-{
-  FMOD_System_Create(&m->system);
-  FMOD_System_Init(m->system, 1, FMOD_INIT_NORMAL, NULL);
-  if ((m->result = FMOD_System_CreateSound(m->system, path, FMOD_SOFTWARE
-					   | FMOD_2D | FMOD_CREATESTREAM
-					   | FMOD_LOOP_NORMAL, 0, &m->music)) != FMOD_OK)
-    show_error(3);
-  FMOD_Sound_SetLoopCount(m->music, -1);
-  FMOD_System_PlaySound(m->system, FMOD_CHANNEL_FREE, m->music, 0, NULL);
-  m->DUCK_isPlaying = 1;
-}
-
-void    music_close(t_music *m)
-{
-  m->DUCK_isPlaying = 0;
-  FMOD_Sound_Release(m->music);
-  FMOD_System_Close(m->system);
-  FMOD_System_Release(m->system);
-}
+void	pars_list(t_list *l);
 
 void	clean_exit(t_window *w, t_music *m, t_list *l)
 {
@@ -86,63 +46,6 @@ void	clean_exit(t_window *w, t_music *m, t_list *l)
   SDL_Quit();
   printf(" done\n");
   exit(0);
-}
-
-int	open_fd(char *str)
-{
-  static int fd;
-
-  if (!fd)
-    if ((fd = open(str, O_RDONLY)) < 0)
-      return (-1);
-  return (fd);
-}
-
-void	pars_list2(t_list *l, char *s)
-{
-  int	i;
-  int	j;
-  char	*name;
-  char	*img;
-
-  if (!strncmp(s, ">>", 2))
-    {
-      name = xmalloc(512);
-      memset(name, 0, 512);
-      img = xmalloc(512);
-      memset(img, 0, 512);
-      for (j = 0, i = 2 ; s[i] ;)
-	{
-	  if (s[i] == ' ' && s[i + 1] == '=')
-	    break;
-	  name[j++] = s[i++];
-	}
-      for (i += 4, j = 0 ; s[i] ;)
-	{
-	  if (s[i] == '"')
-	    break;
-	  img[j++] = s[i++];
-	}
-      ins_end_list(l, name, img);
-      free(name);
-      free(img);
-    }
-}
-
-void	pars_list(t_list *l)
-{
-  int	fd;
-  char	*s;
-
-  if ((fd = open_fd("script.duck")) == -1)
-    show_error(2);
-  while ((s = get_next_line(fd)))
-    {
-      DUCK_line++;
-      if (!strncmp(s, ">scene", 6))
-	break;
-      pars_list2(l, s);
-   }
 }
 
 SDL_Surface	*init_window_size(SDL_Surface *screen, char *s, t_window *w)
