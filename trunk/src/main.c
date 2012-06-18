@@ -5,7 +5,7 @@
 ** Login   <marcha_r@epitech.net>
 ** 
 ** Started on  Wed Jun  6 01:53:48 2012 
-** Last update Mon Jun 18 11:18:48 2012 
+** Last update Mon Jun 18 15:22:45 2012 
 */
 
 #include <sys/types.h>
@@ -33,14 +33,21 @@ void	pars_scene(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f)
   char	*text;
   char	*posPersoX;
   char	*posPersoY;
-  t_elem_text *e_text;
   char *text_save;
+  t_elem_text *e_text;
+  SDL_Surface *image;
+  SDL_Rect posImage;
+  char	*posImageX;
+  char	*posImageY;
+  char	*image_name;
+  int	image_show;
 
   if (m->DUCK_isPlaying == 1 && m->DUCK_TitleMusic == 1)
     {
       music_close(m);
       m->DUCK_TitleMusic = 0;
     }
+  image_show = 0;
   back = xmalloc(512);
   memset(back, 0, 512);
   perso = xmalloc(512);
@@ -51,6 +58,12 @@ void	pars_scene(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f)
   memset(posPersoX, 0, 512);
   posPersoY = xmalloc(512);
   memset(posPersoY, 0, 512);
+  posImageX = xmalloc(512);
+  memset(posImageX, 0, 512);
+  posImageY = xmalloc(512);
+  memset(posImageY, 0, 512);
+  image_name = xmalloc(512);
+  memset(image_name, 0, 512);
   if ((fd = open_fd("script.duck")) == -1)
     show_error(2);
   while ((s = get_next_line(fd)))
@@ -124,6 +137,18 @@ void	pars_scene(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f)
 	    text[j++] = s[i++];
 	  ins_end_list_text(t, text);
 	}
+      if (!strncmp(s, "image \"", 7))
+	{
+	  image_show = 1;
+	  for (j = 0, i = 7 ; s[i] != '"' ;)
+	    image_name[j++] = s[i++];
+	  for (j = 0, i += 3 ; s[i] != ',' ;)
+	    posImageX[j++] = s[i++];
+	  for (j = 0, i += 2 ; s[i] != '"' ;)
+	    posImageY[j++] = s[i++];
+	  posImage.x = atoi(posImageX);
+	  posImage.y = atoi(posImageY);
+	}
       if (!strncmp(s, ">end", 4))
 	clean_exit(w, m, l);
       if (!strncmp(s, ">>w", 3))
@@ -150,6 +175,12 @@ void	pars_scene(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f)
 	  text_save = strdup(e_text->data);
 	  text_module(text_save, w, f);
 	}
+      if (image_show == 1)
+	{
+	  image = IMG_Load(image_name);
+	  SDL_BlitSurface(image, NULL, w->screen, &posImage);
+	  SDL_Flip(w->screen);
+	}
     }
 }
 
@@ -166,7 +197,7 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)))
   m.DUCK_isPlaying = 0;
   m.DUCK_TitleMusic = 0;
   DUCK_line = 0;
-  printf("%sWELCOME TO %sDUCK-ENGINE%s%s ALPHA 0.1%s\n", "\033[04;29m", "\033[01;32m", "\033[00m", "\033[04;29m", "\033[00m");
+  printf("%sWELCOME TO %sDUCK-ENGINE%s%s ALPHA 0.1.2%s\n", "\033[04;29m", "\033[01;32m", "\033[00m", "\033[04;29m", "\033[00m");
   printf("initialiazing SDL... ");
   if (SDL_Init(SDL_INIT_AUDIO | SDL_INIT_VIDEO | SDL_INIT_EVENTTHREAD) == -1)
     show_error(0);
