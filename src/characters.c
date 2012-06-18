@@ -1,11 +1,7 @@
 /*
-** characters.c for  in /home/marcha_r/Dropbox/perso/duck-engine/src
-** 
-** Made by 
-** Login   <marcha_r@epitech.net>
-** 
-** Started on  Mon Jun 18 10:29:48 2012 
-** Last update Mon Jun 18 10:31:51 2012 
+** DUCK-ENGINE
+** Made by theo marchal
+** http://code.google.com/p/duck-engine/
 */
 
 #include "list.h"

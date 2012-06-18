@@ -1,11 +1,7 @@
 /*
-** header.h for  in /home/marcha_r/Dropbox/perso/duck-engine
-** 
-** Made by 
-** Login   <marcha_r@epitech.net>
-** 
-** Started on  Wed Jun 13 16:38:31 2012 
-** Last update Mon Jun 18 14:42:47 2012 
+** DUCK-ENGINE
+** Made by theo marchal
+** http://code.google.com/p/duck-engine/
 */
 
 #ifndef __DUCK_ENGINE__
@@ -53,6 +49,7 @@ void	show_error(int error);
 void	init_zeroes(t_list *l);
 void	music_pause(t_music *m);
 void	music_close(t_music *m);
+void    se(char *path, t_music *m);
 void	music(char *path, t_music *m);
 char	*limit_char(char *str, int i, int limit);
 void	clean_exit(t_window *w, t_music *m, t_list *l);

@@ -1,11 +1,7 @@
 /*
-** list.c for minishell1 in /home/marcha_r//Documents/aproj/minishell
-** 
+** DUCK-ENGINE
 ** Made by theo marchal
-** Login   <marcha_r@epitech.net>
-** 
-** Started on  Fri Dec 30 04:59:13 2011 theo marchal
-** Last update Sat Jun  9 04:17:40 2012 
+** http://code.google.com/p/duck-engine/
 */
 
 #include "list.h"

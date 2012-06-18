@@ -1,11 +1,7 @@
 /*
-** get_next_line.c for  in /home/bruder_r//Documents/projets/unix_fonc/get_next_line
-** 
-** Made by romain bruder
-** Login   <bruder_r@epitech.net>
-** 
-** Started on  Mon Nov 21 14:05:26 2011 romain bruder
-** Last update Thu Jun  7 01:58:44 2012 
+** DUCK-ENGINE
+** Made by theo marchal
+** http://code.google.com/p/duck-engine/
 */
 
 #include <unistd.h>

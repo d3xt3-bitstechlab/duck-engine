@@ -1,11 +1,7 @@
 /*
-** music.c for  in /home/marcha_r/Dropbox/perso/duck-engine
-** 
-** Made by 
-** Login   <marcha_r@epitech.net>
-** 
-** Started on  Sun Jun 17 17:33:36 2012 
-** Last update Mon Jun 18 18:23:29 2012 
+** DUCK-ENGINE
+** Made by theo marchal
+** http://code.google.com/p/duck-engine/
 */
 
 #include "header.h"

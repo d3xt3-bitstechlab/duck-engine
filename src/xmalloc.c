@@ -1,11 +1,7 @@
 /*
-** xmalloc.c for  in /home/marcha_r/Dropbox/projects/42sh/home/marcha_r
-** 
+** DUCK-ENGINE
 ** Made by theo marchal
-** Login   <marcha_r@epitech.net>
-** 
-** Started on  Thu Apr  5 17:59:17 2012 theo marchal
-** Last update Wed Jun  6 14:16:43 2012 
+** http://code.google.com/p/duck-engine/
 */
 
 #include <stdio.h>

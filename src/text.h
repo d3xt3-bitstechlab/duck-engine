@@ -1,11 +1,7 @@
 /*
-** list.h for  in /home/marcha_r/Dropbox/42sh-2016-marcha_r/home/marcha_r
-** 
-** Made by 
-** Login   <marcha_r@epitech.net>
-** 
-** Started on  Tue May  1 16:37:22 2012 
-** Last update Sun Jun 17 02:28:56 2012 
+** DUCK-ENGINE
+** Made by theo marchal
+** http://code.google.com/p/duck-engine/
 */
 
 #ifndef __DUCK_ENGINE_TEXT__
