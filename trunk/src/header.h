@@ -5,7 +5,7 @@
 ** Login   <marcha_r@epitech.net>
 ** 
 ** Started on  Wed Jun 13 16:38:31 2012 
-** Last update Mon Jun 18 10:39:14 2012 
+** Last update Mon Jun 18 10:43:18 2012 
 */
 
 #ifndef __DUCK_ENGINE__
@@ -44,7 +44,7 @@ typedef struct s_font
   SDL_Surface *text_support;
 } t_font;
 
-int	DUCK_line/* = 0*/;
+int	DUCK_line;
 
 int	open_fd(char *str);
 void	pars_list(t_list *l);
@@ -54,5 +54,6 @@ void	music_close(t_music *m);
 void	music(char *path, t_music *m);
 char	*limit_char(char *str, int i, int limit);
 void	clean_exit(t_window *w, t_music *m, t_list *l);
+SDL_Surface *init_window_size(SDL_Surface *screen, char *s, t_window *w);
 
 #endif

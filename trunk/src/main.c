@@ -5,7 +5,7 @@
 ** Login   <marcha_r@epitech.net>
 ** 
 ** Started on  Wed Jun  6 01:53:48 2012 
-** Last update Mon Jun 18 10:37:55 2012 
+** Last update Mon Jun 18 10:42:58 2012 
 */
 
 #include <sys/types.h>
@@ -19,37 +19,6 @@
 #include "header.h"
 
 void	events2(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f);
-void	pars_list(t_list *l);
-
-SDL_Surface	*init_window_size(SDL_Surface *screen, char *s, t_window *w)
-{
-  int	i;
-  int	j;
-
-  w->sizeY = xmalloc(6);
-  w->sizeX = xmalloc(6);
-  memset(w->sizeX, 0, 6);
-  memset(w->sizeY, 0, 6);
-  if (s[15] != '"')
-    {
-      for (j = 0, i = 15 ; s[i] != ',';)
-	w->sizeX[j++] = s[i++];
-      for (j = 0, i += 2 ; s[i] != '"';)
-	w->sizeY[j++] = s[i++];
-      if ((screen = SDL_SetVideoMode(atoi(w->sizeX), atoi(w->sizeY),
-				     32, SDL_SWSURFACE | SDL_DOUBLEBUF)) == NULL)
-	show_error(0);
-    }
-  else
-    {
-      if ((screen = SDL_SetVideoMode(1000, 750, 32,
-				     SDL_SWSURFACE | SDL_DOUBLEBUF)) == NULL)
-	show_error(0);
-      w->sizeX = strdup("1000");
-      w->sizeY = strdup("750");
-    }
-  return (screen);
-}
 
 void	init_window(t_window *w, t_music *m, t_font *f)
 {
