@@ -5,7 +5,7 @@
 ** Login   <marcha_r@epitech.net>
 ** 
 ** Started on  Mon Jun 18 10:48:08 2012 
-** Last update Mon Jun 18 10:48:35 2012 
+** Last update Mon Jun 18 18:45:13 2012 
 */
 
 #include "header.h"
@@ -47,7 +47,6 @@ void	text_module(char *text, t_window *w, t_font *f)
       texte = TTF_RenderText_Blended(f->font, limit_char(text, size_init, size_saved),
 				     white_color);
       SDL_BlitSurface(texte, NULL, w->screen, &f->posText);
-      SDL_Flip(w->screen);
       i += 2;
     }
 }
