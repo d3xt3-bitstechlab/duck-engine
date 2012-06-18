@@ -35,6 +35,68 @@ void	scene_text(char *s, t_text *t)
   free(text);
 }
 
+void	scene_show(char *s, t_list *l)
+{
+  int	i, j;
+  char	*show;
+  t_elem *e;
+  char	*posPersoX;
+  char	*posPersoY;
+
+  show = xmalloc(512);
+  memset(show, 0, 512);
+  posPersoX = xmalloc(512);
+  memset(posPersoX, 0, 512);
+  posPersoY = xmalloc(512);
+  memset(posPersoY, 0, 512);
+  if (!strncmp(s, "show ", 5))
+    {
+      e = l->head;
+      for (j = 0, i = 5 ; s[i] != ' ' ;)
+	show[j++] = s[i++];
+      for (j = 0, i += 2 ; s[i] != ',' ;)
+	posPersoX[j++] = s[i++];
+      for (j = 0, i += 2 ; s[i] != '"' ;)
+	posPersoY[j++] = s[i++];
+      while (e)
+	{
+	  if (!strcmp(show, e->name))
+	    {
+	      e->pos.x = atoi(posPersoX);
+	      e->pos.y = atoi(posPersoY);
+	      e->is_show = 1;
+	    }
+	  e = e->next;
+	}
+    }
+  free(show);
+  free(posPersoX);
+  free(posPersoY);
+}
+
+void	scene_unshow(char *s, t_list *l)
+{
+  int	i, j;
+  char	*unshow;
+  t_elem *e;
+
+  unshow = xmalloc(512);
+  memset(unshow, 0, 512);
+  if (!strncmp(s, "unshow ", 7))
+    {
+      e = l->head;
+      for (j = 0, i = 7 ; s[i] ;)
+	unshow[j++] = s[i++];
+      while (e)
+	{
+	  if (!strcmp(unshow, e->name))
+	    e->is_show = 0;
+	  e = e->next;
+	}
+    }
+  free(unshow);
+}
+
 void	pars_scene(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f)
 {
   int	i;
@@ -45,10 +107,7 @@ void	pars_scene(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f)
   char	*back;
   char	*mus;
   char	*perso;
-  char	*show;
   char	*unshow;
-  char	*posPersoX;
-  char	*posPersoY;
   char *text_save;
   t_elem_text *e_text;
   SDL_Surface *image;
@@ -69,10 +128,6 @@ void	pars_scene(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f)
   memset(back, 0, 512);
   perso = xmalloc(512);
   memset(perso, 0, 512);
-  posPersoX = xmalloc(512);
-  memset(posPersoX, 0, 512);
-  posPersoY = xmalloc(512);
-  memset(posPersoY, 0, 512);
   posImageX = xmalloc(512);
   memset(posImageX, 0, 512);
   posImageY = xmalloc(512);
@@ -85,6 +140,8 @@ void	pars_scene(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f)
     {
       DUCK_line++;
       scene_text(s, t);
+      scene_show(s, l);
+      scene_unshow(s, l);
       if (!strncmp(s, "background = \"", 14))
 	{
 	  for (j = 0, i = 14 ; s[i] != '"';)
@@ -106,44 +163,6 @@ void	pars_scene(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f)
 	  for (j = 0, i = 4 ; s[i] != '"';)
 	    sound_e[j++] = s[i++];
 	  se(sound_e, m);
-	}
-      if (!strncmp(s, "show ", 5))
-	{
-	  show = xmalloc(512);
-	  memset(show, 0, 512);
-	  e = l->head;
-	  for (j = 0, i = 5 ; s[i] != ' ' ;)
-	    show[j++] = s[i++];
-	  for (j = 0, i += 2 ; s[i] != ',' ;)
-	    posPersoX[j++] = s[i++];
-	  for (j = 0, i += 2 ; s[i] != '"' ;)
-	    posPersoY[j++] = s[i++];
-	  while (e)
-	    {
-	      if (!strcmp(show, e->name))
-		{
-		  e->pos.x = atoi(posPersoX);
-		  e->pos.y = atoi(posPersoY);
-		  e->is_show = 1;
-		}
-	      e = e->next;
-	    }
-	}
-      if (!strncmp(s, "unshow ", 7))
-	{
-	  unshow = xmalloc(512);
-	  memset(unshow, 0, 512);
-	  e = l->head;
-	  for (j = 0, i = 7 ; s[i] ;)
-	    unshow[j++] = s[i++];
-	  while (e)
-	    {
-	      if (!strcmp(unshow, e->name))
-		{
-		  e->is_show = 0;
-		}
-	      e = e->next;
-	    }
 	}
       if (!strncmp(s, "image \"", 7))
 	{
