@@ -14,7 +14,7 @@ BACKGROUND_TITLE = "graph/title.png" ## the background of the window
 FONT_SIZE = "30" ## size of the font that will be used
 FONT = "fonts/designosaur-regular.ttf" ## font that will be used
 
->caracters
+>characters
 
 >>HAPPY_MAN = "graph/perso/happy_man.png"
 >>SAD_MAN = "graph/perso/sad_man.png"

@@ -5,7 +5,7 @@
 ** Login   <marcha_r@epitech.net>
 ** 
 ** Started on  Mon Jun 18 10:44:44 2012 
-** Last update Mon Jun 18 10:46:03 2012 
+** Last update Mon Jun 18 15:39:22 2012 
 */
 
 #include "header.h"
@@ -42,7 +42,7 @@ void	init_window(t_window *w, t_music *m, t_font *f)
   while ((s = get_next_line(fd)))
     {
       ++DUCK_line;
-      if (!strncmp(s, ">caracters", 10))
+      if (!strncmp(s, ">characters", 11))
 	break;
       if (!strncmp(s, "WINDOW_SIZE = \"", 15))
 	w->screen = init_window_size(w->screen, s, w);
