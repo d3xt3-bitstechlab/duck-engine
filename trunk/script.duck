@@ -45,6 +45,8 @@ show ANGRY_MAN "700, 400"
 
 <Aaaand... This is the end!/>
 
+unshow SAD_MAN
+
 >>w
 
 >end
