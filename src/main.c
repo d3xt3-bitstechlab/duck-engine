@@ -97,6 +97,58 @@ void	scene_unshow(char *s, t_list *l)
   free(unshow);
 }
 
+void	scene_background(char *s, t_window *w)
+{
+  int	i, j;
+  char	*back;
+
+  back = xmalloc(512);
+  memset(back, 0, 512);
+  if (!strncmp(s, "background = \"", 14))
+    {
+      if (s[20] != '"')
+	for (j = 0, i = 14 ; s[i] != '"';)
+	  back[j++] = s[i++];
+      else
+	show_error(1);
+      if ((w->background = IMG_Load(back)) == NULL)
+	show_error(5);
+    }
+  free(back);
+}
+
+void	scene_music(char *s, t_music *m)
+{
+  int	i, j;
+  char	*mus;
+
+  mus = xmalloc(512);
+  memset(mus, 0, 512);
+  if (!strncmp(s, "music = \"", 9))
+    {
+      for (j = 0, i = 9 ; s[i] != '"';)
+	mus[j++] = s[i++];
+      music(mus, m);
+    }
+  free(mus);
+}
+
+void	scene_se(char *s, t_music *m)
+{
+  int	i, j;
+  char	*sound_e;
+
+  sound_e = xmalloc(512);
+  memset(sound_e, 0, 512);
+  if (!strncmp(s, "SE \"", 4))
+    {
+      for (j = 0, i = 4 ; s[i] != '"';)
+	sound_e[j++] = s[i++];
+      se(sound_e, m);
+    }
+  free(sound_e);
+}
+
 void	pars_scene(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f)
 {
   int	i;
@@ -104,10 +156,7 @@ void	pars_scene(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f)
   int	fd;
   char	*s;
   t_elem *e;
-  char	*back;
-  char	*mus;
   char	*perso;
-  char	*unshow;
   char *text_save;
   t_elem_text *e_text;
   SDL_Surface *image;
@@ -116,7 +165,6 @@ void	pars_scene(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f)
   char	*posImageY;
   char	*image_name;
   int	image_show;
-  char	*sound_e;
 
   if (m->DUCK_isPlaying == 1 && m->DUCK_TitleMusic == 1)
     {
@@ -124,8 +172,6 @@ void	pars_scene(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f)
       m->DUCK_TitleMusic = 0;
     }
   image_show = 0;
-  back = xmalloc(512);
-  memset(back, 0, 512);
   perso = xmalloc(512);
   memset(perso, 0, 512);
   posImageX = xmalloc(512);
@@ -142,28 +188,13 @@ void	pars_scene(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f)
       scene_text(s, t);
       scene_show(s, l);
       scene_unshow(s, l);
-      if (!strncmp(s, "background = \"", 14))
-	{
-	  for (j = 0, i = 14 ; s[i] != '"';)
-	    back[j++] = s[i++];
-	  w->background = IMG_Load(back);
-	}
-      if (!strncmp(s, "music = \"", 9))
-	{
-	  mus = xmalloc(512);
-	  memset(mus, 0, 512);
-	  for (j = 0, i = 9 ; s[i] != '"';)
-	    mus[j++] = s[i++];
-	  music(mus, m);
-	}
-      if (!strncmp(s, "SE \"", 4))
-	{
-	  sound_e = xmalloc(512);
-	  memset(sound_e, 0, 512);
-	  for (j = 0, i = 4 ; s[i] != '"';)
-	    sound_e[j++] = s[i++];
-	  se(sound_e, m);
-	}
+      scene_background(s, w);
+      scene_music(s, m);
+      scene_se(s, m);
+      if (!strncmp(s, ">end", 4))
+	clean_exit(w, m, l);
+      if (!strncmp(s, ">>w", 3))
+	events2(w, m, l, t, f);
       if (!strncmp(s, "image \"", 7))
 	{
 	  image_show = 1;
@@ -176,10 +207,6 @@ void	pars_scene(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f)
 	  posImage.x = atoi(posImageX);
 	  posImage.y = atoi(posImageY);
 	}
-      if (!strncmp(s, ">end", 4))
-	clean_exit(w, m, l);
-      if (!strncmp(s, ">>w", 3))
-	events2(w, m, l, t, f);
 
       SDL_BlitSurface(w->background, NULL, w->screen, &w->posBack);
       SDL_SetAlpha(f->text_support, SDL_SRCALPHA, 100);
