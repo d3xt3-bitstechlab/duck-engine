@@ -118,6 +118,7 @@ If you want to show an image at screen, just use this. You specify the path and 
 image "graph/path.png" "0, 0"
 }}}
 
+
 Finally, to tell duck-engine that your visual novel is finished!
 {{{
 >end
