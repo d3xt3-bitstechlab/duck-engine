@@ -5,7 +5,7 @@
 ** Login   <marcha_r@epitech.net>
 ** 
 ** Started on  Sun Jun 17 17:33:36 2012 
-** Last update Mon Jun 18 09:59:09 2012 
+** Last update Mon Jun 18 11:28:34 2012 
 */
 
 #include "header.h"
@@ -22,6 +22,11 @@ void    music(char *path, t_music *m)
   FMOD_Sound_SetLoopCount(m->music, -1);
   FMOD_System_PlaySound(m->system, FMOD_CHANNEL_FREE, m->music, 0, NULL);
   m->DUCK_isPlaying = 1;
+}
+
+void	music_pause(t_music *m)
+{
+
 }
 
 void    music_close(t_music *m)
