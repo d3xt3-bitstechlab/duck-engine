@@ -1,8 +1,8 @@
-/*
-** DUCK-ENGINE
-** Made by theo marchal
-** http://code.google.com/p/duck-engine/
-*/
+##
+## DUCK-ENGINE
+## Made by theo marchal
+## http://code.google.com/p/duck-engine/
+##
 
 NAME	=	duck-engine
 OBJ	=	$(SRC:.c=.o)
