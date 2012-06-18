@@ -1,11 +1,7 @@
 /*
-** main.c for  in /home/marcha_r/Dropbox/perso/duck-engine/src
-** 
-** Made by 
-** Login   <marcha_r@epitech.net>
-** 
-** Started on  Wed Jun  6 01:53:48 2012 
-** Last update Mon Jun 18 18:51:28 2012 
+** DUCK-ENGINE
+** Made by theo marchal
+** http://code.google.com/p/duck-engine/
 */
 
 #include <sys/types.h>
@@ -18,7 +14,10 @@
 #include "text.h"
 #include "header.h"
 
-void    se(char *path, t_music *m);
+typedef struct s_scene
+{
+  
+} t_scene;
 
 void	pars_scene(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f)
 {
@@ -197,7 +196,7 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)))
   m.DUCK_isPlaying = 0;
   m.DUCK_TitleMusic = 0;
   DUCK_line = 0;
-  printf("%sWELCOME TO %sDUCK-ENGINE%s%s ALPHA 0.1.2%s\n", "\033[04;29m", "\033[01;32m", "\033[00m", "\033[04;29m", "\033[00m");
+  printf("%sWELCOME TO %sDUCK-ENGINE%s%s ALPHA 0.1.5%s\n", "\033[04;29m", "\033[01;32m", "\033[00m", "\033[04;29m", "\033[00m");
   printf("initialiazing SDL... ");
   if (SDL_Init(SDL_INIT_AUDIO | SDL_INIT_VIDEO | SDL_INIT_EVENTTHREAD) == -1)
     show_error(0);

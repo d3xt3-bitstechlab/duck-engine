@@ -1,11 +1,7 @@
 /*
-** clean_exit.c for  in /home/marcha_r/Dropbox/perso/duck-engine/src
-** 
-** Made by 
-** Login   <marcha_r@epitech.net>
-** 
-** Started on  Mon Jun 18 10:18:18 2012 
-** Last update Mon Jun 18 10:37:38 2012 
+** DUCK-ENGINE
+** Made by theo marchal
+** http://code.google.com/p/duck-engine/
 */
 
 #include "list.h"

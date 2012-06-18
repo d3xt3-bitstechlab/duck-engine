@@ -1,11 +1,7 @@
 /*
-** show_error.c for  in /home/marcha_r/Dropbox/perso/duck-engine
-** 
-** Made by 
-** Login   <marcha_r@epitech.net>
-** 
-** Started on  Wed Jun 13 16:43:58 2012 
-** Last update Wed Jun 13 17:02:43 2012 
+** DUCK-ENGINE
+** Made by theo marchal
+** http://code.google.com/p/duck-engine/
 */
 
 #include "SDL/SDL.h"
