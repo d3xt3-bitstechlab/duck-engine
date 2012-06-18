@@ -5,7 +5,7 @@
 ** Login   <marcha_r@epitech.net>
 ** 
 ** Started on  Wed Jun  6 01:53:48 2012 
-** Last update Mon Jun 18 18:44:57 2012 
+** Last update Mon Jun 18 18:51:28 2012 
 */
 
 #include <sys/types.h>
@@ -74,36 +74,25 @@ void	pars_scene(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f)
       DUCK_line++;
       if (!strncmp(s, "background = \"", 14))
 	{
-	  if (s[14] != '"')
-	    {
-	      for (j = 0, i = 14 ; s[i] != '"';)
-		back[j++] = s[i++];
-	      w->background = IMG_Load(back);
-	    }
-	  else
-	    show_error(4);
+	  for (j = 0, i = 14 ; s[i] != '"';)
+	    back[j++] = s[i++];
+	  w->background = IMG_Load(back);
 	}
       if (!strncmp(s, "music = \"", 9))
 	{
 	  mus = xmalloc(512);
 	  memset(mus, 0, 512);
-	  if (s[9] != '"')
-	    {
-	      for (j = 0, i = 9 ; s[i] != '"';)
-		mus[j++] = s[i++];
-	      music(mus, m);
-	    }
+	  for (j = 0, i = 9 ; s[i] != '"';)
+	    mus[j++] = s[i++];
+	  music(mus, m);
 	}
       if (!strncmp(s, "SE \"", 4))
 	{
 	  sound_e = xmalloc(512);
 	  memset(sound_e, 0, 512);
-	  if (s[4] != '"')
-	    {
-	      for (j = 0, i = 4 ; s[i] != '"';)
-		sound_e[j++] = s[i++];
-	      se(sound_e, m);
-	    }
+	  for (j = 0, i = 4 ; s[i] != '"';)
+	    sound_e[j++] = s[i++];
+	  se(sound_e, m);
 	}
       if (!strncmp(s, "show ", 5))
 	{
