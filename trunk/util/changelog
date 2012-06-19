@@ -1,10 +1,30 @@
-alpha 0.2:
+>alpha 0.2:
 
 - menus
 - history
 - error management
 
-alpha 0.3:
+
+>alpha 0.3:
 - save system
 - right click to menu
-- fixed sound glitch
+- sound glitch fixed
+- advanced configuration:
+	- text color
+	- background opacity
+- syllabification problem fixed
+
+
+>alpha 0.4:
+- menu customization
+- advanced text customization:
+	- <br />
+	- <i></i>
+	- <u></u>
+	- <size="50"></size>
+- pause function
+
+
+>alpha 0.5:
+- choices and routes
+- cross-platform compatibility
