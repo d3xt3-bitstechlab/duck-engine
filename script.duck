@@ -3,16 +3,20 @@
 ## Duck-Engine. Configure this file,
 ## modifying the basic options that
 ## are required to run the novel.
+## Can't understand the syntax?
+## Visit http://code.google.com/p/duck-engine/wiki/scriptDotDuck
+
 
 >init
 
-WINDOW_SIZE = "1000, 750" ## leave it blank for default : 1000*750
-WINDOW_TITLE = "" ## title of the window of your VN
-WINDOW_ICON = "" ## the icon of the window
-BACKGROUND_TITLE = "graph/title.png" ## the background of the window
-MUSIC_TITLE = "bgm/narcissu-theme.mp3" ## leave it blank for no music
-FONT_SIZE = "30" ## size of the font that will be used
-FONT = "fonts/designosaur-regular.ttf" ## font that will be used
+WINDOW_SIZE = "1000, 750"
+WINDOW_TITLE = ""
+WINDOW_ICON = ""
+BACKGROUND_TITLE = "graph/title.png"
+MUSIC_TITLE = "bgm/narcissu-theme.mp3"
+FONT = "fonts/designosaur-regular.ttf"
+FONT_SIZE = "30"
+
 
 >characters
 
@@ -20,12 +24,13 @@ FONT = "fonts/designosaur-regular.ttf" ## font that will be used
 >>SAD_MAN = "graph/perso/sad_man.png"
 >>ANGRY_MAN = "graph/perso/angry_man.png"
 
+
 >scene
 
 background = "graph/scene.jpg"
 music = "bgm/narcissu-15cm.mp3"
 
-show HAPPY_MAN "400, 400" ## position of the HAPPY_MAN in X and Y
+show HAPPY_MAN "400, 400"
 <Happy-Man: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur tortor mi, mattis nec consectetur vel, posuere quis nunc. Nam viverra rutrum lectus, id molestie turpis aliquet at. Nam lacus dui, vehicula sagittis tempor vitae, venenatis lobortis orci. Pellentesque eu justo ipsum. In sollicitudin iaculis leo, vitae fringilla mi venenatis non. In quis augue id diam imperdiet condimentum. Sed vel erat lorem, at feugiat velit. Morbi malesuada arcu at urna venenatis pharetra. Sed porta dictum urna vitae aliquam."/>
 
 >>w

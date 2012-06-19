@@ -24,12 +24,14 @@ void	scene_text(char *s, t_text *t)
 
 void	scene_show(char *s, t_list *l)
 {
+  t_elem *e;
   int	i, j;
   char	*show;
-  t_elem *e;
+  int	exists;
   char	*posPersoX;
   char	*posPersoY;
 
+  exists = 0;
   show = xmalloc(512);
   memset(show, 0, 512);
   posPersoX = xmalloc(512);
@@ -49,12 +51,15 @@ void	scene_show(char *s, t_list *l)
 	{
 	  if (!strcmp(show, e->name))
 	    {
+	      exists = 1;
 	      e->pos.x = atoi(posPersoX);
 	      e->pos.y = atoi(posPersoY);
 	      e->is_show = 1;
 	    }
 	  e = e->next;
 	}
+      if (exists == 0)
+	show_error(7);
     }
   free(show);
   free(posPersoX);
@@ -64,9 +69,11 @@ void	scene_show(char *s, t_list *l)
 void	scene_unshow(char *s, t_list *l)
 {
   int	i, j;
+  int	exists;
   char	*unshow;
   t_elem *e;
 
+  exists = 0;
   unshow = xmalloc(512);
   memset(unshow, 0, 512);
   if (!strncmp(s, "unshow ", 7))
@@ -77,9 +84,14 @@ void	scene_unshow(char *s, t_list *l)
       while (e)
 	{
 	  if (!strcmp(unshow, e->name))
-	    e->is_show = 0;
+	    {
+	      exists = 1;
+	      e->is_show = 0;
+	    }
 	  e = e->next;
 	}
+      if (exists == 0)
+	show_error(8);
     }
   free(unshow);
 }
