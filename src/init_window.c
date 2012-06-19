@@ -37,7 +37,6 @@ void	init_window(t_window *w, t_music *m, t_font *f)
     show_error(2);
   while ((s = get_next_line(fd)))
     {
-      ++DUCK_line;
       if (!strncmp(s, ">characters", 11))
 	break;
       if (!strncmp(s, "WINDOW_SIZE = \"", 15))

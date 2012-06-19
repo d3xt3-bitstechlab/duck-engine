@@ -11,6 +11,7 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include "get_next_line.h"
+#include "header.h"
 
 static void*	deadline(char* new, char* buff)
 {
@@ -53,6 +54,7 @@ char*	get_next_line(const int fd)
   static char*		new;
   int			j;
 
+  DUCK_line++;
   if (!buff)
     new = malloc(__SIZE_BUFF_OUT__);
   if ((mallocline(i, fd, &buff)) != 0)
