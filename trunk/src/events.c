@@ -7,12 +7,15 @@
 #include "header.h"
 #include "text.h"
 
-void	events2(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f)
+void    refresh(t_window *w, t_list *l, t_text *t, t_font *f, t_image_scene *img_scn);
+
+void	events2(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f, t_image_scene *img_scn)
 {
   int	next;
   SDL_Event event;
 
   next = 1;
+  refresh(w, l, t, f, &img_scn);
   while (next)
     {
       SDL_WaitEvent(&event);
@@ -35,7 +38,7 @@ void	events2(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f)
 	      pars_scene(w, m, l, t, f);
 	      break;
 	    case SDLK_LEFT:
-	      history_navigation(w, m, l, t, f);
+	      history_navigation(w, m, l, t, f, img_scn);
 	      break;
 	    case SDLK_m:
 	      music_pause(m);
