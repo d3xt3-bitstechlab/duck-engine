@@ -34,7 +34,7 @@ show SAD_MAN "100, 400"
 
 >>w
 show ANGRY_MAN "700, 400"
-SE "se/sigh.wav"
+sound "sound/sigh.wav"
 <Angry-Man: "NO!" It's Lorem Ipsum! Its purpose is for testing!/>
 
 >>w
