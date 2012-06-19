@@ -6,7 +6,7 @@
 added script.duck elements:
  * _unshow_ function
  * _image_ function
- * _SE_ support
+ * _SE_ function
 
 added general platform elements:
  * lot and lot of code optimisations
