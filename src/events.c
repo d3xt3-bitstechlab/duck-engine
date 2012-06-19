@@ -15,7 +15,7 @@ void	events2(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f, t_image_s
   SDL_Event event;
 
   next = 1;
-  refresh(w, l, t, f, &img_scn);
+  refresh(w, l, t, f, img_scn);
   while (next)
     {
       SDL_WaitEvent(&event);
