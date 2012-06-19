@@ -25,6 +25,7 @@ SRC	=	src/main.c		\
 		src/init_window.c	\
 		src/text_module.c	\
 		src/events.c		\
+		src/scene.c		\
 
 all:	comp
 

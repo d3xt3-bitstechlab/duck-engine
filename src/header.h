@@ -41,6 +41,14 @@ typedef struct s_font
   SDL_Surface *text_support;
 } t_font;
 
+typedef struct s_image_scene
+{
+  int	image_show;
+  char	*image_name;
+  SDL_Rect posImage;
+  SDL_Surface *image;
+} t_image_scene;
+
 int	DUCK_line;
 
 int	open_fd(char *str);
@@ -59,5 +67,13 @@ SDL_Surface *init_window_size(SDL_Surface *screen, char *s, t_window *w);
 void    events(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f);
 void    events2(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f);
 void    pars_scene(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f);
+
+void	scene_text(char *s, t_text *t);
+void	scene_show(char *s, t_list *l);
+void	scene_unshow(char *s, t_list *l);
+void	scene_background(char *s, t_window *w);
+void	scene_music(char *s, t_music *m);
+void	scene_se(char *s, t_music *m);
+void	scene_image(char *s, t_image_scene *img_scn);
 
 #endif
