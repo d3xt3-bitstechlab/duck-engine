@@ -14,11 +14,6 @@
 #include "text.h"
 #include "header.h"
 
-typedef struct s_scene
-{
-  
-} t_scene;
-
 void	scene_text(char *s, t_text *t)
 {
   int	i, j;
@@ -149,37 +144,60 @@ void	scene_se(char *s, t_music *m)
   free(sound_e);
 }
 
+typedef struct s_image_scene
+{
+  int	image_show;
+  char	*image_name;
+  SDL_Rect posImage;
+  SDL_Surface *image;
+} t_image_scene;
+
+void	scene_image(char *s, t_image_scene *img_scn)
+{
+  int	i, j;
+  char	*posImageX;
+  char	*posImageY;
+
+  posImageX = xmalloc(512);
+  memset(posImageX, 0, 512);
+  posImageY = xmalloc(512);
+  memset(posImageY, 0, 512);
+  img_scn->image_name = xmalloc(512);
+  memset(img_scn->image_name, 0, 512);
+  if (!strncmp(s, "image \"", 7))
+    {
+      img_scn->image_show = 1;
+      for (j = 0, i = 7 ; s[i] != '"' ;)
+	img_scn->image_name[j++] = s[i++];
+      for (j = 0, i += 3 ; s[i] != ',' ;)
+	posImageX[j++] = s[i++];
+      for (j = 0, i += 2 ; s[i] != '"' ;)
+	posImageY[j++] = s[i++];
+      img_scn->posImage.x = atoi(posImageX);
+      img_scn->posImage.y = atoi(posImageY);
+    }
+  free(posImageX);
+  free(posImageY);
+}
+
 void	pars_scene(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f)
 {
-  int	i;
-  int	j;
   int	fd;
   char	*s;
   t_elem *e;
   char	*perso;
   char *text_save;
   t_elem_text *e_text;
-  SDL_Surface *image;
-  SDL_Rect posImage;
-  char	*posImageX;
-  char	*posImageY;
-  char	*image_name;
-  int	image_show;
+  t_image_scene img_scn;
 
   if (m->DUCK_isPlaying == 1 && m->DUCK_TitleMusic == 1)
     {
       music_close(m);
       m->DUCK_TitleMusic = 0;
     }
-  image_show = 0;
+  img_scn.image_show = 0;
   perso = xmalloc(512);
   memset(perso, 0, 512);
-  posImageX = xmalloc(512);
-  memset(posImageX, 0, 512);
-  posImageY = xmalloc(512);
-  memset(posImageY, 0, 512);
-  image_name = xmalloc(512);
-  memset(image_name, 0, 512);
   if ((fd = open_fd("script.duck")) == -1)
     show_error(2);
   while ((s = get_next_line(fd)))
@@ -191,22 +209,11 @@ void	pars_scene(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f)
       scene_background(s, w);
       scene_music(s, m);
       scene_se(s, m);
+      scene_image(s, &img_scn);
       if (!strncmp(s, ">end", 4))
 	clean_exit(w, m, l);
       if (!strncmp(s, ">>w", 3))
 	events2(w, m, l, t, f);
-      if (!strncmp(s, "image \"", 7))
-	{
-	  image_show = 1;
-	  for (j = 0, i = 7 ; s[i] != '"' ;)
-	    image_name[j++] = s[i++];
-	  for (j = 0, i += 3 ; s[i] != ',' ;)
-	    posImageX[j++] = s[i++];
-	  for (j = 0, i += 2 ; s[i] != '"' ;)
-	    posImageY[j++] = s[i++];
-	  posImage.x = atoi(posImageX);
-	  posImage.y = atoi(posImageY);
-	}
 
       SDL_BlitSurface(w->background, NULL, w->screen, &w->posBack);
       SDL_SetAlpha(f->text_support, SDL_SRCALPHA, 100);
@@ -226,10 +233,10 @@ void	pars_scene(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f)
 	  text_save = strdup(e_text->data);
 	  text_module(text_save, w, f);
 	}
-      if (image_show == 1)
+      if (img_scn.image_show == 1)
 	{
-	  image = IMG_Load(image_name);
-	  SDL_BlitSurface(image, NULL, w->screen, &posImage);
+	  img_scn.image = IMG_Load(img_scn.image_name);
+	  SDL_BlitSurface(img_scn.image, NULL, w->screen, &img_scn.posImage);
 	}
       SDL_Flip(w->screen);
     }
