@@ -90,7 +90,7 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)))
   w.background = NULL;
   m.DUCK_isPlaying = 0;
   m.DUCK_TitleMusic = 0;
-  DUCK_line = 0;
+  DUCK_line = 2;
   printf("%sWELCOME TO %sDUCK-ENGINE%s%s ALPHA 0.1.7%s\n", "\033[04;29m", "\033[01;32m", "\033[00m", "\033[04;29m", "\033[00m");
   printf("initialiazing SDL... ");
   if (SDL_Init(SDL_INIT_AUDIO | SDL_INIT_VIDEO | SDL_INIT_EVENTTHREAD) == -1)

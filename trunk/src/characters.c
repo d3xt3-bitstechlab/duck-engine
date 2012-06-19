@@ -48,7 +48,7 @@ void	pars_list(t_list *l)
     show_error(2);
   while ((s = get_next_line(fd)))
     {
-      DUCK_line++;
+      ++DUCK_line;
       if (!strncmp(s, ">scene", 6))
 	break;
       pars_list2(l, s);

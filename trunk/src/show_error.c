@@ -26,6 +26,12 @@ void    show_error(int error)
     printf("unable to load image.\n");
   if (error == 6)
     printf("write(); has failed.\n");
+  if (error == 7)
+    printf("show: the character is not declared.\n");
+  if (error == 8)
+    printf("unshow: the character is not declared.\n");
+  if (error == 9)
+    printf("WINDOW_SIZE: parameters not defined.\n");
   exit(0);
 }
 

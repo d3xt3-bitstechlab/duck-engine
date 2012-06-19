@@ -26,12 +26,6 @@ SDL_Surface	*init_window_size(SDL_Surface *screen, char *s, t_window *w)
 	show_error(0);
     }
   else
-    {
-      if ((screen = SDL_SetVideoMode(1000, 750, 32,
-				     SDL_SWSURFACE | SDL_DOUBLEBUF)) == NULL)
-	show_error(0);
-      w->sizeX = strdup("1000");
-      w->sizeY = strdup("750");
-    }
+    show_error(9);
   return (screen);
 }
