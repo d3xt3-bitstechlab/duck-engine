@@ -1,0 +1,17 @@
+Duck-Engine is a free and open-source visual novel creator.
+It was made entirely for the purpose of creating fun, fast and optimized novels.
+Its goal is not to compete with other visual novel creators.
+Duck-Engine is developped in C using the SDL library.
+
+Everything was made by *[http://theomarchal.com Théo Marchal]*, except:
+ * [http://libsdl.org/ the SDL library] ;
+ * [http://libsdl.org/projects/SDL_image the SDL_image library] ;
+ * [http://libsdl.org/projects/SDL_ttf the SDL_ttf font library] ;
+ * [http://fmod.org the FMOD music library] ;
+ * get_next_line function, made by Romain Bruder ;
+ * [http://turbomilk.com the Duck-Engine logo] ;
+ * [http://stage-nana.sakura.ne.jp the awesome musics, made for the visual novel Narcissu] ;
+ * [http://flickr.com/photos/wackybadger/4347389615/the title image is from Flickr] ;
+ * [http://flickr.com/photos/33852840@N06/5851521709/ and the scene image too] ;
+ * [http://dafont.com/designosaur.font the font used is Designosaur] ;
+ * [http://freespace.virgin.net/jill.king/sounds.html the sound effet used is mistress3.wav].
