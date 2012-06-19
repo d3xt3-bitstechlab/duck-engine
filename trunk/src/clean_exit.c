@@ -5,11 +5,13 @@
 */
 
 #include "list.h"
+#include "text.h"
 #include "header.h"
 
-void	clean_exit(t_window *w, t_music *m, t_list *l)
+void	clean_exit(t_window *w, t_music *m, t_list *l, t_text *t)
 {
   t_elem	*e;
+  t_elem_text	*e_text;
 
   printf(" done\ncleaning...");
   e = l->head;
@@ -19,6 +21,12 @@ void	clean_exit(t_window *w, t_music *m, t_list *l)
       free(e->img);
       SDL_FreeSurface(e->perso);
       e = e->next;
+    }
+  e_text = t->head;
+  while (e_text)
+    {
+      free(e_text->data);
+      e_text = e_text->next;
     }
   SDL_FreeSurface(w->screen);
   SDL_FreeSurface(w->background);
