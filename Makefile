@@ -26,6 +26,7 @@ SRC	=	src/main.c		\
 		src/text_module.c	\
 		src/events.c		\
 		src/scene.c		\
+		src/text_history.c	\
 
 all:	comp
 

@@ -55,6 +55,7 @@ int	open_fd(char *str);
 void	pars_list(t_list *l);
 void	show_error(int error);
 void	init_zeroes(t_list *l);
+void    text_history(t_text *t);
 void	music_pause(t_music *m);
 void	music_close(t_music *m);
 void    se(char *path, t_music *m);
@@ -67,6 +68,7 @@ SDL_Surface *init_window_size(SDL_Surface *screen, char *s, t_window *w);
 void    events(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f);
 void    events2(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f);
 void    pars_scene(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f);
+void	history_navigation(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f);
 
 void	scene_text(char *s, t_text *t);
 void	scene_show(char *s, t_list *l);

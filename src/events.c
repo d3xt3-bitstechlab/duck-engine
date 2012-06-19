@@ -34,6 +34,9 @@ void	events2(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f)
 	    case SDLK_SPACE:
 	      pars_scene(w, m, l, t, f);
 	      break;
+	    case SDLK_LEFT:
+	      history_navigation(w, m, l, t, f);
+	      break;
 	    case SDLK_m:
 	      music_pause(m);
 	      break;
