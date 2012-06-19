@@ -42,7 +42,7 @@ void	pars_scene(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f)
       scene_se(s, m);
       scene_image(s, &img_scn);
       if (!strncmp(s, ">end", 4))
-	clean_exit(w, m, l);
+	clean_exit(w, m, l, t);
       if (!strncmp(s, ">>w", 3))
 	events2(w, m, l, t, f);
 
@@ -86,7 +86,7 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)))
   m.DUCK_isPlaying = 0;
   m.DUCK_TitleMusic = 0;
   DUCK_line = 0;
-  printf("%sWELCOME TO %sDUCK-ENGINE%s%s ALPHA 0.1.5%s\n", "\033[04;29m", "\033[01;32m", "\033[00m", "\033[04;29m", "\033[00m");
+  printf("%sWELCOME TO %sDUCK-ENGINE%s%s ALPHA 0.1.7%s\n", "\033[04;29m", "\033[01;32m", "\033[00m", "\033[04;29m", "\033[00m");
   printf("initialiazing SDL... ");
   if (SDL_Init(SDL_INIT_AUDIO | SDL_INIT_VIDEO | SDL_INIT_EVENTTHREAD) == -1)
     show_error(0);
@@ -113,6 +113,6 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)))
   if ((write(1, "showing window...", 17)) == -1)
     show_error(6);
   events(&w, &m, &l, &t, &f);
-  clean_exit(&w, &m, &l);
+  clean_exit(&w, &m, &l, &t);
   return (0);
 }

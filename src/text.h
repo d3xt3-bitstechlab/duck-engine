@@ -16,14 +16,14 @@
 
 typedef struct s_elem_text
 {
-  char          *data;
+  char	*data;
   struct s_elem_text *next;
   struct s_elem_text *prev;
 } t_elem_text;
 
 typedef struct s_text
 {
-  int           size;
+  int	size;
   t_elem_text        *head;
   t_elem_text        *tail;
 } t_text;

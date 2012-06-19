@@ -9,17 +9,17 @@
 
 void	events2(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f)
 {
+  int	next;
   SDL_Event event;
-  int	continuer;
 
-  continuer = 1;
-  while (continuer)
+  next = 1;
+  while (next)
     {
       SDL_WaitEvent(&event);
       switch(event.type)
 	{
         case SDL_QUIT:
-	  clean_exit(w, m, l);
+	  clean_exit(w, m, l, t);
 	  break;
 	case SDL_MOUSEBUTTONUP:
 	  if (event.button.button == SDL_BUTTON_LEFT)
@@ -38,7 +38,7 @@ void	events2(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f)
 	      music_pause(m);
 	      break;
 	    case SDLK_ESCAPE:
-	      clean_exit(w, m, l);
+	      clean_exit(w, m, l, t);
 	      break;
 	    default:
 	      break;
@@ -52,17 +52,17 @@ void	events2(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f)
 
 void	events(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f)
 {
+  int	next;
   SDL_Event event;
-  int	continuer;
 
-  continuer = 1;
-  while (continuer)
+  next = 1;
+  while (next)
     {
       SDL_WaitEvent(&event);
       switch(event.type)
 	{
         case SDL_QUIT:
-	  continuer = 0;
+	  next = 0;
 	  break;
 	case SDL_MOUSEBUTTONUP:
 	  if (event.button.button == SDL_BUTTON_LEFT)
@@ -72,7 +72,7 @@ void	events(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f)
 	  switch (event.key.keysym.sym)
             {
 	    case SDLK_ESCAPE:
-	      continuer = 0;
+	      next = 0;
 	      break;
 	    case SDLK_RETURN:
 	      pars_scene(w, m, l, t, f);
