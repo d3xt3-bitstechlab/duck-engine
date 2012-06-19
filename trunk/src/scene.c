@@ -139,9 +139,9 @@ void	scene_se(char *s, t_music *m)
 
   sound_e = xmalloc(512);
   memset(sound_e, 0, 512);
-  if (!strncmp(s, "SE \"", 4))
+  if (!strncmp(s, "sound \"", 7))
     {
-      for (j = 0, i = 4 ; s[i] != '"';)
+      for (j = 0, i = 7 ; s[i] != '"';)
 	sound_e[j++] = s[i++];
       se(sound_e, m);
     }
