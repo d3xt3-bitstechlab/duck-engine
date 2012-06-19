@@ -74,7 +74,6 @@ void	pars_scene(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f)
 	clean_exit(w, m, l, t);
       if (!strncmp(s, ">>w", 3))
 	events2(w, m, l, t, f, &img_scn);
-      /* refresh(w, l, t, f, &img_scn); */
     }
 }
 
