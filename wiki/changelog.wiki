@@ -9,7 +9,7 @@ added script.duck elements:
  * _SE_ support
 
 added general platform elements:
- * code optimisations
+ * lot and lot of code optimisations
  * fixed image blitting
  * mute music with m key (does not apply to SE)
  * progression with left click and space key
