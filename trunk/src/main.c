@@ -14,13 +14,42 @@
 #include "text.h"
 #include "header.h"
 
+void	refresh(t_window *w, t_list *l, t_text *t, t_font *f, t_image_scene *img_scn)
+{
+  t_elem *e;
+  char *text_save;
+  t_elem_text *e_text;
+
+  SDL_BlitSurface(w->background, NULL, w->screen, &w->posBack);
+  SDL_SetAlpha(f->text_support, SDL_SRCALPHA, 100);
+  SDL_BlitSurface(f->text_support, NULL, w->screen, &w->posBack);
+  e = l->head;
+  while (e)
+    {
+      if (e->is_show == 1)
+	SDL_BlitSurface(e->perso, NULL, w->screen, &e->pos);
+      e = e->next;
+    }
+  if (t->size >= 1)
+    {
+      text_save = xmalloc(4096);
+      memset(text_save, 0, 4096);
+      e_text = t->tail;
+      text_save = strdup(e_text->data);
+      text_module(text_save, w, f);
+    }
+  if (img_scn->image_show == 1)
+    {
+      img_scn->image = IMG_Load(img_scn->image_name);
+      SDL_BlitSurface(img_scn->image, NULL, w->screen, &img_scn->posImage);
+    }
+  SDL_Flip(w->screen);
+}
+
 void	pars_scene(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f)
 {
   int	fd;
   char	*s;
-  t_elem *e;
-  char *text_save;
-  t_elem_text *e_text;
   t_image_scene img_scn;
 
   if (m->DUCK_isPlaying == 1 && m->DUCK_TitleMusic == 1)
@@ -33,7 +62,7 @@ void	pars_scene(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f)
     show_error(2);
   while ((s = get_next_line(fd)))
     {
-      DUCK_line++;
+      ++DUCK_line;
       scene_text(s, t);
       scene_show(s, l);
       scene_unshow(s, l);
@@ -45,31 +74,7 @@ void	pars_scene(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f)
 	clean_exit(w, m, l, t);
       if (!strncmp(s, ">>w", 3))
 	events2(w, m, l, t, f);
-
-      SDL_BlitSurface(w->background, NULL, w->screen, &w->posBack);
-      SDL_SetAlpha(f->text_support, SDL_SRCALPHA, 100);
-      SDL_BlitSurface(f->text_support, NULL, w->screen, &w->posBack);
-      e = l->head;
-      while (e)
-	{
-	  if (e->is_show == 1)
-	    SDL_BlitSurface(e->perso, NULL, w->screen, &e->pos);
-	  e = e->next;
-	}
-      if (t->size >= 1)
-	{
-	  text_save = xmalloc(4096);
-	  memset(text_save, 0, 4096);
-	  e_text = t->tail;
-	  text_save = strdup(e_text->data);
-	  text_module(text_save, w, f);
-	}
-      if (img_scn.image_show == 1)
-	{
-	  img_scn.image = IMG_Load(img_scn.image_name);
-	  SDL_BlitSurface(img_scn.image, NULL, w->screen, &img_scn.posImage);
-	}
-      SDL_Flip(w->screen);
+      refresh(w, l, t, f, &img_scn);
     }
 }
 
