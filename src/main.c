@@ -22,7 +22,6 @@ void	refresh(t_window *w, t_list *l, t_text *t, t_font *f, t_image_scene *img_sc
 
   SDL_BlitSurface(w->background, NULL, w->screen, &w->posBack);
   SDL_SetAlpha(f->text_support, SDL_SRCALPHA, 100);
-  SDL_BlitSurface(f->text_support, NULL, w->screen, &w->posBack);
   e = l->head;
   while (e)
     {
@@ -30,6 +29,7 @@ void	refresh(t_window *w, t_list *l, t_text *t, t_font *f, t_image_scene *img_sc
 	SDL_BlitSurface(e->perso, NULL, w->screen, &e->pos);
       e = e->next;
     }
+  SDL_BlitSurface(f->text_support, NULL, w->screen, &w->posBack);
   if (t->size >= 1)
     {
       text_save = xmalloc(4096);
