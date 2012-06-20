@@ -51,7 +51,8 @@ void	history_navigation(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f
 
   next = 1;
   e_text = t->tail;
-  if (e_text->prev != NULL)
+  /*printf(">>\n%s\n", e_text->prev->data);*/
+  if (e_text->prev->data != '\0')
     e_text = e_text->prev;
   first_left_show(w, t, f);
   while (next)
@@ -84,14 +85,12 @@ void	history_navigation(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f
 		}
               break;
             case SDLK_RIGHT:
-	      if (e_text->next != NULL && e_text->next->next != t->tail)
+	      if (e_text->next != NULL && e_text->next->next != NULL)
 		{
 		  e_text = e_text->next;
 		  history_show(w, t, f, e_text);
 		}
-	      e_text = e_text->next;
 	      history_show(w, t, f, e_text);
-	      printf("history right\n");
               break;
             case SDLK_m:
               music_pause(m);
