@@ -6,13 +6,15 @@
 
 #include "header.h"
 
+void    text_module_history(char *text, t_window *w, t_font *f);
+
 void	first_left_show(t_window *w, t_text *t, t_font *f)
 {
   char	*text_save;
   t_elem_text *e_text;
 
   SDL_BlitSurface(w->background, NULL, w->screen, &w->posBack);
-  SDL_SetAlpha(f->text_support, SDL_SRCALPHA, 100);
+  SDL_SetAlpha(f->text_support, SDL_SRCALPHA, 180);
   SDL_BlitSurface(f->text_support, NULL, w->screen, &w->posBack);
   if (t->size >= 1)
     {
@@ -20,7 +22,23 @@ void	first_left_show(t_window *w, t_text *t, t_font *f)
       memset(text_save, 0, 4096);
       e_text = t->tail;
       e_text = e_text->prev;
-      text_module(e_text->data, w, f);
+      text_module_history(e_text->data, w, f);
+    }
+  SDL_Flip(w->screen);
+}
+
+void	history_show(t_window *w, t_text *t, t_font *f, t_elem_text *e_text)
+{
+  char	*text_save;
+
+  SDL_BlitSurface(w->background, NULL, w->screen, &w->posBack);
+  SDL_SetAlpha(f->text_support, SDL_SRCALPHA, 180);
+  SDL_BlitSurface(f->text_support, NULL, w->screen, &w->posBack);
+  if (t->size >= 1)
+    {
+      text_save = xmalloc(4096);
+      memset(text_save, 0, 4096);
+      text_module_history(e_text->data, w, f);
     }
   SDL_Flip(w->screen);
 }
@@ -29,8 +47,12 @@ void	history_navigation(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f
 {
   int   next;
   SDL_Event event;
+  t_elem_text *e_text;
 
   next = 1;
+  e_text = t->tail;
+  if (e_text->prev != NULL)
+    e_text = e_text->prev;
   first_left_show(w, t, f);
   while (next)
     {
@@ -55,9 +77,20 @@ void	history_navigation(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f
               pars_scene(w, m, l, t, f);
               break;
             case SDLK_LEFT:
-	      printf("history left\n");
+	      if (e_text->prev != NULL)
+		{
+		  e_text = e_text->prev;
+		  history_show(w, t, f, e_text);
+		}
               break;
             case SDLK_RIGHT:
+	      if (e_text->next != NULL && e_text->next->next != t->tail)
+		{
+		  e_text = e_text->next;
+		  history_show(w, t, f, e_text);
+		}
+	      e_text = e_text->next;
+	      history_show(w, t, f, e_text);
 	      printf("history right\n");
               break;
             case SDLK_m:
