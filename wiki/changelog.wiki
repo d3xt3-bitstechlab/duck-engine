@@ -6,9 +6,10 @@
 added script.duck elements:
  * _unshow_ function
  * _image_ function
- * _SE_ function
+ * _sound_ function
 
 added general platform elements:
+ * history navigation with left and right arrows
  * lot and lot of code optimisations
  * fixed image blitting
  * mute music with m key (does not apply to SE)
