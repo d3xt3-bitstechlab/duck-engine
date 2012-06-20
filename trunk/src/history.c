@@ -8,13 +8,21 @@
 
 void    text_module_history(char *text, t_window *w, t_font *f);
 
-void	first_left_show(t_window *w, t_text *t, t_font *f)
+void	first_left_show(t_window *w, t_text *t, t_font *f, t_list *l)
 {
+  t_elem *e;
   char	*text_save;
   t_elem_text *e_text;
 
   SDL_BlitSurface(w->background, NULL, w->screen, &w->posBack);
   SDL_SetAlpha(f->text_support, SDL_SRCALPHA, 180);
+  e = l->head;
+  while (e)
+    {
+      if (e->is_show == 1)
+        SDL_BlitSurface(e->perso, NULL, w->screen, &e->pos);
+      e = e->next;
+    }
   SDL_BlitSurface(f->text_support, NULL, w->screen, &w->posBack);
   if (t->size >= 1)
     {
@@ -27,12 +35,20 @@ void	first_left_show(t_window *w, t_text *t, t_font *f)
   SDL_Flip(w->screen);
 }
 
-void	history_show(t_window *w, t_text *t, t_font *f, t_elem_text *e_text)
+void	history_show(t_window *w, t_text *t, t_font *f, t_elem_text *e_text, t_list *l)
 {
+  t_elem *e;
   char	*text_save;
 
   SDL_BlitSurface(w->background, NULL, w->screen, &w->posBack);
   SDL_SetAlpha(f->text_support, SDL_SRCALPHA, 180);
+  e = l->head;
+  while (e)
+    {
+      if (e->is_show == 1)
+        SDL_BlitSurface(e->perso, NULL, w->screen, &e->pos);
+      e = e->next;
+    }
   SDL_BlitSurface(f->text_support, NULL, w->screen, &w->posBack);
   if (t->size >= 1)
     {
@@ -51,10 +67,9 @@ void	history_navigation(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f
 
   next = 1;
   e_text = t->tail;
-  /*printf(">>\n%s\n", e_text->prev->data);*/
   if (e_text->prev->data != '\0')
     e_text = e_text->prev;
-  first_left_show(w, t, f);
+  first_left_show(w, t, f, l);
   while (next)
     {
       SDL_WaitEvent(&event);
@@ -81,16 +96,15 @@ void	history_navigation(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f
 	      if (e_text->prev != NULL)
 		{
 		  e_text = e_text->prev;
-		  history_show(w, t, f, e_text);
+		  history_show(w, t, f, e_text, l);
 		}
               break;
             case SDLK_RIGHT:
 	      if (e_text->next != NULL && e_text->next->next != NULL)
 		{
 		  e_text = e_text->next;
-		  history_show(w, t, f, e_text);
+		  history_show(w, t, f, e_text, l);
 		}
-	      history_show(w, t, f, e_text);
               break;
             case SDLK_m:
               music_pause(m);
