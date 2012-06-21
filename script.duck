@@ -47,42 +47,6 @@ show ANGRY_MAN "700, 400"
 unshow SAD_MAN
 
 >>w
-<aaaaaaaa/>
-
->>w
-<bbbbbbbb/>
-
->>w
-<ccccc/>
-
->>w
-<dddddd/>
-
->>w
-<eeeeeee/>
-
->>w
-<fffff/>
-
->>w
-<gggg/>
-
->>w
-<hhhhhh/>
-
->>w
-<iiiiii/>
-
->>w
-<jjjjjj/>
-
->>w
-<ffgfgfgfg/>
-
->>w
-<azazazaz/>
-
->>w
 image "graph/theend.png" "0, 0"
 
 >>w

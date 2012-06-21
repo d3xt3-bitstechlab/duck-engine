@@ -153,25 +153,28 @@ void	scene_image(char *s, t_image *img)
   int	i, j;
   char	*posImageX;
   char	*posImageY;
+  char	*image;
 
   posImageX = xmalloc(512);
   memset(posImageX, 0, 512);
   posImageY = xmalloc(512);
   memset(posImageY, 0, 512);
-  img->image_name = xmalloc(512);
-  memset(img->image_name, 0, 512);
+  image = xmalloc(512);
+  memset(image, 0, 512);
   if (!strncmp(s, "image \"", 7))
     {
       img->image_show = 1;
       for (j = 0, i = 7 ; s[i] != '"' ;)
-	img->image_name[j++] = s[i++];
+	image[j++] = s[i++];
       for (j = 0, i += 3 ; s[i] != ',' ;)
 	posImageX[j++] = s[i++];
       for (j = 0, i += 2 ; s[i] != '"' ;)
 	posImageY[j++] = s[i++];
       img->posImage.x = atoi(posImageX);
       img->posImage.y = atoi(posImageY);
+      img->image_name = strdup(image);
     }
   free(posImageX);
   free(posImageY);
+  free(image);
 }
