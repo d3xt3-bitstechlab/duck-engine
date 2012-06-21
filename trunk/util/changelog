@@ -17,9 +17,13 @@
 - menu customization
 - advanced text customization:
 	- <br />
+	- <b></b>
 	- <i></i>
 	- <u></u>
 	- <size="50"></size>
+	- <color="red"></color>
+	- <color="255, 156, 80"></color>
+	- <opacity="30"></opacity>
 - pause function
 
 
