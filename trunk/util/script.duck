@@ -10,9 +10,9 @@
 >init
 
 WINDOW_SIZE = "1000, 750"
-BACKGROUND_TITLE = "graph/title.png"
 WINDOW_TITLE = ""
 WINDOW_ICON = ""
+BACKGROUND_TITLE = "graph/title.png"
 #MUSIC_TITLE = "bgm/narcissu-theme.mp3"
 FONT = "fonts/designosaur-regular.ttf"
 FONT_SIZE = "30"
@@ -34,11 +34,11 @@ show HAPPY_MAN "400, 400"
 <Happy-Man: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur tortor mi, mattis nec consectetur vel, posuere quis nunc. Nam viverra rutrum lectus, id molestie turpis aliquet at. Nam lacus dui, vehicula sagittis tempor vitae, venenatis lobortis orci. Pellentesque eu justo ipsum. In sollicitudin iaculis leo, vitae fringilla mi venenatis non. In quis augue id diam imperdiet condimentum. Sed vel erat lorem, at feugiat velit. Morbi malesuada arcu at urna venenatis pharetra. Sed porta dictum urna vitae aliquam."/>
 
 >>w
-show SAD_MAN "400, 500"
+show SAD_MAN "100, 400"
 <Sad-Man: "What is he saying? I don't understand a thing... Is it latin or something?"/>
 
 >>w
-show ANGRY_MAN "300, 600"
+show ANGRY_MAN "700, 400"
 #sound "sound/sigh.wav"
 <Angry-Man: "NO!" It's Lorem Ipsum! Its purpose is for testing!/>
 

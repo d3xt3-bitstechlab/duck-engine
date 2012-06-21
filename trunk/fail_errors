@@ -1,0 +1,5 @@
+WINDOW_SIZE = "100" => malloc fail, check coma
+BACKGROUND_TITLE => check if defined!!!
+FONT_SIZE => if not defined, put to 30 default
+
+background in scene, check in defined first!
