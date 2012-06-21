@@ -14,7 +14,7 @@
 #include "text.h"
 #include "header.h"
 
-void	refresh(t_window *w, t_list *l, t_text *t, t_font *f, t_image_scene *img_scn)
+void	refresh(t_window *w, t_list *l, t_text *t, t_font *f, t_image *img)
 {
   t_elem *e;
   char *text_save;
@@ -38,10 +38,10 @@ void	refresh(t_window *w, t_list *l, t_text *t, t_font *f, t_image_scene *img_sc
       text_save = strdup(e_text->data);
       text_module(text_save, w, f);
     }
-  if (img_scn->image_show == 1)
+  if (img->image_show == 1)
     {
-      img_scn->image = IMG_Load(img_scn->image_name);
-      SDL_BlitSurface(img_scn->image, NULL, w->screen, &img_scn->posImage);
+      img->image = IMG_Load(img->image_name);
+      SDL_BlitSurface(img->image, NULL, w->screen, &img->posImage);
     }
   SDL_Flip(w->screen);
 }
@@ -50,14 +50,14 @@ void	pars_scene(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f)
 {
   int	fd;
   char	*s;
-  t_image_scene img_scn;
+  t_image img;
 
   if (m->DUCK_isPlaying == 1 && m->DUCK_TitleMusic == 1)
     {
       music_close(m);
       m->DUCK_TitleMusic = 0;
     }
-  img_scn.image_show = 0;
+  img.image_show = 0;
   if ((fd = open_fd("script.duck")) == -1)
     show_error(2);
   while ((s = get_next_line(fd)))
@@ -69,11 +69,11 @@ void	pars_scene(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f)
       scene_background(s, w);
       scene_music(s, m);
       scene_se(s, m);
-      scene_image(s, &img_scn);
+      scene_image(s, &img);
       if (!strncmp(s, ">end", 4))
 	clean_exit(w, m, l, t);
       if (!strncmp(s, ">>w", 3))
-	events2(w, m, l, t, f, &img_scn);
+	events2(w, m, l, t, f, &img);
     }
 }
 

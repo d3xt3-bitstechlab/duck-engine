@@ -148,7 +148,7 @@ void	scene_se(char *s, t_music *m)
   free(sound_e);
 }
 
-void	scene_image(char *s, t_image_scene *img_scn)
+void	scene_image(char *s, t_image *img)
 {
   int	i, j;
   char	*posImageX;
@@ -158,19 +158,19 @@ void	scene_image(char *s, t_image_scene *img_scn)
   memset(posImageX, 0, 512);
   posImageY = xmalloc(512);
   memset(posImageY, 0, 512);
-  img_scn->image_name = xmalloc(512);
-  memset(img_scn->image_name, 0, 512);
+  img->image_name = xmalloc(512);
+  memset(img->image_name, 0, 512);
   if (!strncmp(s, "image \"", 7))
     {
-      img_scn->image_show = 1;
+      img->image_show = 1;
       for (j = 0, i = 7 ; s[i] != '"' ;)
-	img_scn->image_name[j++] = s[i++];
+	img->image_name[j++] = s[i++];
       for (j = 0, i += 3 ; s[i] != ',' ;)
 	posImageX[j++] = s[i++];
       for (j = 0, i += 2 ; s[i] != '"' ;)
 	posImageY[j++] = s[i++];
-      img_scn->posImage.x = atoi(posImageX);
-      img_scn->posImage.y = atoi(posImageY);
+      img->posImage.x = atoi(posImageX);
+      img->posImage.y = atoi(posImageY);
     }
   free(posImageX);
   free(posImageY);
