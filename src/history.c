@@ -59,7 +59,7 @@ void	history_show(t_window *w, t_text *t, t_font *f, t_elem_text *e_text, t_list
   SDL_Flip(w->screen);
 }
 
-void	history_navigation(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f, t_image_scene *img_scn)
+void	history_navigation(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f, t_image *img)
 {
   int   next;
   SDL_Event event;
@@ -87,10 +87,11 @@ void	history_navigation(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f
             {
             case SDLK_RETURN:
 	      next = 0;
-	      events2(w, m, l, t, f, img_scn);
+	      events2(w, m, l, t, f, img);
               break;
             case SDLK_SPACE:
-              pars_scene(w, m, l, t, f);
+	      next = 0;
+	      events2(w, m, l, t, f, img);
               break;
             case SDLK_LEFT:
 	      if (e_text->prev != NULL)
