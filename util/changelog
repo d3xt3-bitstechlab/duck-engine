@@ -30,3 +30,10 @@
 >alpha 0.5:
 - choices and routes
 - cross-platform compatibility
+
+
+>alpha 0.6:
+- character animations
+- video support
+- text boxes customization
+- intuitive image and character position syntax
