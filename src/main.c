@@ -99,7 +99,7 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)))
   if (TTF_Init() == -1)
     show_error(4);
   printf("done\n");
-  printf("initialiazing window parameters... ");
+  printf("initialiazing window... ");
   init_window(&w, &m, &f);
   printf("done\n");
   init_list(&l);

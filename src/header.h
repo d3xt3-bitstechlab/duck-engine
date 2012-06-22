@@ -67,6 +67,7 @@ void	init_window(t_window *w, t_music *m, t_font *f);
 SDL_Surface *init_window_size(SDL_Surface *screen, char *s, t_window *w);
 void    events(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f);
 void    events2(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f, t_image *img);
+void    refresh(t_window *w, t_list *l, t_text *t, t_font *f, t_image *img);
 void    pars_scene(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f);
 void	history_navigation(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f, t_image *img);
 
