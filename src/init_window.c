@@ -18,7 +18,13 @@ void	init_window(t_window *w, t_music *m, t_font *f)
   char	*back;
   char	*mus;
   char	*font;
+  int	font_check;
+  int	background_check;
+  int	window_size;
 
+  font_check = 0;
+  window_size = 0;
+  background_check = 0;
   w->posBack.x = 0;
   w->posBack.y = 0;
   title = xmalloc(512);
@@ -38,9 +44,26 @@ void	init_window(t_window *w, t_music *m, t_font *f)
   while ((s = get_next_line(fd)))
     {
       if (!strncmp(s, ">characters", 11))
-	break;
+	{
+	  SDL_WM_SetCaption(title, icon);
+	  free(title);
+	  free(icon);
+	  free(back);
+	  free(mus);
+	  free(font);
+	  if (window_size == 0)
+	    show_error(12);
+	  if (background_check == 0)
+	    show_error(10);
+	  if (font_check == 0)
+	    f->size_font = 30;
+	  break;
+	}
       if (!strncmp(s, "WINDOW_SIZE = \"", 15))
-	w->screen = init_window_size(w->screen, s, w);
+	{
+	  window_size = 1;
+	  w->screen = init_window_size(w->screen, s, w);
+	}
       if (!strncmp(s, "WINDOW_TITLE = \"", 16))
 	{
 	  if (s[16] != '"')
@@ -54,8 +77,9 @@ void	init_window(t_window *w, t_music *m, t_font *f)
 	  for (j = 0, i = 15 ; s[i] != '"';)
 	    icon[j++] = s[i++];
 	}
-      if (!strncmp(s, "BACKGROUND_TITLE = \"", 20))
+      if (!strncmp(s, "BACKGROUND_TITLE = \"", 20) && window_size == 1)
 	{
+	  background_check = 1;
 	  if (s[20] != '"')
 	    for (j = 0, i = 20 ; s[i] != '"';)
 	      back[j++] = s[i++];
@@ -84,6 +108,7 @@ void	init_window(t_window *w, t_music *m, t_font *f)
 	}
       if (!strncmp(s, "FONT = \"", 8))
 	{
+	  font_check = 1;
 	  if (s[8] != '"')
 	    {
 	      for (j = 0, i = 8 ; s[i] != '"';)
@@ -91,10 +116,4 @@ void	init_window(t_window *w, t_music *m, t_font *f)
 	    }
 	}
     }
-  SDL_WM_SetCaption(title, icon);
-  free(title);
-  free(icon);
-  free(back);
-  free(mus);
-  free(font);
 }

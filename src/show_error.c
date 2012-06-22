@@ -32,6 +32,12 @@ void    show_error(int error)
     printf("unshow: the character is not declared.\n");
   if (error == 9)
     printf("WINDOW_SIZE: parameters not defined.\n");
+  if (error == 10)
+    printf("BACKGROUND_TITLE: parameter not defined.\n");
+  if (error == 11)
+    printf("WINDOW_SIZE: invalid parameters.\n");
+  if (error == 12)
+    printf("WINDOW_SIZE: not defined.\n");
   exit(0);
 }
 
