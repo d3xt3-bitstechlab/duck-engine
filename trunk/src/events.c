@@ -7,8 +7,6 @@
 #include "header.h"
 #include "text.h"
 
-void    refresh(t_window *w, t_list *l, t_text *t, t_font *f, t_image *img);
-
 void	events2(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f, t_image *img)
 {
   int	next;
