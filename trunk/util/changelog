@@ -1,6 +1,5 @@
 >alpha 0.2:
 - menus
-- error management
 
 
 >alpha 0.3:
@@ -11,6 +10,7 @@
 	- text color
 	- background opacity
 - syllabification problem fixed
+- enhanced error parsing
 
 
 >alpha 0.4:

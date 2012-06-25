@@ -11,7 +11,7 @@
 
 void    show_error(int error)
 {
-  printf("%s!!!FATAL ERROR!!!%s\nduck-engine:%d: ", "\033[01;31m", "\033[00m", DUCK_line);
+  printf("%s!!!FATAL ERROR!!!%s\nduck-engine: ", "\033[01;31m", "\033[00m");
   if (error == 0)
     printf("SDL error: %s\n", SDL_GetError());
   if (error == 1)
