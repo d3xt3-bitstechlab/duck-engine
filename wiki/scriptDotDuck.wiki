@@ -120,6 +120,12 @@ image "graph/path.png" "0, 0"
 }}}
 
 
+Plays a sound effect.
+{{{
+sound "sound/sigh.wav"
+}}}
+
+
 Finally, to tell duck-engine that your visual novel is finished!
 {{{
 >end
