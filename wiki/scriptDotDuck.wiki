@@ -3,7 +3,7 @@
 
 == Introduction ==
 
-The script.duck file is the core of your visual novel. You only have to modify it and put your ressources into the right folders, and let's go!
+The script.duck file is the core of your visual novel. You only have to modify it and put your ressources into the right folders, and your visual novel is ready!
 
 === Initialization ===
 
