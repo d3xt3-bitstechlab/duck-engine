@@ -14,7 +14,7 @@ WINDOW_TITLE = ""
 WINDOW_ICON = ""
 BACKGROUND_TITLE = "graph/title.png"
 #MUSIC_TITLE = "bgm/narcissu-theme.mp3"
-FONT = "fonts/ designosaur-regular.ttf"
+FONT = "fonts/designosaur-regular.ttf"
 FONT_SIZE = "30"
 
 

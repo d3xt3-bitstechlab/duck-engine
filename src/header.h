@@ -49,8 +49,6 @@ typedef struct s_image
   SDL_Surface *image;
 } t_image;
 
-int	DUCK_line;
-
 int	open_fd(char *str);
 void	pars_list(t_list *l);
 void	show_error(int error);
