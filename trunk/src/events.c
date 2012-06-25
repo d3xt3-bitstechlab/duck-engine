@@ -7,6 +7,51 @@
 #include "header.h"
 #include "text.h"
 
+void	game_menu(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f, t_image *img)
+{
+  int	next;
+  SDL_Event event;
+
+  next = 1;
+  SDL_BlitSurface(w->background, NULL, w->screen, &w->posBack);
+  SDL_SetAlpha(f->text_support, SDL_SRCALPHA, 100);
+  SDL_Flip(w->screen);
+  while (next)
+    {
+      SDL_WaitEvent(&event);
+      switch(event.type)
+	{
+        case SDL_QUIT:
+	  clean_exit(w, m, l, t);
+	  break;
+	case SDL_MOUSEBUTTONUP:
+	  if (event.button.button == SDL_BUTTON_LEFT)
+	    events2(w, m, l, t, f, img);
+	  break;
+        case SDL_KEYDOWN:
+	  switch (event.key.keysym.sym)
+            {
+	    case SDLK_RETURN:
+	      break;
+	    case SDLK_SPACE:
+	      break;
+	    case SDLK_DOWN:
+	      break;
+	    case SDLK_UP:
+	      break;
+	    case SDLK_ESCAPE:
+	      events2(w, m, l, t, f, img);
+	      break;
+	    default:
+	      break;
+            }
+	  break;
+	default:
+	  break;
+	}
+    }
+}
+
 void	events2(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f, t_image *img)
 {
   int	next;
@@ -42,7 +87,7 @@ void	events2(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f, t_image *
 	      music_pause(m);
 	      break;
 	    case SDLK_ESCAPE:
-	      clean_exit(w, m, l, t);
+	      game_menu(w, m, l, t, f, img);
 	      break;
 	    default:
 	      break;
