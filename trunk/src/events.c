@@ -7,9 +7,16 @@
 #include "header.h"
 #include "text.h"
 
+/*
+  N = longueur rectangle noir
+  T = taille (longueur texte)
+  C = (N - T) / 2
+*/
+
 void	game_menu(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f, t_image *img)
 {
   int	next;
+  int height, width;
   SDL_Event event;
   SDL_Rect posBox;
   SDL_Surface *menu_box;
@@ -18,7 +25,7 @@ void	game_menu(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f, t_image
   TTF_Font *font;
 
   next = 1;
-  posBox.x = atoi(w->sizeX) / 3.35;
+  posBox.x = (atoi(w->sizeX) - atoi(w->sizeX) / 2.5) / 2;
   posBox.y = atoi(w->sizeY) / 20;
 
   if ((font = TTF_OpenFont(f->font_used, f->size_font + 10)) == NULL)
@@ -32,31 +39,40 @@ void	game_menu(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f, t_image
   SDL_BlitSurface(w->background, NULL, w->screen, &w->posBack);
 
   posBox.y += atoi(w->sizeY) / 7;
+  TTF_SizeText(font, "SAVE", &width, &height);
+  f->posText.x = ((atoi(w->sizeX) + (atoi(w->sizeX) / 2.5)) - (width + (atoi(w->sizeX) / 2.5))) / 2;
   SDL_BlitSurface(menu_box, NULL, w->screen, &posBox);
   texte = TTF_RenderText_Blended(font, "SAVE", white_color);
   SDL_BlitSurface(texte, NULL, w->screen, &f->posText);
 
   posBox.y += atoi(w->sizeY) / 7;
   f->posText.y += atoi(w->sizeY) / 7;
+  TTF_SizeText(font, "LOAD GAME", &width, &height);
+  f->posText.x = ((atoi(w->sizeX) + (atoi(w->sizeX) / 2.5)) - (width + (atoi(w->sizeX) / 2.5))) / 2;
   SDL_BlitSurface(menu_box, NULL, w->screen, &posBox);
   texte = TTF_RenderText_Blended(font, "LOAD GAME", white_color);
   SDL_BlitSurface(texte, NULL, w->screen, &f->posText);
 
   posBox.y += atoi(w->sizeY) / 7;
   f->posText.y += atoi(w->sizeY) / 7;
+  TTF_SizeText(font, "SOUND", &width, &height);
+  f->posText.x = ((atoi(w->sizeX) + (atoi(w->sizeX) / 2.5)) - (width + (atoi(w->sizeX) / 2.5))) / 2;
   SDL_BlitSurface(menu_box, NULL, w->screen, &posBox);
   texte = TTF_RenderText_Blended(font, "SOUND", white_color);
   SDL_BlitSurface(texte, NULL, w->screen, &f->posText);
 
-
   posBox.y += atoi(w->sizeY) / 7;
   f->posText.y += atoi(w->sizeY) / 7;
+  TTF_SizeText(font, "GRAPHICS", &width, &height);
+  f->posText.x = ((atoi(w->sizeX) + (atoi(w->sizeX) / 2.5)) - (width + (atoi(w->sizeX) / 2.5))) / 2;
   SDL_BlitSurface(menu_box, NULL, w->screen, &posBox);
   texte = TTF_RenderText_Blended(font, "GRAPHICS", white_color);
   SDL_BlitSurface(texte, NULL, w->screen, &f->posText);
 
   posBox.y += atoi(w->sizeY) / 7;
   f->posText.y += atoi(w->sizeY) / 7;
+  TTF_SizeText(font, "QUIT GAME", &width, &height);
+  f->posText.x = ((atoi(w->sizeX) + (atoi(w->sizeX) / 2.5)) - (width + (atoi(w->sizeX) / 2.5))) / 2;
   SDL_BlitSurface(menu_box, NULL, w->screen, &posBox);
   texte = TTF_RenderText_Blended(font, "QUIT GAME", white_color);
   SDL_BlitSurface(texte, NULL, w->screen, &f->posText);
