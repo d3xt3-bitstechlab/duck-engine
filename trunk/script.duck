@@ -9,13 +9,13 @@
 
 >init
 
-WINDOW_SIZE = "600, 400"
+WINDOW_SIZE = "1000, 750"
 WINDOW_TITLE = ""
 WINDOW_ICON = ""
 BACKGROUND_TITLE = "graph/title.png"
 #MUSIC_TITLE = "bgm/narcissu-theme.mp3"
 FONT = "fonts/designosaur-regular.ttf"
-FONT_SIZE = "20"
+FONT_SIZE = "30"
 
 
 >characters
