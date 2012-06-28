@@ -26,18 +26,19 @@ void	game_menu(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f, t_image
 
   next = 1;
   posBox.x = (atoi(w->sizeX) - atoi(w->sizeX) / 2.5) / 2;
-  /* posBox.y = atoi(w->sizeY) / 20; */
   posBox.y = (atoi(w->sizeY) - (((atoi(w->sizeY) / 10) * 5) + ((atoi(w->sizeY) / 7) * 3))) / 2;
 
   if ((font = TTF_OpenFont(f->font_used, f->size_font + 10)) == NULL)
     show_error(4);
 
   f->posText.y = atoi(w->sizeY) / 4.48;
+  f->posText.y = (atoi(w->sizeY) + atoi(w->sizeY) / 16 - (((atoi(w->sizeY) / 10) * 5) + ((atoi(w->sizeY) / 7) * 3))) / 2;
   menu_box = SDL_CreateRGBSurface(SDL_HWSURFACE, atoi(w->sizeX) / 2.5,
 				  atoi(w->sizeY) / 10, 32, 0, 0, 0, 0);
   SDL_FillRect(menu_box, NULL, SDL_MapRGB(w->screen->format, 0, 0, 0));
   SDL_BlitSurface(w->background, NULL, w->screen, &w->posBack);
 
+  f->posText.y += atoi(w->sizeY) / 7;
   posBox.y += atoi(w->sizeY) / 7;
   SDL_BlitSurface(menu_box, NULL, w->screen, &posBox);
   TTF_SizeText(font, "SAVE", &width, &height);
