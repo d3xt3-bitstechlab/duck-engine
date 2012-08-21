@@ -7,6 +7,16 @@
 #include "header.h"
 #include "get_next_line.h"
 
+/***
+
+here is the ugliest function I ever wrote...
+it initialize everything that is needed in
+the script.duck file. even what is not
+necessary (music, etc).
+it's the general configuration in its interity.
+
+***/
+
 void	init_window(t_window *w, t_music *m, t_font *f)
 {
   int	i;

@@ -7,6 +7,14 @@
 #include "header.h"
 #include "text.h"
 
+/***
+
+this thing is FUCKING IN CONSTRUCTION
+DON'T LOOK AT IT
+IT'S UGLY, FUCK
+
+***/
+
 /*
   N = longueur rectangle noir
   T = taille (longueur texte)
@@ -41,19 +49,12 @@ void	game_menu(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f, t_image
   SDL_BlitSurface(menu_box, NULL, w->screen, &posBox);
   TTF_SizeText(font, "SAVE", &width, &height);
   f->posText.x = ((atoi(w->sizeX) + (atoi(w->sizeX) / 2.5)) - (width + (atoi(w->sizeX) / 2.5))) / 2;
-
-
-
-
-  f->posText.y = ((atoi(w->sizeY) + ((atoi(w->sizeY) / 7) * 2) * ((atoi(w->sizeY) / 10) * 5)) - (height) + ((atoi(w->sizeY) / 7) * 2) * ((atoi(w->sizeY) / 10) * 5)) / 2;
-
-
   /* posText = ((TailleFenetre + TailleBox) - (TaillePolice + TailleBox)) / 2 */
   texte = TTF_RenderText_Blended(font, "SAVE", white_color);
   SDL_BlitSurface(texte, NULL, w->screen, &f->posText);
 
   posBox.y += atoi(w->sizeY) / 7;
-  /* SDL_BlitSurface(menu_box, NULL, w->screen, &posBox); */
+  SDL_BlitSurface(menu_box, NULL, w->screen, &posBox);
   TTF_SizeText(font, "LOAD GAME", &width, &height);
   f->posText.x = ((atoi(w->sizeX) + (atoi(w->sizeX) / 2.5)) - (width + (atoi(w->sizeX) / 2.5))) / 2;
   f->posText.y += atoi(w->sizeY) / 7;
@@ -61,7 +62,7 @@ void	game_menu(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f, t_image
   SDL_BlitSurface(texte, NULL, w->screen, &f->posText);
 
   posBox.y += atoi(w->sizeY) / 7;
-  /* SDL_BlitSurface(menu_box, NULL, w->screen, &posBox); */
+  SDL_BlitSurface(menu_box, NULL, w->screen, &posBox);
   TTF_SizeText(font, "SOUND", &width, &height);
   f->posText.x = ((atoi(w->sizeX) + (atoi(w->sizeX) / 2.5)) - (width + (atoi(w->sizeX) / 2.5))) / 2;
   f->posText.y += atoi(w->sizeY) / 7;
@@ -69,7 +70,7 @@ void	game_menu(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f, t_image
   SDL_BlitSurface(texte, NULL, w->screen, &f->posText);
 
   posBox.y += atoi(w->sizeY) / 7;
-  /* SDL_BlitSurface(menu_box, NULL, w->screen, &posBox); */
+  SDL_BlitSurface(menu_box, NULL, w->screen, &posBox);
   TTF_SizeText(font, "GRAPHICS", &width, &height);
   f->posText.x = ((atoi(w->sizeX) + (atoi(w->sizeX) / 2.5)) - (width + (atoi(w->sizeX) / 2.5))) / 2;
   f->posText.y += atoi(w->sizeY) / 7;
@@ -122,6 +123,12 @@ void	game_menu(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f, t_image
     }
 }
 
+/***
+
+loop ingame. not much to say...
+
+***/
+
 void	events2(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f, t_image *img)
 {
   int	next;
@@ -168,6 +175,12 @@ void	events2(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f, t_image *
 	}
     }
 }
+
+/***
+
+first loop, on title screen.
+
+***/
 
 void	events(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f)
 {

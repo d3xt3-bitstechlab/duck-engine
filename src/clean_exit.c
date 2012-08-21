@@ -8,6 +8,14 @@
 #include "text.h"
 #include "header.h"
 
+/***
+
+tries to free everything at the end
+of the execution. don't know if really
+useful, but I like the idea~
+
+***/
+
 void	clean_exit(t_window *w, t_music *m, t_list *l, t_text *t)
 {
   t_elem	*e;

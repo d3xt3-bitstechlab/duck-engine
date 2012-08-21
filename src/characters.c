@@ -8,6 +8,22 @@
 #include "header.h"
 #include "get_next_line.h"
 
+/***
+
+GENERAL DESCRIPTION
+this is the parser for the caracter attribute
+in the script.duck file.
+
+***/
+
+/***
+
+insert name of caracter and the path
+of the image associated in a linked list
+for all the caracters declared.
+
+***/
+
 void	pars_list2(t_list *l, char *s)
 {
   int	i;
@@ -38,6 +54,14 @@ void	pars_list2(t_list *l, char *s)
       free(img);
     }
 }
+
+/***
+
+opens script.duck file.
+check if there is a >>scene attribute,
+where the caracters shall be declared (if any).
+
+***/
 
 void	pars_list(t_list *l)
 {
