@@ -8,6 +8,12 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 
+/***
+
+LOL I OPEN A FD
+
+***/
+
 int	open_fd(char *str)
 {
   static int fd;

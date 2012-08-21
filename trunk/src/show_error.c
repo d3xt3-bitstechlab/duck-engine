@@ -9,6 +9,12 @@
 #include "fmodex/fmod.h"
 #include "header.h"
 
+/***
+
+blablabla all errors
+
+***/
+
 void    show_error(int error)
 {
   printf("%s!!!FATAL ERROR!!!%s\nduck-engine: ", "\033[01;31m", "\033[00m");

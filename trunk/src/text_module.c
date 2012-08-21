@@ -6,6 +6,13 @@
 
 #include "header.h"
 
+/***
+
+you see, text_module is a big function that manages
+EVERYTHING for the text. it's useful! seriously!
+
+***/
+
 void	text_module(char *text, t_window *w, t_font *f)
 {
   unsigned int i = 2;

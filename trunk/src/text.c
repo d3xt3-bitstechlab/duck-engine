@@ -6,6 +6,13 @@
 
 #include "text.h"
 
+/***
+
+fuck this shit it's a linked list
+for the text and blaaaa
+
+***/
+
 void	init_list_text(t_text *l)
 {
   l->tail = 0;

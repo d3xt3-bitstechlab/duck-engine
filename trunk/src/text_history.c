@@ -6,6 +6,12 @@
 
 #include "header.h"
 
+/***
+
+okay. what's the use of that?
+
+***/
+
 void    text_history(t_text *t)
 {
   t_elem_text *e;

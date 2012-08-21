@@ -14,6 +14,14 @@
 #include "text.h"
 #include "header.h"
 
+/***
+
+IF IT'S IN THE MAIN AND IT'S
+NOT THE MAIN(); FUNCTION IT'S
+BECAUSE I'M STILL DEVELOPING IT!
+
+***/
+
 void	refresh(t_window *w, t_list *l, t_text *t, t_font *f, t_image *img)
 {
   t_elem *e;

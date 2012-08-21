@@ -8,6 +8,14 @@
 
 void    show_error(int error);
 
+/***
+
+oh, hello, you see that?
+it's just a extremely basic
+double linked list...
+
+***/
+
 void	init_list(t_list *l)
 {
   l->tail = 0;
