@@ -7,6 +7,13 @@
 #include "header.h"
 #include "fmodex/fmod.h"
 
+/***
+
+this plays music.
+I use fmod, if you ask me.
+
+***/
+
 void    music(char *path, t_music *m)
 {
   FMOD_System_Create(&m->system);
@@ -19,6 +26,13 @@ void    music(char *path, t_music *m)
   FMOD_System_PlaySound(m->system, FMOD_CHANNEL_FREE, m->music, 0, NULL);
   m->DUCK_isPlaying = 1;
 }
+
+/***
+
+here you pause the music.
+...boy, was it worth the commentary ?...
+
+***/
 
 void    music_pause(t_music *m)
 {
@@ -43,6 +57,13 @@ void    music_close(t_music *m)
   FMOD_System_Close(m->system);
   FMOD_System_Release(m->system);
 }
+
+/***
+
+sound effects! hallelujah!
+it's super glitchy and still not corrected!
+
+***/
 
 void    se(char *path, t_music *m)
 {

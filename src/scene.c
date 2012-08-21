@@ -6,6 +6,14 @@
 
 #include "header.h"
 
+/***
+
+parsing text and putting it into
+it's linked list. well, it's shitty
+parsing, no, it's not even parsing...
+
+***/
+
 void	scene_text(char *s, t_text *t)
 {
   int	i, j;
@@ -21,6 +29,13 @@ void	scene_text(char *s, t_text *t)
     }
   free(text);
 }
+
+/***
+
+this function basically shows the caracters
+that is called by the script.duck file...
+
+***/
 
 void	scene_show(char *s, t_list *l)
 {
@@ -66,6 +81,13 @@ void	scene_show(char *s, t_list *l)
   free(posPersoY);
 }
 
+/***
+
+and this one unshow it!
+I'm a genius.
+
+***/
+
 void	scene_unshow(char *s, t_list *l)
 {
   int	i, j;
@@ -96,6 +118,13 @@ void	scene_unshow(char *s, t_list *l)
   free(unshow);
 }
 
+/***
+
+background in the scene?
+it shall appear!
+
+***/
+
 void	scene_background(char *s, t_window *w)
 {
   int	i, j;
@@ -116,6 +145,12 @@ void	scene_background(char *s, t_window *w)
   free(back);
 }
 
+/***
+
+the same thing for the music...
+
+***/
+
 void	scene_music(char *s, t_music *m)
 {
   int	i, j;
@@ -132,6 +167,12 @@ void	scene_music(char *s, t_music *m)
   free(mus);
 }
 
+/***
+
+and the sound effects...
+
+***/
+
 void	scene_se(char *s, t_music *m)
 {
   int	i, j;
@@ -147,6 +188,12 @@ void	scene_se(char *s, t_music *m)
     }
   free(sound_e);
 }
+
+/***
+
+and the images...
+
+***/
 
 void	scene_image(char *s, t_image *img)
 {

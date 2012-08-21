@@ -7,6 +7,12 @@
 #include <stdio.h>
 #include "xmalloc.h"
 
+/***
+
+because you NEED it.
+
+***/
+
 void    *xmalloc(unsigned int u)
 {
   void  *p;
