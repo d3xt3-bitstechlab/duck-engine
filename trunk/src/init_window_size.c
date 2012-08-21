@@ -6,6 +6,14 @@
 
 #include "header.h"
 
+/***
+
+function called during the
+general initilization, used to
+set the size of the window.
+
+***/
+
 SDL_Surface	*init_window_size(SDL_Surface *screen, char *s, t_window *w)
 {
   int	i;

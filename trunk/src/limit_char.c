@@ -7,6 +7,15 @@
 #include <stdlib.h>
 #include <string.h>
 
+/***
+
+hum... I think this is used for
+the limitation of the characters when
+showing text to screen.
+But I should check it.
+
+***/
+
 char    *limit_char(char *str, int i, int limit)
 {
   int   j;

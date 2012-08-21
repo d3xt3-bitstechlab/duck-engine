@@ -8,6 +8,15 @@
 
 void    text_module_history(char *text, t_window *w, t_font *f);
 
+/***
+
+the first case when using history navigation,
+it should be treated apart to avoid
+conflicts with the naturel behaviour
+of the history navigation.
+
+***/
+
 void	first_left_show(t_window *w, t_text *t, t_font *f, t_list *l)
 {
   t_elem *e;
@@ -35,6 +44,14 @@ void	first_left_show(t_window *w, t_text *t, t_font *f, t_list *l)
   SDL_Flip(w->screen);
 }
 
+/***
+
+history_show(); is the function called
+to blit the text while using the
+text navigation.
+
+***/
+
 void	history_show(t_window *w, t_text *t, t_font *f, t_elem_text *e_text, t_list *l)
 {
   t_elem *e;
@@ -59,6 +76,13 @@ void	history_show(t_window *w, t_text *t, t_font *f, t_elem_text *e_text, t_list
   SDL_Flip(w->screen);
 }
 
+/***
+
+loop for the navigation between text with arrows.
+conditions = important, if not, segfault!!
+
+***/
+
 void	history_navigation(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f, t_image *img)
 {
   int   next;
@@ -67,7 +91,7 @@ void	history_navigation(t_window *w, t_music *m, t_list *l, t_text *t, t_font *f
 
   next = 1;
   e_text = t->tail;
-  if (e_text->prev->data != '\0')
+  if (e_text->prev != NULL)
     e_text = e_text->prev;
   first_left_show(w, t, f, l);
   while (next)

@@ -6,6 +6,13 @@
 
 #include "list.h"
 
+/***
+
+to set that all caracters, are,
+by default, unshown.
+
+***/
+
 void	init_zeroes(t_list *l)
 {
   t_elem *e;
