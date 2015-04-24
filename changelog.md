@@ -1,0 +1,20 @@
+# changelog #
+
+## duck-engine alpha 0.2 (being developed) ##
+
+added script.duck elements:
+  * _unshow_ function
+  * _image_ function
+  * _sound_ function
+
+added general platform elements:
+  * history navigation with left and right arrows
+  * lot and lot of code optimisations
+  * fixed image blitting
+  * mute music with m key (does not apply to sound effects)
+  * progression with left click and space key
+  * dynamic menu in function of window size
+
+## [duck-engine alpha 0.1](http://code.google.com/p/duck-engine/downloads/detail?name=alpha01-2012-06-17.tar.gz) (released 17/06/2012) ##
+
+  * first release.

@@ -1,0 +1,131 @@
+# script.duck syntax #
+
+## Introduction ##
+
+The script.duck file is the core of your visual novel. You only have to modify it and put your ressources into the right folders, and your visual novel is ready!
+
+### Initialization ###
+
+The first thing you have to put to initialize the following parameters.
+```
+>init
+```
+
+
+The size of the window of your visual novel.
+```
+WINDOW_SIZE = "1000, 750"
+```
+
+
+The title of your window. Set it up, if not you will have a generic title...
+```
+WINDOW_TITLE = "My Visual Novel"
+```
+
+
+If you want something else than the superb duck-engine's duck.
+```
+WINDOW_ICON = ""
+```
+
+
+The font that will be used by your visual novel.
+```
+FONT = "/fonts/your_font.ttf"
+```
+
+
+The size of your font. If not, your text will not appear at screen.
+```
+FONT_SIZE = "42"
+```
+
+
+The background of the title window.
+```
+BACKGROUND_TITLE = "graph/title.png"
+```
+
+
+And finally, the music of the title window. You can obviously leave it blank.
+```
+MUSIC_TITLE = "music/narcissu-theme.mp3"
+```
+
+### Setting up caracters ###
+
+You have to add _all_ the characters that you will use during the visual novel. You can add as much as you want. They will be saved in memory, and later you can use them in your scenes.
+```
+>characters
+```
+
+
+Use this exact syntax to add a character.
+```
+>>HAPPY_MAN = "graph/perso/happy_man.png"
+```
+
+### Finally, the scene! ###
+
+Now, you can finally script your scene. Don't forget to use this tag!
+```
+>scene
+```
+
+
+As for the title window, don't forget to set a background, if there is none, duck-engine will produce an error.
+```
+background = "graph/scene.jpg"
+```
+
+
+Music of the scene. You can leave it blank as well as the music title.
+```
+music = "music/narcissu-15cm.mp3"
+```
+
+
+_Note: obviously you can use "background" and "music" as much as you want, if there was music and background before they will be replaced._
+
+
+This function will wait for the player to press the enter button. That way, everything is not showed at once.
+```
+>>w
+```
+
+
+Use "show" ONLY with caracters you have defined before. The numbers correspond to the X and Y position of the caracter.
+```
+show HAPPY_MAN "400, 400"
+```
+
+
+And if you want to delete the caracter from the screen, simply use this function:
+```
+unshow HAPPY_MAN
+```
+
+
+This text will be show at screen.
+```
+<Lorem ipsum dolor sit amet, consectetur adipiscing elit./>
+```
+
+
+If you want to show an image at screen, just use this. You specify the path and the position of the image.
+```
+image "graph/path.png" "0, 0"
+```
+
+
+Plays a sound effect.
+```
+sound "sound/sigh.wav"
+```
+
+
+Finally, to tell duck-engine that your visual novel is finished!
+```
+>end
+```
